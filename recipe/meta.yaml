@@ -6,7 +6,7 @@ package:
 
 source:
   - url: http://download.qt.io/official_releases/qt/5.6/{{ version }}/single/qt-everywhere-opensource-src-{{ version }}.tar.xz
-    sha256: 2fa0cf2e5e8841b29a4be62062c1a65c4f6f2cf1beaf61a5fd661f520cd776d0
+    md5: 010342d515b62ee1c0e709254f4ef9ab
     patches:
       - 0005-Remove-unused-include-sys-signalfd.h.patch
       - 0006-zlib_dependency-Add-EXTRA_INCLUDEPATH-for-system-zli.patch
@@ -46,10 +46,9 @@ build:
   number: 14  # [linux]
   number: 14  # [osx]
   skip: True  # [win and vc != 9]
-  detect_binary_files_with_prefix: true
+  detect_binary_files_with_prefix: False
   features:
-    - vc{{ vc }} # [win]
-  merge_build_host: True
+    - vc{{ vc }}  # [win]
 
 requirements:
   build:
