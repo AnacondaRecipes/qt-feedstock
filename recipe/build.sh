@@ -53,15 +53,15 @@ if [[ ${HOST} =~ .*linux.* ]]; then
     for SYSINCDIR in ${SYSINCDIRS}; do
       INCDIRS+=(-I ${SYSINCDIR})
     done
-    echo "#!/usr/bin/env sh"                                                          > ./pkg-config
-    echo "pc_res=\$(\${PREFIX}/bin/pkg-config \"\$@\")"                              >> ./pkg-config
-    echo "res=\$?"                                                                   >> ./pkg-config
-    echo "if [[ \${res} != 0 ]]; then"                                               >> ./pkg-config
-    echo "  echo \${pc_res}"                                                         >> ./pkg-config
-    echo "  exit \${res}"                                                            >> ./pkg-config
-    echo "fi"                                                                        >> ./pkg-config
-    echo "echo \${pc_res} | sed 's/[a-zA-Z0-9_-/\.]*sysroot[a-zA-Z0-9_-/\.]*//g'"    >> ./pkg-config
-    echo "exit 0"                                                                    >> ./pkg-config
+    echo "#!/usr/bin/env sh"                                                                    > ./pkg-config
+    echo "pc_res=\$(CONDA_PREFIX=\${CONDA_PREFIX_1} \${BUILD_PREFIX}/bin/pkg-config \"\$@\")"  >> ./pkg-config
+    echo "res=\$?"                                                                             >> ./pkg-config
+    echo "if [[ \${res} != 0 ]]; then"                                                         >> ./pkg-config
+    echo "  echo \${pc_res}"                                                                   >> ./pkg-config
+    echo "  exit \${res}"                                                                      >> ./pkg-config
+    echo "fi"                                                                                  >> ./pkg-config
+    echo "echo \${pc_res} | sed 's/[a-zA-Z0-9_-/\.]*sysroot[a-zA-Z0-9_-/\.]*//g'"              >> ./pkg-config
+    echo "exit 0"                                                                              >> ./pkg-config
     chmod +x ./pkg-config
     export PATH=${PWD}:${PATH}
 
@@ -72,6 +72,7 @@ if [[ ${HOST} =~ .*linux.* ]]; then
                 -archdatadir $PREFIX \
                 -datadir $PREFIX \
                 -L $PREFIX/lib \
+                -R $PREFIX/lib \
                 "${INCDIRS[@]}" \
                 -release \
                 -opensource \
@@ -124,7 +125,8 @@ if [[ ${HOST} =~ .*linux.* ]]; then
 # -D __le64="unsigned long long" \
 # -D __be64="__signed__ long long"
 
-    LD_LIBRARY_PATH=$PREFIX/lib make -j${MAKE_JOBS} || exit 1
+    LD_LIBRARY_PATH=$PREFIX/lib \
+      make -j${MAKE_JOBS} || exit 1
     make install
 fi
 

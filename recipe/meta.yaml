@@ -47,6 +47,9 @@ build:
   skip: True  # [win and vc != 9]
   number: 0
   detect_binary_files_with_prefix: False
+  # Project ERROR: x11 development package not found
+  # .. some pkg-config mess.
+  merge_build_host: True  # [linux]
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
   missing_dso_whitelist:  # [osx]
