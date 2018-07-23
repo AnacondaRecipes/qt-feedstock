@@ -27,6 +27,8 @@ source:
       - 0002-qtwebengine-find_sdk-respect-CONDA_BUILD_SYSROOT.patch
       - 0003-qtwebengine-Set-QMAKE_MACOSX_DEPLOYMENT_TARGET-in-de.patch
       - 0004-qtwebengine-Fix-MM256_BROADCASTSI128_SI256-for-custom-clang.patch
+      - 0008-qtwebengine-do-not-include-CoreBluetooth.patch
+      - 0009-qtwebengine-fix-CAEdgeAntialiasingMask-init.patch
 
   - url: http://download.qt.io/community_releases/5.6/{{ version }}/qtwebkit-opensource-src-{{ version }}.tar.xz  # [not osx]
     sha256: 098c6bb25798fbf1b619b540621287787064efc9b586d76ac0ce7e39b87a3896                                      # [not osx]
@@ -42,17 +44,24 @@ source:
       - 0006-qtwebkit-WTF--StringImpl--copyChars-segfaults-when-built-with-GCC-7.patch                            # [not osx]
 
 build:
-  number: 12  # [win]
-  number: 14  # [linux]
-  number: 14  # [osx]
   skip: True  # [win and vc != 9]
+  number: 0
   detect_binary_files_with_prefix: False
+  run_exports:
+    - {{ pin_subpackage('qt', max_pin='x.x') }}
+  missing_dso_whitelist:  # [osx]
+    - /usr/lib/libbsm.0.dylib  # [osx]
+    - /usr/lib/libcups.2.dylib  # [osx]
+    - /usr/lib/libresolv.9.dylib  # [osx]
+    - /usr/lib/libsandbox.1.dylib  # [osx]
+    - /System/Library/Frameworks/CoreLocation.framework/**  # [osx]
   features:
     - vc{{ vc }}  # [win]
 
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ compiler('c') }}
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]

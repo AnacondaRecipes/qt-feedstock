@@ -1,0 +1,48 @@
+--- work/qtwebengine/src/3rdparty/chromium/content/common/gpu/ca_layer_tree_mac.h.orig	2018-07-22 23:26:37.000000000 +0100
++++ work/qtwebengine/src/3rdparty/chromium/content/common/gpu/ca_layer_tree_mac.h	2018-07-22 23:46:02.000000000 +0100
+@@ -169,7 +169,7 @@
+     unsigned background_color = 0;
+     // Note that the CoreAnimation edge antialiasing mask is not the same as
+     // the edge antialiasing mask passed to the constructor.
+-    CAEdgeAntialiasingMask ca_edge_aa_mask = 0;
++    CAEdgeAntialiasingMask ca_edge_aa_mask = (CAEdgeAntialiasingMask)0U;
+     float opacity = 1;
+     base::scoped_nsobject<CALayer> ca_layer;
+ 
+--- work/qtwebengine/src/3rdparty/chromium/content/common/gpu/ca_layer_tree_mac.mm.orig	2018-07-22 23:46:11.000000000 +0100
++++ work/qtwebengine/src/3rdparty/chromium/content/common/gpu/ca_layer_tree_mac.mm	2018-07-22 23:55:16.000000000 +0100
+@@ -122,7 +122,7 @@
+       contents_rect(contents_rect),
+       rect(rect),
+       background_color(background_color),
+-      ca_edge_aa_mask(0),
++      ca_edge_aa_mask((CAEdgeAntialiasingMask)0U),
+       opacity(opacity) {
+   // Because the root layer has setGeometryFlipped:YES, there is some ambiguity
+   // about what exactly top and bottom mean. This ambiguity is resolved in
+@@ -133,19 +133,19 @@
+   // top edge on-screen.
+   // http://crbug.com/567946
+   if (edge_aa_mask & GL_CA_LAYER_EDGE_LEFT_CHROMIUM)
+-    ca_edge_aa_mask |= kCALayerLeftEdge;
++    ca_edge_aa_mask = CAEdgeAntialiasingMask((unsigned int)ca_edge_aa_mask | (unsigned int)kCALayerLeftEdge);
+   if (edge_aa_mask & GL_CA_LAYER_EDGE_RIGHT_CHROMIUM)
+-    ca_edge_aa_mask |= kCALayerRightEdge;
++    ca_edge_aa_mask = (CAEdgeAntialiasingMask)((unsigned int)ca_edge_aa_mask | (unsigned int)kCALayerRightEdge);
+   if (io_surface) {
+     if (edge_aa_mask & GL_CA_LAYER_EDGE_TOP_CHROMIUM)
+-      ca_edge_aa_mask |= kCALayerBottomEdge;
++      ca_edge_aa_mask = (CAEdgeAntialiasingMask)((unsigned int)ca_edge_aa_mask | (unsigned int)kCALayerBottomEdge);
+     if (edge_aa_mask & GL_CA_LAYER_EDGE_BOTTOM_CHROMIUM)
+-      ca_edge_aa_mask |= kCALayerTopEdge;
++      ca_edge_aa_mask = (CAEdgeAntialiasingMask)((unsigned int)ca_edge_aa_mask | (unsigned int)kCALayerTopEdge);
+   } else {
+     if (edge_aa_mask & GL_CA_LAYER_EDGE_TOP_CHROMIUM)
+-      ca_edge_aa_mask |= kCALayerTopEdge;
++      ca_edge_aa_mask = (CAEdgeAntialiasingMask)((unsigned int)ca_edge_aa_mask | (unsigned int)kCALayerTopEdge);
+     if (edge_aa_mask & GL_CA_LAYER_EDGE_BOTTOM_CHROMIUM)
+-      ca_edge_aa_mask |= kCALayerBottomEdge;
++      ca_edge_aa_mask = (CAEdgeAntialiasingMask)((unsigned int)ca_edge_aa_mask | (unsigned int)kCALayerBottomEdge);
+   }
+ 
+   // Ensure that the IOSurface be in use as soon as it is added to a

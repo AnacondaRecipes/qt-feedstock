@@ -26,6 +26,10 @@ case ${1} in
         echo ${CONDA_BUILD_SYSROOT}
         exit 0
       fi
+      if [[ -f /usr/bin/xcodebuild ]]; then
+        /usr/bin/xcodebuild --sdk macosx Path
+        exit $?
+      fi
       echo "TODO :: Implement fallback for xcodebuild --show-sdk-path" >> /tmp/xcodebuild-$$.log
       echo "TODO :: Implement fallback for xcodebuild --show-sdk-path"
       exit 1
@@ -35,13 +39,17 @@ case ${1} in
       exit 0
     elif [[ ${1} == PlatformPath ]]; then
       echo "Making this one up entirely, you may need a real Xcode" >> /tmp/xcodebuild-$$.log
-      echo "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/" >> /tmp/xcodebuild-$$.log
-      echo "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/"
+      echo "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform" >> /tmp/xcodebuild-$$.log
+      echo "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform"
       exit 0
     elif [[ ${1} == ProductVersion ]]; then
       echo "10.9"
       exit 0
     fi
+    ;;
+
+  -license)
+    exit 0
     ;;
 
   *)

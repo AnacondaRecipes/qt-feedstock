@@ -34,8 +34,27 @@ case ${1} in
       echo ${CONDA_BUILD_SYSROOT}
       exit 0
     fi
+    if [[ -f /usr/bin/xcrun ]]; then
+      /usr/bin/xcrun --sdk macosx --show-sdk-path
+      exit $?
+    fi
     echo "TODO :: Implement fallback for xcrun --show-sdk-path"
     exit 1
+    ;;
+
+  --show-sdk-version)
+    echo 10.9
+    exit 0
+    ;;
+
+  --show-sdk-platform-path)
+    echo /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform
+    exit 0
+    ;;
+
+  --show-sdk-build-version)
+    echo 16C58
+    exit 0
     ;;
 
 esac

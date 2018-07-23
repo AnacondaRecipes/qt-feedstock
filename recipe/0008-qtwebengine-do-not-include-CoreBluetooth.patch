@@ -1,0 +1,11 @@
+--- work/qtwebengine/src/3rdparty/chromium/base/mac/sdk_forward_declarations.h.orig	2018-07-22 20:42:21.000000000 +0100
++++ work/qtwebengine/src/3rdparty/chromium/base/mac/sdk_forward_declarations.h	2018-07-22 20:42:29.000000000 +0100
+@@ -12,7 +12,7 @@
+ #define BASE_MAC_SDK_FORWARD_DECLARATIONS_H_
+ 
+ #import <AppKit/AppKit.h>
+-#import <CoreBluetooth/CoreBluetooth.h>
++//#import <CoreBluetooth/CoreBluetooth.h>
+ #import <CoreWLAN/CoreWLAN.h>
+ #import <ImageCaptureCore/ImageCaptureCore.h>
+ #import <IOBluetooth/IOBluetooth.h>
