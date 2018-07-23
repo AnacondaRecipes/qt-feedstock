@@ -17,7 +17,8 @@ source:
       - 0010-osx-xctest-check.patch                                      # [osx]
       - 0011-osx-allow-any-xcrun-in-PATH.patch
       - 0012-qtbase-Set-QMAKE_MACOSX_DEPLOYMENT_TARGET-in-all-mac.patch
-      - 0013-qtbase-add-disable-new-dtags-configure-option.patch
+      # - 0013-qtbase-add-disable-new-dtags-configure-option.patch
+      - 0017-qtbase-never-enable-new-dtags.patch
       # qt3d
       - 0001-Don-t-re-typedef-int-_t-if-_STDINT-is-defined.patch         # [win]
       # qtwinextras
