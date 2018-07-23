@@ -99,7 +99,7 @@ if [[ ${HOST} =~ .*linux.* ]]; then
                 -qt-pcre \
                 -qt-xcb \
                 -qt-xkbcommon \
-                -xkb-config-root $PREFIX/lib \
+                -xkb-config-root $PREFIX/lib:/usr/share/X11/xkb \
                 -dbus \
                 -no-linuxfb \
                 -no-libudev \
