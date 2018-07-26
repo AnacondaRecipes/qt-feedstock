@@ -46,7 +46,7 @@ source:
 
 build:
   skip: True  # [win and vc != 9]
-  number: 0
+  number: 1
   detect_binary_files_with_prefix: False
   # Project ERROR: x11 development package not found
   # .. some pkg-config mess.
