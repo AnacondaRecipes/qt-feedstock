@@ -47,7 +47,8 @@ source:
 build:
   skip: True  # [win and vc != 9]
   number: 1
-  detect_binary_files_with_prefix: False
+  binary_has_prefix_files:          # [osx]
+    - lib/libQt5Core*.dylib         # [osx]
   # Project ERROR: x11 development package not found
   # .. some pkg-config mess.
   merge_build_host: True  # [linux]
