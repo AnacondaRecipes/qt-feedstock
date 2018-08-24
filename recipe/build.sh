@@ -20,6 +20,12 @@ fi
 
 if [[ ${HOST} =~ .*linux.* ]]; then
 
+    # Prevent:
+    # /opt/conda/conda-bld/qt_1535122084180/_h_env_..placehold_/bin/../lib/gcc/i686-conda_cos6-linux-gnu/7.3.0/../../../../i686-conda_cos6-linux-gnu/bin/ld:
+    # warning: libz.so.1, needed by /opt/conda/conda-bld/qt_1535122084180/work/qtbase/lib/libQt5Core.so, not found (try using -rpath or -rpath-link)
+    # ..
+    echo "QMAKE_LFLAGS            += -Wl,-rpath-link,${PREFIX}/lib" >> qtbase/mkspecs/linux-g++/qmake.conf
+
     if ! which ruby > /dev/null 2>&1; then
         echo "You need ruby to build qtwebkit"
         exit 1
