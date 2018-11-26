@@ -20,6 +20,11 @@ fi
 
 if [[ ${HOST} =~ .*linux.* ]]; then
 
+    # Force static linking to OpenSSL
+    find ${PREFIX}/lib -name "libcrypto.so*" -exec rm -rf {} \;
+    find ${PREFIX}/lib -name "libssl.so*" -exec rm -rf {} \;
+    export OPENSSL_LIBS="-L${PREFIX}/lib -lssl -lcrypto -ldl"
+
     # Prevent:
     # /opt/conda/conda-bld/qt_1535122084180/_h_env_..placehold_/bin/../lib/gcc/i686-conda_cos6-linux-gnu/7.3.0/../../../../i686-conda_cos6-linux-gnu/bin/ld:
     # warning: libz.so.1, needed by /opt/conda/conda-bld/qt_1535122084180/work/qtbase/lib/libQt5Core.so, not found (try using -rpath or -rpath-link)

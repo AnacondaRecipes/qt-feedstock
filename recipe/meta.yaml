@@ -92,11 +92,20 @@ requirements:
     - {{ cdt('libxfixes') }}             # [linux]
     - {{ cdt('libxfixes-devel') }}       # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
+    # Here starts things needed for cups
     - {{ cdt('cups-devel') }}            # [linux]
+    - {{ cdt('krb5-libs') }}             # [linux]
+    - {{ cdt('libgcrypt') }}             # [linux]
+    - {{ cdt('gnutls') }}                # [linux]
+    - {{ cdt('libcom_err') }}            # [linux]
+    - {{ cdt('libgpg-error') }}          # [linux]
+    - {{ cdt('avahi-libs') }}            # [linux]
+    - {{ cdt('keyutils-libs') }}         # [linux]
+    - {{ cdt('libtasn1') }}              # [linux]
+    # Here ends things needed for cups
 
     # For fontconfig + freetype
     - pkg-config                         # [linux]
-    - pthread-stubs                      # [linux]
     - make                               # [unix]
     # Probably only needed for WebEngine
     - python 2.7*
@@ -119,6 +128,7 @@ requirements:
     - gstreamer                          # [linux]
     - glib                               # [linux]
     - libxml2                            # [linux]
+    - pthread-stubs                      # [linux]
     - icu
     - jpeg
     - libpng
