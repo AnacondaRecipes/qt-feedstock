@@ -105,12 +105,13 @@ if [[ ${HOST} =~ .*linux.* ]]; then
                 -qt-pcre \
                 -qt-xcb \
                 -qt-xkbcommon \
-                -xkb-config-root /usr/share/X11/xkb \
+                -xkb-config-root $PREFIX/lib \
                 -dbus \
                 -no-linuxfb \
                 -no-libudev \
                 -no-avx \
                 -no-avx2 \
+                -cups \
                 -openssl-linked \
                 -no-use-gold-linker \
                 -Wno-expansion-to-defined \

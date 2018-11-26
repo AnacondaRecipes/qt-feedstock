@@ -88,13 +88,19 @@ requirements:
     - {{ cdt('libxtst-devel') }}         # [linux]
     - {{ cdt('libselinux-devel') }}      # [linux]
     - {{ cdt('libxdamage') }}            # [linux]
+    - {{ cdt('libxdamage-devel') }}      # [linux]
     - {{ cdt('libxfixes') }}             # [linux]
+    - {{ cdt('libxfixes-devel') }}       # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
+    - {{ cdt('cups-devel') }}            # [linux]
+
     # For fontconfig + freetype
     - pkg-config                         # [linux]
     - pthread-stubs                      # [linux]
+    - make                               # [unix]
     # Probably only needed for WebEngine
-    - python 2.7*                        # [unix]
+    - python 2.7*
+    - ninja
     - ruby                               # [linux]
     - bison                              # [linux]
     - flex                               # [linux]
@@ -109,7 +115,7 @@ requirements:
     - dbus                               # [linux]
     - fontconfig                         # [linux]
     - freetype                           # [linux]
-    - gst-plugins-base {{ gst_plugins_base }} # [linux]
+    - gst-plugins-base                   # [linux]
     - gstreamer                          # [linux]
     - glib                               # [linux]
     - libxml2                            # [linux]
