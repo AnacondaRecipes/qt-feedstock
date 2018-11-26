@@ -45,7 +45,7 @@ source:
       - 0006-qtwebkit-WTF--StringImpl--copyChars-segfaults-when-built-with-GCC-7.patch                            # [not osx]
 
 build:
-  number: 1
+  number: 2
   binary_has_prefix_files:          # [osx]
     - lib/libQt5Core*.dylib         # [osx]
   # Project ERROR: x11 development package not found
@@ -118,9 +118,9 @@ requirements:
     - sqlite
     - zlib
     - libxcb                             # [linux]
-    - openssl 1.0.*                      # [not osx]
+    - openssl 1.1.*                      # [not osx]
   run:
-    - openssl 1.0.*                      # [not osx]
+    - openssl 1.1.*                      # [not osx]
     - libxcb                             # [linux]
 
 test:
