@@ -111,6 +111,7 @@ if [[ ${HOST} =~ .*linux.* ]]; then
                 -no-libudev \
                 -no-avx \
                 -no-avx2 \
+                -openssl-linked \
                 -no-use-gold-linker \
                 -Wno-expansion-to-defined \
                 -D _X_INLINE=inline \
