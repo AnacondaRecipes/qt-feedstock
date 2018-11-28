@@ -190,9 +190,18 @@ echo Warning %LIBRARY_BIN%\qmake.exe does not exist jom -U install failed, very 
 copy qtbase\bin\qmake.exe %LIBRARY_BIN%\qmake.exe
 :ok_qmake_exists
 
-:: To rewrite qt.conf contents per conda environment
-copy "%RECIPE_DIR%\write_qtconf.bat" "%PREFIX%\Scripts\.qt-post-link.bat"
+:: Add qt.conf file to the package to make it fully relocatable
+copy "%RECIPE_DIR%\qt.conf" "%LIBRARY_BIN%\qt.conf"
 if %errorlevel% neq 0 exit /b %errorlevel%
+:: Qt seems to not bother setting QMAKE_SPEC nor QMAKE_XSPEC these days on Windows.
+echo TargetSpec = win32-msvc>> "%LIBRARY_BIN%\qt.conf"
+echo HostSpec = win32-msvc>> "%LIBRARY_BIN%\qt.conf"
+:: Some things go looking in the prefix root (pyqt, for example)
+copy "%LIBRARY_BIN%\qt.conf" "%PREFIX%\qt.conf"
+if %errorlevel% neq 0 exit /b %errorlevel%
+:: Relative prefix
+echo Prefix = ..>> "%LIBRARY_BIN%\qt.conf"
+echo Prefix = ./Library>> "%PREFIX%\qt.conf"
 
 exit 1
 
