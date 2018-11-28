@@ -270,8 +270,16 @@ popd > /dev/null
 
 # Add qt.conf file to the package to make it fully relocatable
 cp "${RECIPE_DIR}"/qt.conf "${PREFIX}"/bin/
+echo "Prefix = .." >> "${PREFIX}"/bin/qt.conf
 
 if [[ ${HOST} =~ .*darwin.* ]]; then
+    # Add qt.conf file to individual application bundles
+    for c in "${PREFIX}"/bin/*.app/Contents; do
+        mkdir -p "${c}/Resources"
+        cp "${RECIPE_DIR}"/qt.conf "${c}"/Resources/
+        echo "Prefix = ../../.." >> "${c}"/Resources/qt.conf
+    done
+
     # We built Qt itself with SDK 10.10, but we shouldn't
     # force users to also build their Qt apps with SDK 10.10
     # https://bugreports.qt.io/browse/QTBUG-41238
