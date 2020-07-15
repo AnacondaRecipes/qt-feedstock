@@ -72,13 +72,18 @@ MACOS_CONFIG+=(-sdk macosx${OSX_SDK_VER})
 declare -a WARNING_SUPPRESSIONS=()
 # linux (g++) and macOS (clang-10)
 WARNING_SUPPRESSIONS+=(-Wno-deprecated-declarations)
-WARNING_SUPPRESSIONS+=(-Wno-unused-but-set-variable)
-# May be linux only?
-WARNING_SUPPRESSIONS+=(-Wno-maybe-uninitialized)
 WARNING_SUPPRESSIONS+=(-Wno-expansion-to-defined)
-# May be macOS only?
-WARNING_SUPPRESSIONS+=(-Wno-range-loop-construct)
-WARNING_SUPPRESSIONS+=(-Wno-deprecated-copy)
+# g++ warnings
+if [[ ${target_platform} =~ .*linux.* ]]; then
+  WARNING_SUPPRESSIONS+=(-Wno-maybe-uninitialized)
+  WARNING_SUPPRESSIONS+=(-Wno-unused-but-set-variable)
+fi
+# clang-10 warnings
+if [[ ${target_platform} == osx-64 ]]; then
+  WARNING_SUPPRESSIONS+=(-Wno-range-loop-construct)
+  WARNING_SUPPRESSIONS+=(-Wno-deprecated-copy)
+  WARNING_SUPPRESSIONS+=(-Wno-unused-const-variable)
+fi
 
 # Clean config for dirty builds
 # -----------------------------
