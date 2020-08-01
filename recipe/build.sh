@@ -85,6 +85,10 @@ if [[ ${target_platform} == osx-64 ]]; then
   WARNING_SUPPRESSIONS+=(-Wno-unused-const-variable)
 fi
 
+# gmake is looked for before make, so /usr/bin/gmake can get found. We could
+# consider removing system paths during the configure process as an alternative.
+export MAKE=$(which make)
+
 # Clean config for dirty builds
 # -----------------------------
 rm -f .qmake.stash .qmake.cache || true
@@ -508,11 +512,11 @@ fi
 
 # Qt Charts
 # ---------
-pushd qtcharts
-  ${PREFIX}/bin/qmake qtcharts.pro PREFIX=${PREFIX}
-  make
-  make install
-popd
+# pushd qtcharts
+#   ${PREFIX}/bin/qmake qtcharts.pro PREFIX=${PREFIX}
+#   make
+#   make install
+# popd
 
 if [[ ${target_platform} == osx-64 ]]; then
   rm -f "${PREFIX}"/bin/libtool || true
