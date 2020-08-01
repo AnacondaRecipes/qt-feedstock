@@ -1,6 +1,6 @@
 QT       += core
-QT       += charts
-QT       += 3dcore
+# QT       += charts
+# QT       += 3dcore
 QT       += widgets
 TARGET = hello
 CONFIG   += console
