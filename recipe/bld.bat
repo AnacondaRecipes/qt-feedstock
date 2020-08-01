@@ -29,6 +29,7 @@ if exist config.cache del config.cache
 :: little bit later, though it worked for Carlos Cordoba.
 set WEBBACKEND=qtwebengine
 :: set QT_LIBINFIX=_conda
+set QT_LIBINFIX=
 
 where perl.exe
 if %ERRORLEVEL% neq 0 (
@@ -94,7 +95,10 @@ echo QT_MINOR_VERSION = %QTVERMIN% >> Makefile
 echo QT_PATCH_VERSION = %QTVERPAT% >> Makefile
 echo CXX = cl.exe>>Makefile
 :: This is a hack, CFLAGS_CRT becomes part of CFLAGS_EXTRA, overwriting it.
-echo CFLAGS_CRT = -DQT_LIBINFIX=\"%QT_LIBINFIX%\" >> Makefile
+if "%QT_LIBINFIX%" neq "" (
+  echo CFLAGS_CRT = -DQT_LIBINFIX=\"%QT_LIBINFIX%\" >> Makefile
+  QTC_LIBINFIX=-qtlibinfix %QT_LIBINFIX%
+)
 echo EXTRA_CXXFLAGS =>>Makefile
 rem This must have a trailing space.
 echo QTSRC = %QTSRC% >> Makefile
