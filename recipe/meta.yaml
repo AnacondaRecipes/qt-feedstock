@@ -131,7 +131,7 @@ requirements:
     #   2.	Code generation
     #   3.	Running pass 'Function Pass Manager' on module '../../3rdparty/chromium/third_party/skia/third_party/skcms/skcms.cc'.
     #   4.	Running pass 'X86 DAG->DAG Instruction Selection' on function '@_ZN3skxL8exec_opsEPK2OpPPKvPKcPci'
-    # - ccache
+    - ccache
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
     - patch                              # [not win]
