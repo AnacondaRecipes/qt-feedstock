@@ -136,6 +136,7 @@ requirements:
     - {{ compiler('c') }}
     - patch                              # [not win]
     - m2-patch                           # [win]
+    - m2-coreutils                       # [win]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]
