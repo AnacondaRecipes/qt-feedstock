@@ -28,8 +28,8 @@ if exist config.cache del config.cache
 :: but when I tried it it was too buggy; Spyder crashed a
 :: little bit later, though it worked for Carlos Cordoba.
 set WEBBACKEND=qtwebengine
-:: set QT_LIBINFIX=_conda
-set QT_LIBINFIX=
+set QT_LIBINFIX=_conda
+:: set QT_LIBINFIX=
 
 where perl.exe
 if %ERRORLEVEL% neq 0 (
@@ -97,7 +97,7 @@ echo CXX = cl.exe>>Makefile
 :: This is a hack, CFLAGS_CRT becomes part of CFLAGS_EXTRA, overwriting it.
 if "%QT_LIBINFIX%" neq "" (
   echo CFLAGS_CRT = -DQT_LIBINFIX=\"%QT_LIBINFIX%\" >> Makefile
-  QTC_LIBINFIX=-qtlibinfix %QT_LIBINFIX%
+  set QTC_LIBINFIX=-qtlibinfix %QT_LIBINFIX%
 )
 echo EXTRA_CXXFLAGS =>>Makefile
 rem This must have a trailing space.
@@ -179,7 +179,7 @@ echo on
 :: Error copying C:\qt5b\qt-5.15.0_min_66\work\b\qtbase\qmake\qmake.exe to C:\qt5b\qt-5.15.0_min_66\_h_env\Library\bin\qmake.exe: Cannot open C:\qt5b\qt-5.15.0_min_66\work\b\qtbase\qmake\qmake.exe for input
 if exist qtbase\qmake\qmake.exe goto ok_qmake_exists_build
   echo WARNING :: qtbase\qmake\qmake.exe does not exist, and for some reason Qt thinks that is the source for installation here.
-  echo WARNING ::  `jom -U install` will fail without this workaround of `copy qtbase\bin\qmake.exe qtbase\qmake\qmake.exe`
+  echo WARNING :: `jom -U install` will fail without this workaround of `copy qtbase\bin\qmake.exe qtbase\qmake\qmake.exe`
   copy qtbase\bin\qmake.exe qtbase\qmake\qmake.exe
 :ok_qmake_exists_build
 
