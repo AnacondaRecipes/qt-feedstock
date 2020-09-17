@@ -3,7 +3,7 @@
 PATCHES_DIR=$(dirname ${BASH_SOURCE[0]})
 declare -a PATCHED_MODULES=()
 PATCHED_MODULES+=(qtbase)
-# PATCHED_MODULES+=(qtwebengine)
+PATCHED_MODULES+=(qtwebengine)
 
 for MODULE in "${PATCHED_MODULES[@]}"; do
   declare -a PATCHES=()
