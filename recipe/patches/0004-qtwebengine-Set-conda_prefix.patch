@@ -1,26 +1,26 @@
-From 22512f985950651914e0debc223bb293e1fc6d19 Mon Sep 17 00:00:00 2001
+From 5cff82e6d44caafcc0e2a5c3a412ebfefbe6d710 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 17 Sep 2020 14:50:57 +0200
-Subject: [PATCH 4/4] qtwebengine: Set conda_prefix
+Subject: [PATCH 4/5] qtwebengine: Set conda_prefix
 
 ---
  src/buildtools/config/common.pri | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/qtwebengine/src/src/buildtools/config/common.pri b/qtwebengine/src/src/buildtools/config/common.pri
+diff --git a/qtwebengine/src/buildtools/config/common.pri b/qtwebengine/src/buildtools/config/common.pri
 index ddcd225c..b314df39 100644
---- a/qtwebengine/src/src/buildtools/config/common.pri
-+++ b/qtwebengine/src/src/buildtools/config/common.pri
+--- a/qtwebengine/src/buildtools/config/common.pri
++++ b/qtwebengine/src/buildtools/config/common.pri
 @@ -3,7 +3,15 @@ include($$QTWEBENGINE_OUT_ROOT/src/buildtools/qtbuildtools-config.pri)
  include($$QTWEBENGINE_OUT_ROOT/src/core/qtwebenginecore-config.pri)
  QT_FOR_CONFIG += buildtools-private webenginecore webenginecore-private
  
 +# This is horrible, sorry:
 +CONDA_PREFIX=$$dirname(QMAKE_INCDIR_WEBENGINE-ZLIB)
-+print("CONDA_PREFIX from QMAKE_INCDIR_WEBENGINE-ZLIB is $$CONDA_PREFIX")
++message(CONDA_PREFIX from QMAKE_INCDIR_WEBENGINE-ZLIB is $$CONDA_PREFIX)
 +# This is not though:
-+CONDA_PREFIX=getenv("PREFIX")
-+print("CONDA_PREFIX from getenv(PREFIX) is $$CONDA_PREFIX")
++CONDA_PREFIX=$$(PREFIX)
++message(CONDA_PREFIX from $$(PREFIX) is $$CONDA_PREFIX)
 +
  gn_args += \
 +    conda_prefix=\"$$CONDA_PREFIX\" \
@@ -28,5 +28,5 @@ index ddcd225c..b314df39 100644
      closure_compile=false \
      is_component_build=false \
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 

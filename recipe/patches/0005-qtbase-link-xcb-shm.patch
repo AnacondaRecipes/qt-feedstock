@@ -1,7 +1,7 @@
-From db786c607fb64eefb3b81c2ca5e26c2a02c86f89 Mon Sep 17 00:00:00 2001
+From 2dce20cec4c6c594dfba19697b0d1b8107bacba4 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Mon, 10 Dec 2018 14:51:15 -0600
-Subject: [PATCH 05/11] qtbase: link xcb-shm
+Subject: [PATCH 05/15] qtbase: link xcb-shm
 
 Change-Id: I49300967cd92ed280a9a0c685e98a45c633118b6
 ---
@@ -9,7 +9,7 @@ Change-Id: I49300967cd92ed280a9a0c685e98a45c633118b6
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/qtbase/src/gui/configure.json b/qtbase/src/gui/configure.json
-index 5ebcdb99b5..e7e980fb22 100644
+index 1f08795c57..c2ee8529b3 100644
 --- a/qtbase/src/gui/configure.json
 +++ b/qtbase/src/gui/configure.json
 @@ -589,7 +589,7 @@
@@ -22,5 +22,5 @@ index 5ebcdb99b5..e7e980fb22 100644
          },
          "xcb_icccm": {
 -- 
-2.27.0
+2.24.3 (Apple Git-128)
 

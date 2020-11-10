@@ -1,0 +1,30 @@
+From 9dea7d40af8c61f44be31b158acf89f304624241 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 22 Sep 2020 00:36:11 +0200
+Subject: [PATCH 14/15] qtbase: osx: allow any xcrun in PATH
+
+---
+ mkspecs/features/uikit/devices.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/qtbase/mkspecs/features/uikit/devices.py b/qtbase/mkspecs/features/uikit/devices.py
+index 8cdcb370a0..793d6c06c5 100755
+--- a/qtbase/mkspecs/features/uikit/devices.py
++++ b/qtbase/mkspecs/features/uikit/devices.py
+@@ -64,11 +64,11 @@ def is_suitable_runtime(runtimes, runtime_name, platform, min_version):
+ 
+ def simctl_runtimes():
+     return json.loads(subprocess.check_output(
+-        ["/usr/bin/xcrun", "simctl", "list", "runtimes", "--json"]))["runtimes"]
++        ["xcrun", "simctl", "list", "runtimes", "--json"]))["runtimes"]
+ 
+ def simctl_devices():
+     return json.loads(subprocess.check_output(
+-        ["/usr/bin/xcrun", "simctl", "list", "devices", "--json"]))["devices"]
++        ["xcrun", "simctl", "list", "devices", "--json"]))["devices"]
+ 
+ if __name__ == "__main__":
+     parser = argparse.ArgumentParser()
+-- 
+2.24.3 (Apple Git-128)
+

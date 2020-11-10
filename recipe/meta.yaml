@@ -3,7 +3,7 @@
 #   error: unknown type name 'SecKeyAlgorithm'
 # .. these 10.11 support patches should be removed anyway as they could break some things.
 # .. such as pop-up Window mouse-events.
-{% set version = "5.15.0" %}
+{% set version = "5.15.1" %}
 # Valid is release, debug, debug-and-release
 {% set libs_nature = os.environ.get('CONDA_BUILD_QT_LIBS_NATURE', '') %}
 {% if libs_nature == 'debug' %}
@@ -24,15 +24,20 @@
   {% set minimal_build = 'no' %}
 {% endif %}
 
+{% set qtlibinfix = '_conda' %}  # [win]
+{% set qtlibprefix = '' %}  # [win]
+{% set qtlibinfix = '' %}  # [not win]
+{% set qtlibprefix = 'lib' %}  # [not win]
+
 package:
   name: qt
   version: {{ version }}
 
 source:
   - url: http://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/single/qt-everywhere-src-{{ version }}.tar.xz
-    md5: 610a228dba6ef469d14d145b71ab3b88
+    # From: https://download.qt.io/official_releases/qt/5.15/5.15.1/single/md5sums.txt
+    md5: ab16c28f4f9e6db8299096312decdbc4
     patches:
-
       # qtbase
       - patches/0001-qtbase-osx-xctest-check.patch
       - patches/0002-qtbase-osx-allow-any-xcrun-in-PATH.patch
@@ -45,44 +50,49 @@ source:
       # I do not think this is the correct approach. Something needs fixing, but
       # I think it is not just limited to GL which is all this patch handles.
       # Pretty sure we need to rebuild all CDTs, rdonnelly channel has these.
-      # - patches/0009-qtbase-Fix-harcoded-sysroot-paths.patch
+      - patches/0009-qtbase-Fix-harcoded-sysroot-paths.patch
       - patches/0010-qtbase-Add-DISABLE_WINRT_DEPRECATION-for-WinSDK-10.0.patch
-      - patches/0011-qtbase-Fix-QMAKE_LIBDIR_X11-and-QMAKE_LIBDIR_OPENGL-.patch
-      - patches/0012-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch
+      # The scoping in this patch is broken!
       # - patches/0011-qtbase-Add-debugging-to-debug-qtConfResolveLibs-and-.patch
+      - patches/0012-qtbase-Fix-QMAKE_LIBDIR_X11-and-QMAKE_LIBDIR_OPENGL-.patch
+      - patches/0013-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch
+      - patches/0014-qtbase-osx-allow-any-xcrun-in-PATH.patch
+      - patches/0015-qtbase-use-better-gcc-optimize-size.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtwinextras:"" then add apply/regen instructions)
       - patches/0001-shobjidl-Fix-compile-guard-around-SHARDAPPIDINFOLINK.patch
 
       # qtwebengine (Qt part)
       # apply with `pushd qtwebengine && git am -3 -p2 ${RECIPE_DIR}/patches/*-qtwebengine-*.patch ; popd`
-      # regenerate with `git format-patch -2 --src-prefix=a/qtwebengine/ --dst-prefix=b/qtwebengine/`
+      # regenerate with `git format-patch -4 --src-prefix=a/qtwebengine/ --dst-prefix=b/qtwebengine/`
       - patches/0001-qtwebengine-run-gn-verbosely.patch
       - patches/0002-qtwebengine-Relax-glibc-restriction-from-2.16-to-2.1.patch
       - patches/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch
+      - patches/0004-qtwebengine-Set-conda_prefix.patch
+      - patches/0005-qtwebengine-Use-xcodebuild-not-usr-bin-xcodebuild.patch
 
       # qtwebenginec (chromium submodule)
       # apply with `pushd qtwebengine/src/3rdparty/ && git am -3 -p4 ${RECIPE_DIR}/patches/*-qtwebenginec-*.patch ; popd`
       # regenerate with `git format-patch --src-prefix=a/qtwebengine/src/3rdparty/ --dst-prefix=b/qtwebengine/src/3rdparty/ -18`
       - patches/0001-qtwebenginec-Fix-compilation-on-Windows-VSC.patch
-      - patches/0002-qtwebenginec-Fix-VS2017-builds.patch
-      - patches/0003-qtwebenginec-find_sdk-respect-CONDA_BUILD_SYSROOT.patch
-      - patches/0004-qtwebenginec-use-CONDA_PREFIX-include-for-system_lib.patch
-      - patches/0005-qtwebenginec-Add-conda_prefix-to-gn.patch
-      - patches/0006-qtwebenginec-Use-conda_prefix-for-chromium-gpu.patch
-      - patches/0007-qtwebenginec-Use-conda_prefix-for-system_zlib.patch
-      - patches/0008-qtwebenginec-Use-conda_prefix-for-ui_gl.patch
-      - patches/0009-qtwebenginec-macOS-10.11-support-Define-NSEventTypeS.patch
-      - patches/0010-qtwebenginec-link-gn-to-librt.patch
-      - patches/0011-qtwebenginec-Add-missing-EVIOCGPROP.patch
-      - patches/0012-qtwebenginec-Define-HAVE_SENDMMSG-to-0-when-glibc-2..patch
-      - patches/0013-qtwebenginec-__NR_renameat2-requires-glibc-2.28.patch
-      - patches/0014-qtwebenginec-Define-PTRAGET_-G-S-ETREGSET-to-0x4204-.patch
-      - patches/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
-      - patches/0016-qtwebenginec-Attempt-to-get-conda_prefix-include-int.patch
-      - patches/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
-      - patches/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
-      - patches/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch
+      - patches/0002-qtwebenginec-find_sdk-respect-CONDA_BUILD_SYSROOT.patch
+      - patches/0003-qtwebenginec-use-CONDA_PREFIX-include-for-system_lib.patch
+      - patches/0004-qtwebenginec-Add-conda_prefix-to-gn.patch
+      - patches/0005-qtwebenginec-Use-conda_prefix-for-chromium-gpu.patch
+      - patches/0006-qtwebenginec-Use-conda_prefix-for-system_zlib.patch
+      - patches/0007-qtwebenginec-Use-conda_prefix-for-ui_gl.patch
+      - patches/0008-qtwebenginec-macOS-10.11-support-Define-NSEventTypeS.patch
+      - patches/0009-qtwebenginec-link-gn-to-librt.patch
+      - patches/0010-qtwebenginec-Add-missing-EVIOCGPROP.patch
+      - patches/0011-qtwebenginec-Define-HAVE_SENDMMSG-to-0-when-glibc-2..patch
+      - patches/0012-qtwebenginec-__NR_renameat2-requires-glibc-2.28.patch
+      - patches/0013-qtwebenginec-Define-PTRAGET_-G-S-ETREGSET-to-0x4204-.patch
+      - patches/0014-qtwebenginec-Some-glibc-kernel-define-hacks.patch
+      - patches/0015-qtwebenginec-Attempt-to-get-conda_prefix-include-int.patch
+      - patches/0016-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
+      - patches/0017-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
+      - patches/0018-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch
+      - patches/0019-qtwebenginec-Use-xcrun-not-usr-bin-xcrun.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtscript:"" then add apply/regen instructions)
       - patches/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
@@ -95,6 +105,10 @@ source:
       - patches/0002-qtwebkit-ruby-1.8.patch                                                                              # [qtwebkit == 'true']
       - patches/0004-qtwebkit-CentOS5-Fix-fucomip-compat-with-gas-2.17.50.patch                                           # [qtwebkit == 'true']
       - patches/0006-qtwebkit-WTF--StringImpl--copyChars-segfaults-when-built-with-GCC-7.patch                            # [qtwebkit == 'true']
+
+  - url: https://www.khronos.org/registry/EGL/api/KHR/khrplatform.h  # [osx]
+    sha256: e206a6931f98ffe1c5c7ece69c4f94bbe1c9279243f40cbe7782848a0d3fa2de  # [osx]
+    folder: KHR  # [osx]
 
   - url: http://download.qt.io/development_releases/prebuilt/llvmpipe/windows/opengl32sw-32-mesa_12_0_rc2.7z      # [win32]
     sha256: 656015ab03a6686854b920a0a0bf77b4e46525ee8d5396bf04a49ef80a53427d                                      # [win32]
@@ -110,18 +124,23 @@ build:
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
-  missing_dso_whitelist:  # [osx]
+  ignore_run_exports:
+    - openssl  # [win]
+  missing_dso_whitelist:
     - /usr/lib/libbsm.0.dylib  # [osx]
     - /usr/lib/libcups.2.dylib  # [osx]
     - /usr/lib/libresolv.9.dylib  # [osx]
     - /usr/lib/libsandbox.1.dylib  # [osx]
     - '/System/Library/Frameworks/CoreLocation.framework/**'  # [osx]
+    - '**/api-ms-win-core-winrt-l1-1-0.dll'  # [win]
+    - '**/api-ms-win-core-winrt-string-l1-1-0.dll'  # [win]
+
   {% if libs_pkg_suffix != '' %}
   string: h{{ PKG_HASH }}{{ libs_pkg_suffix }}
   {% endif %}
   rpath_patcher: patchelf
   script_env:
-    - CONDA_BUILD_QT_LIBS_NATURE
+    - CONDA_BUILD_QT_LIBS_NATURE={{ libs_nature }}
     - MINIMAL_BUILD={{ minimal_build }}
 
 requirements:
@@ -139,6 +158,7 @@ requirements:
     - patch                              # [not win]
     - m2-patch                           # [win]
     - m2-coreutils                       # [win]
+    - ripgrep                            # [unix]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]
@@ -172,8 +192,7 @@ requirements:
     - {{ cdt('avahi-libs') }}            # [linux]
     - {{ cdt('libgpg-error') }}          # [linux]
     - {{ cdt('libtasn1') }}              # [linux]
-    # For fontconfig + freetype
-    - pkg-config                         # [linux]
+    - pkg-config                         # [unix]
     - make                               # [unix]
     # Probably only needed for WebEngine
     - python 2.7*
@@ -240,14 +259,13 @@ requirements:
     - clangdev
     - libclang
   run:
-    - openssl                            # [not osx]
     - libxcb                             # [linux]
     {% if minimal_build == 'no' %}
     - {{ pin_compatible("nss") }}        # [unix]
     - {{ pin_compatible("nspr") }}       # [unix]
+    - {{ pin_compatible("libclang") }}
     {% endif %}
     - {{ pin_compatible("mysql") }}  # [not win]
-    - {{ pin_compatible("libclang") }}
   run_constrained:                                             # [osx]
     - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx]
 
@@ -297,13 +315,99 @@ test:
     - test/hello-minimal.pro
 {% endif %}
   commands:
-{% if minimal_build == 'no' %}
-    - if not exist %LIBRARY_BIN%\\Qt5WebEngine.dll exit 1                  # [win]
-    - test -f $PREFIX/lib/libQt5WebEngine${SHLIB_EXT}                      # [unix]
-{% endif %}
-    # sql plugin
-    - test -f $PREFIX/plugins/sqldrivers/libqsqlite${SHLIB_EXT}            # [unix]
+    # Verify libraries.
+    {% set qt_libs = [
+      qtlibprefix + "libEGL",  # [win]
+      qtlibprefix + "libGLESv2",  # [win]
+      qtlibprefix + "opengl32sw",  # [win]
+      qtlibprefix + "Qt53DAnimation" + qtlibinfix,
+      qtlibprefix + "Qt53DCore" + qtlibinfix,
+      qtlibprefix + "Qt53DExtras" + qtlibinfix,
+      qtlibprefix + "Qt53DInput" + qtlibinfix,
+      qtlibprefix + "Qt53DLogic" + qtlibinfix,
+      qtlibprefix + "Qt53DQuick" + qtlibinfix,
+      qtlibprefix + "Qt53DQuickAnimation" + qtlibinfix,
+      qtlibprefix + "Qt53DQuickExtras" + qtlibinfix,
+      qtlibprefix + "Qt53DQuickInput" + qtlibinfix,
+      qtlibprefix + "Qt53DQuickRender" + qtlibinfix,
+      qtlibprefix + "Qt53DQuickScene2D" + qtlibinfix,
+      qtlibprefix + "Qt53DRender" + qtlibinfix,
+      qtlibprefix + "Qt5Bluetooth" + qtlibinfix,
+      qtlibprefix + "Qt5Bodymovin" + qtlibinfix,
+      qtlibprefix + "Qt5Charts" + qtlibinfix,
+      qtlibprefix + "Qt5Concurrent" + qtlibinfix,
+      qtlibprefix + "Qt5Core" + qtlibinfix,
+      qtlibprefix + "Qt5DataVisualization" + qtlibinfix,
+      qtlibprefix + "Qt5DBus" + qtlibinfix,
+      qtlibprefix + "Qt5Designer" + qtlibinfix,
+      qtlibprefix + "Qt5DesignerComponents" + qtlibinfix,
+      qtlibprefix + "Qt5Gamepad" + qtlibinfix,
+      qtlibprefix + "Qt5Gui" + qtlibinfix,
+      qtlibprefix + "Qt5Help" + qtlibinfix,
+      qtlibprefix + "Qt5Location" + qtlibinfix,
+      qtlibprefix + "Qt5Multimedia" + qtlibinfix,
+      qtlibprefix + "Qt5MultimediaQuick" + qtlibinfix,
+      qtlibprefix + "Qt5MultimediaWidgets" + qtlibinfix,
+      qtlibprefix + "Qt5Network" + qtlibinfix,
+      qtlibprefix + "Qt5NetworkAuth" + qtlibinfix,
+      qtlibprefix + "Qt5Nfc" + qtlibinfix,
+      qtlibprefix + "Qt5OpenGL" + qtlibinfix,
+      qtlibprefix + "Qt5Pdf" + qtlibinfix,
+      qtlibprefix + "Qt5PdfWidgets" + qtlibinfix,
+      qtlibprefix + "Qt5Positioning" + qtlibinfix,
+      qtlibprefix + "Qt5PositioningQuick" + qtlibinfix,
+      qtlibprefix + "Qt5PrintSupport" + qtlibinfix,
+      qtlibprefix + "Qt5Purchasing" + qtlibinfix,
+      qtlibprefix + "Qt5Qml" + qtlibinfix,
+      qtlibprefix + "Qt5QmlModels" + qtlibinfix,
+      qtlibprefix + "Qt5QmlWorkerScript" + qtlibinfix,
+      qtlibprefix + "Qt5Quick" + qtlibinfix,
+      qtlibprefix + "Qt5Quick3D" + qtlibinfix,
+      qtlibprefix + "Qt5Quick3DAssetImport" + qtlibinfix,
+      qtlibprefix + "Qt5Quick3DRender" + qtlibinfix,
+      qtlibprefix + "Qt5Quick3DRuntimeRender" + qtlibinfix,
+      qtlibprefix + "Qt5Quick3DUtils" + qtlibinfix,
+      qtlibprefix + "Qt5QuickControls2" + qtlibinfix,
+      qtlibprefix + "Qt5QuickParticles" + qtlibinfix,
+      qtlibprefix + "Qt5QuickShapes" + qtlibinfix,
+      qtlibprefix + "Qt5QuickTemplates2" + qtlibinfix,
+      qtlibprefix + "Qt5QuickTest" + qtlibinfix,
+      qtlibprefix + "Qt5QuickWidgets" + qtlibinfix,
+      qtlibprefix + "Qt5RemoteObjects" + qtlibinfix,
+      qtlibprefix + "Qt5Script" + qtlibinfix,
+      qtlibprefix + "Qt5ScriptTools" + qtlibinfix,
+      qtlibprefix + "Qt5Scxml" + qtlibinfix,
+      qtlibprefix + "Qt5Sensors" + qtlibinfix,
+      qtlibprefix + "Qt5SerialBus" + qtlibinfix,
+      qtlibprefix + "Qt5SerialPort" + qtlibinfix,
+      qtlibprefix + "Qt5Sql" + qtlibinfix,
+      qtlibprefix + "Qt5Svg" + qtlibinfix,
+      qtlibprefix + "Qt5Test" + qtlibinfix,
+      qtlibprefix + "Qt5TextToSpeech" + qtlibinfix,
+      qtlibprefix + "Qt5VirtualKeyboard" + qtlibinfix,
+      qtlibprefix + "Qt5WebChannel" + qtlibinfix,
+      qtlibprefix + "Qt5WebEngine" + qtlibinfix,
+      qtlibprefix + "Qt5WebEngineCore" + qtlibinfix,
+      qtlibprefix + "Qt5WebEngineWidgets" + qtlibinfix,
+      qtlibprefix + "Qt5WebSockets" + qtlibinfix,
+      qtlibprefix + "Qt5WebView" + qtlibinfix,
+      qtlibprefix + "Qt5Widgets" + qtlibinfix,
+      qtlibprefix + "Qt5WinExtras" + qtlibinfix,  # [win]
+      qtlibprefix + "Qt5Xml" + qtlibinfix,
+      qtlibprefix + "Qt5XmlPatterns" + qtlibinfix ] %}
+
+    {% for qt_lib in qt_libs %}
+    - test -f $PREFIX/lib/{{ qt_lib }}.a  # [unix]
+    - test -f $PREFIX/lib/lib{{ qt_lib }}${SHLIB_EXT}  # [unix]
+    - if not exist %PREFIX%\Library\bin\{{ qt_lib }}%SHLIB_EXT% exit 1  # [win]
+    - if not exist %PREFIX%\Library\lib\{{ qt_lib }}.lib exit 1  # [win]
+    {% endfor %}
+
+    # sql plugins
+    - test -f $PREFIX/plugins/sqldrivers/libqsqlite${SHLIB_EXT}  # [unix]
     - if not exist %LIBRARY_PREFIX%\plugins\sqldrivers\qsqlite.dll exit 1  # [win]
+    - test -f $PREFIX/plugins/sqldrivers/libqsqlodbc${SHLIB_EXT}  # [unix]
+    - if not exist %LIBRARY_PREFIX%\plugins\sqldrivers\qsqlodbc.dll exit 1  # [win]
 
 about:
   home: http://qt-project.org

@@ -1,7 +1,7 @@
-From 331753cd7a3ae1b4587956ee2cbf43796cf07021 Mon Sep 17 00:00:00 2001
+From 846f244f6c9632837dec356de5d5546dee4bf89d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 16 Jun 2020 15:48:42 +0200
-Subject: [PATCH 2/2] qtbase: osx: allow any xcrun in PATH
+Subject: [PATCH 02/15] qtbase: osx: allow any xcrun in PATH
 
 ---
  configure                            | 10 +++++-----
@@ -120,5 +120,5 @@ index 3a9c2778bb..12c1c82639 100644
  
      $$tool = $$sysrooted $$member(value, 1, -1)
 -- 
-2.27.0
+2.24.3 (Apple Git-128)
 

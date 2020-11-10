@@ -1,7 +1,7 @@
-From 77dcfd1d7584f21d0fa25022cc1e3525973f25dd Mon Sep 17 00:00:00 2001
+From 825a09e875a6a8137218f75a1402093a0b05c8eb Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Mon, 10 Dec 2018 14:49:51 -0600
-Subject: [PATCH 04/11] qtbase: never enable new-dtags
+Subject: [PATCH 04/15] qtbase: never enable new-dtags
 
 Change-Id: I2c99367bc60b1d6e84811ab4e186ac0810cd399c
 ---
@@ -9,8 +9,8 @@ Change-Id: I2c99367bc60b1d6e84811ab4e186ac0810cd399c
  mkspecs/common/gcc-base-unix.conf | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/configure.json b/configure.json
-index d1eb1d8102..842cb31d1d 100644
+diff --git a/qtbase/configure.json b/qtbase/configure.json
+index 50d69b740d..a8ccf93e6b 100644
 --- a/qtbase/configure.json
 +++ b/qtbase/configure.json
 @@ -413,7 +413,7 @@
@@ -36,5 +36,5 @@ index a456c8f3eb..5e21ad899c 100644
  QMAKE_LFLAGS_USE_BFD    = -fuse-ld=bfd
  QMAKE_LFLAGS_USE_GOLD   = -fuse-ld=gold
 -- 
-2.27.0
+2.24.3 (Apple Git-128)
 

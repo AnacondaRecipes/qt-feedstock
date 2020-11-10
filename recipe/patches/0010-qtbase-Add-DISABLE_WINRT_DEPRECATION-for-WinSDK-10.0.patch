@@ -1,7 +1,7 @@
-From 071d92472494882147bbf5ab61d363333ccd0e6d Mon Sep 17 00:00:00 2001
+From a7a6dd6d90480af1d25436eab979a834e2ad336c Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 16 Jun 2020 14:58:48 +0200
-Subject: [PATCH 10/11] qtbase: Add DISABLE_WINRT_DEPRECATION for WinSDK
+Subject: [PATCH 10/15] qtbase: Add DISABLE_WINRT_DEPRECATION for WinSDK
  10.0.16299.0
 
 Credit to: Filipe Fernandes <ocefpaf@gmail.com>
@@ -23,5 +23,5 @@ index f5d12f445b..d79fda1646 100644
  QMAKE_COMPILER_DEFINES += _WIN32
  contains(QMAKE_TARGET.arch, x86_64) {
 -- 
-2.27.0
+2.24.3 (Apple Git-128)
 

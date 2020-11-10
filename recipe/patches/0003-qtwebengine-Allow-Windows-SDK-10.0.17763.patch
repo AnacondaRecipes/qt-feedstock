@@ -1,30 +1,27 @@
-From b88f0296c6bc644e00d2055ca2f4e53b2ef1bfad Mon Sep 17 00:00:00 2001
+From e583043297106ee59ab91f668d04191b81cd86da Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 27 Aug 2020 09:45:25 +0200
-Subject: [PATCH 3/4] qtwebengine: Allow Windows SDK 10.0.17763
+Subject: [PATCH 3/5] qtwebengine: Allow Windows SDK 10.0.17763
 
 ---
- configure.pri | 5 +++++
- 1 file changed, 5 insertions(+)
+ configure.pri | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qtwebengine/src/configure.pri b/qtwebengine/src/configure.pri
-index d3ba9b14..a075c255 100644
---- a/qtwebengine/src/configure.pri
-+++ b/qtwebengine/src/configure.pri
-@@ -430,8 +430,13 @@ defineTest(qtwebengine_isWindowsPlatformSupported) {
+diff --git a/qtwebengine/configure.pri b/qtwebengine/configure.pri
+index d3ba9b14..83153de0 100644
+--- a/qtwebengine/configure.pri
++++ b/qtwebengine/configure.pri
+@@ -430,8 +430,8 @@ defineTest(qtwebengine_isWindowsPlatformSupported) {
          qtwebengine_platformError("requires MSVC or Clang (MSVC mode).")
          return(false)
      }
-+<<<<<<< HEAD
-     !qtwebengine_isMinWinSDKVersion(10, 18362): {
-         qtwebengine_platformError("requires a Windows SDK version 10.0.18362 or newer.")
-+=======
+-    !qtwebengine_isMinWinSDKVersion(10, 18362): {
+-        qtwebengine_platformError("requires a Windows SDK version 10.0.18362 or newer.")
 +    !qtwebengine_isMinWinSDKVersion(10, 17763): {
 +        qtwebengine_platformError("Qt WebEngine on Windows requires a Windows SDK version 10.0.17763 or newer.")
-+>>>>>>> qtwebengine: Allow Windows SDK 10.0.17763
          return(false)
      }
      return(true)
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 

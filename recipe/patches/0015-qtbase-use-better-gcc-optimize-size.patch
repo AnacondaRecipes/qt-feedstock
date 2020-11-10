@@ -1,0 +1,25 @@
+From e9cb9aa473a1ce4ede022f9745c6813a51992fe1 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Tue, 22 Sep 2020 00:38:36 +0200
+Subject: [PATCH 15/15] qtbase: use better gcc optimize size
+
+---
+ mkspecs/common/gcc-base.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/qtbase/mkspecs/common/gcc-base.conf b/qtbase/mkspecs/common/gcc-base.conf
+index 99d77156fd..c4afdcb814 100644
+--- a/qtbase/mkspecs/common/gcc-base.conf
++++ b/qtbase/mkspecs/common/gcc-base.conf
+@@ -34,7 +34,7 @@
+ QMAKE_CFLAGS_OPTIMIZE      = -O2
+ QMAKE_CFLAGS_OPTIMIZE_FULL = -O3
+ QMAKE_CFLAGS_OPTIMIZE_DEBUG = -Og
+-QMAKE_CFLAGS_OPTIMIZE_SIZE = -Os
++QMAKE_CFLAGS_OPTIMIZE_SIZE = -Os
+ 
+ !equals(QMAKE_HOST.os, Windows): QMAKE_CFLAGS += -pipe
+ QMAKE_CFLAGS_DEPS          += -M
+-- 
+2.24.3 (Apple Git-128)
+

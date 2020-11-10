@@ -1,7 +1,7 @@
-From 65d951facb62415a6bef1008def9879ab45da6cd Mon Sep 17 00:00:00 2001
+From c176e0e9bee017f429b60aa01e221449e5afcb15 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Mon, 15 Jun 2020 21:53:21 +0200
-Subject: [PATCH 09/11] qtbase: Fix harcoded sysroot paths
+Subject: [PATCH 09/15] qtbase: Fix harcoded sysroot paths
 
 Closes #123
 
@@ -29,5 +29,5 @@ index 84dbbfebd4..ade39e3017 100644
  !!ENDIF
  
 -- 
-2.27.0
+2.24.3 (Apple Git-128)
 

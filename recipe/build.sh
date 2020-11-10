@@ -1,6 +1,23 @@
 # Please keep these various arrays passed to configure
 # at the top for better visability and easier tweaking.
 
+if [[ ${target_platform} == osx-64 ]]; then
+  set +e
+  rg /usr/bin/xc qtbase
+  if [[ $? == 0 ]]; then
+    echo "Found /usr/bin/xc* in qtbase, system macOS tools will be found, goodbye"
+    exit 1
+  fi
+  rg /usr/bin/xc qtwebengine
+  if [[ $? == 0 ]]; then
+    echo "Found /usr/bin/xc* in qtwebengine, system macOS tools will be found, goodbye"
+    exit 1
+  fi
+  set -e
+fi
+
+[[ -d ${SRC_DIR}/KHR ]] && cp -rf ${SRC_DIR}/KHR ${PREFIX}/include/
+
 declare -a SKIPS=()
 if [[ ${MINIMAL_BUILD} == yes ]]; then
   SKIPS+=(-skip qtwebsockets)
@@ -25,8 +42,8 @@ COMMON_CONFIG+=(-bindir ${PREFIX}/bin)
 COMMON_CONFIG+=(-headerdir ${PREFIX}/include/qt)
 COMMON_CONFIG+=(-archdatadir ${PREFIX})
 COMMON_CONFIG+=(-datadir ${PREFIX})
-COMMON_CONFIG+=(-I ${PREFIX}/include)
-COMMON_CONFIG+=(-L ${PREFIX}/lib)
+COMMON_CONFIG+=(-I${PREFIX}/include)
+COMMON_CONFIG+=(-L${PREFIX}/lib)
 COMMON_CONFIG+=(-nomake examples)
 COMMON_CONFIG+=(-nomake tests)
 COMMON_CONFIG+=(-verbose)
@@ -77,12 +94,19 @@ WARNING_SUPPRESSIONS+=(-Wno-expansion-to-defined)
 if [[ ${target_platform} =~ .*linux.* ]]; then
   WARNING_SUPPRESSIONS+=(-Wno-maybe-uninitialized)
   WARNING_SUPPRESSIONS+=(-Wno-unused-but-set-variable)
+  # I had wanted to add -fpermissive here but Qt's configure does not allow -fflag.
+  # configure could be patched to support this but instead we'll fix this problem
+  # in the C++ source code.
 fi
-# clang-10 warnings
+# clang-10 warnings. Without these the logs are very verbose, I tried to not
+# elide any important ones that may indicate actual problems.
 if [[ ${target_platform} == osx-64 ]]; then
   WARNING_SUPPRESSIONS+=(-Wno-range-loop-construct)
   WARNING_SUPPRESSIONS+=(-Wno-deprecated-copy)
   WARNING_SUPPRESSIONS+=(-Wno-unused-const-variable)
+  WARNING_SUPPRESSIONS+=(-Wno-c++98-compat-extra-semi)
+  # Does not make it through to the QtWebEngine build where it is needed:
+  WARNING_SUPPRESSIONS+=(-Wno-enum-enum-conversion)
 fi
 
 # gmake is looked for before make, so /usr/bin/gmake can get found. We could
@@ -92,6 +116,10 @@ export MAKE=$(which make)
 # Clean config for dirty builds
 # -----------------------------
 rm -f .qmake.stash .qmake.cache || true
+
+# Trying to avoid:
+# gen/net/third_party/quiche/src/quic/core/proto/cached_network_parameters.pb.h:19:2: error: #error regenerate this file with a newer version of protoc.
+find . -name "*.proto" -exec touch {} \;
 
 if [[ ${target_platform} =~ .*linux.* ]]; then
   ln -s "${GXX}" g++ || true
@@ -154,7 +182,6 @@ else
   if [[ ! ${CC} =~ .*clang.* ]]; then
     LIBS_NATURE_ARGS+=(-reduce-relocations)
   fi
-  LIBS_NATURE_ARGS+=(-optimized-tools)
 fi
 
 sed -i'.' "s#\@BUILD_PREFIX@#${BUILD_PREFIX}#g" qtbase/mkspecs/linux-g++-64/qmake.conf || true
@@ -608,3 +635,5 @@ for f in $(find * \
   rm -rf "$LICENSE_DIR/qtwebengine/src/3rdparty/chromium/tools/checklicenses"
   rm -rf "$LICENSE_DIR/qtwebengine/src/3rdparty/chromium/third_party/skia/tools/copyright"
 done
+
+[[ -d ${SRC_DIR}/KHR ]] && rm ${PREFIX}/include/KHR

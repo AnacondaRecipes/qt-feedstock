@@ -130,6 +130,11 @@ if "%MINIMAL_BUILD%"=="yes" (
 :: for some odd reason.
 mkdir b
 pushd b
+:: Using 'openssl-linked OPENSSL_PREFIX="%LIBRARY_PREFIX%"' should mean
+:: a shared OpenSSL is used.
+:: However, 'openssl-runtime OPENSSL_INCDIR="%LIBRARY_INC%"' should mean
+:: Qt dyanmically loads the latest OpenSSL library from CONDA_PREFIX.
+:: https://doc.qt.io/qt-5/windows-requirements.html#ssl
 call ../configure ^
      -prefix %LIBRARY_PREFIX% ^
      -libdir %LIBRARY_LIB% ^
@@ -163,6 +168,7 @@ call ../configure ^
      -plugin-sql-sqlite ^
      %SKIPS% ^
      %QTC_LIBINFIX% ^
+     OPENSSL_INCDIR="%LIBRARY_INC%" ^
      -verbose 2>&1 | tee configure.log
 
 if %errorlevel% neq 0 (

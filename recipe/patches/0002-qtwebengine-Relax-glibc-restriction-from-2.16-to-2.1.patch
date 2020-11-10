@@ -1,17 +1,17 @@
-From 3469075a9d856bdfc02c6b7a0a02004b5a58aedd Mon Sep 17 00:00:00 2001
+From b36410a646aa50afb5bb7b68b08b4e73bbc6e977 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Fri, 10 Jul 2020 02:06:24 +0200
-Subject: [PATCH 2/4] qtwebengine: Relax glibc restriction from > 2.16 to >
+Subject: [PATCH 2/5] qtwebengine: Relax glibc restriction from > 2.16 to >
  2.11
 
 ---
  src/buildtools/configure.json | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/qtwebengine/src/src/buildtools/configure.json b/qtwebengine/src/src/buildtools/configure.json
+diff --git a/qtwebengine/src/buildtools/configure.json b/qtwebengine/src/buildtools/configure.json
 index 1ca6214a..328eae8c 100644
---- a/qtwebengine/src/src/buildtools/configure.json
-+++ b/qtwebengine/src/src/buildtools/configure.json
+--- a/qtwebengine/src/buildtools/configure.json
++++ b/qtwebengine/src/buildtools/configure.json
 @@ -264,13 +264,13 @@
              "type": "detectGn"
          },
@@ -30,5 +30,5 @@ index 1ca6214a..328eae8c 100644
                  ]
              }
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 
