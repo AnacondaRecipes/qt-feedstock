@@ -1,0 +1,48 @@
+From 82bffbe0715bbff82ba87c436390ca1f4af57f30 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Sun, 20 Sep 2020 01:49:15 +0200
+Subject: [PATCH 4/4] qtwebengine: Use xcodebuild not /usr/bin/xcodebuild
+
+---
+ configure.pri                     | 4 ++--
+ src/buildtools/config/mac_osx.pri | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/qtwebengine/configure.pri b/qtwebengine/configure.pri
+index 3a144e3f..3e0205b3 100644
+--- a/qtwebengine/configure.pri
++++ b/qtwebengine/configure.pri
+@@ -321,7 +321,7 @@ defineReplace(webEngineGetMacOSVersion) {
+ }
+ 
+ defineReplace(webEngineGetMacOSSDKVersion) {
+-    value = $$system("/usr/bin/xcodebuild -sdk $$QMAKE_MAC_SDK -version ProductVersion 2>/dev/null")
++    value = $$system("xcodebuild -sdk $$QMAKE_MAC_SDK -version ProductVersion 2>/dev/null")
+     return($$value)
+ }
+ 
+@@ -465,7 +465,7 @@ defineTest(qtwebengine_isMinOSXSDKVersion) {
+     requested_minor = $$2
+     requested_patch = $$3
+     isEmpty(requested_patch): requested_patch = 0
+-    WEBENGINE_OSX_SDK_PRODUCT_VERSION = $$system("/usr/bin/xcodebuild -sdk $$QMAKE_MAC_SDK -version ProductVersion 2>/dev/null")
++    WEBENGINE_OSX_SDK_PRODUCT_VERSION = $$system("xcodebuild -sdk $$QMAKE_MAC_SDK -version ProductVersion 2>/dev/null")
+     export(WEBENGINE_OSX_SDK_PRODUCT_VERSION)
+     isEmpty(WEBENGINE_OSX_SDK_PRODUCT_VERSION) {
+         qtwebengine_platformError("Could not resolve SDK product version for \'$$QMAKE_MAC_SDK\'.")
+diff --git a/qtwebengine/src/buildtools/config/mac_osx.pri b/qtwebengine/src/buildtools/config/mac_osx.pri
+index 3f2fe9c0..ea211e71 100644
+--- a/qtwebengine/src/buildtools/config/mac_osx.pri
++++ b/qtwebengine/src/buildtools/config/mac_osx.pri
+@@ -5,7 +5,7 @@ load(functions)
+ # otherwise query for it.
+ QMAKE_MAC_SDK_VERSION = $$eval(QMAKE_MAC_SDK.$${QMAKE_MAC_SDK}.SDKVersion)
+ isEmpty(QMAKE_MAC_SDK_VERSION) {
+-     QMAKE_MAC_SDK_VERSION = $$system("/usr/bin/xcodebuild -sdk $${QMAKE_MAC_SDK} -version SDKVersion 2>/dev/null")
++     QMAKE_MAC_SDK_VERSION = $$system("xcodebuild -sdk $${QMAKE_MAC_SDK} -version SDKVersion 2>/dev/null")
+      isEmpty(QMAKE_MAC_SDK_VERSION): error("Could not resolve SDK version for \'$${QMAKE_MAC_SDK}\'")
+ }
+ 
+-- 
+2.24.3 (Apple Git-128)
+

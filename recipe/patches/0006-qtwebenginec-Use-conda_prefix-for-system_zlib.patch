@@ -1,7 +1,7 @@
-From 40fcfb6069452751050ff174f7f3b92f42378158 Mon Sep 17 00:00:00 2001
+From bcaeb9dc9240826823020f6a10ba364596a71c58 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 12 Jul 2020 11:15:35 +0200
-Subject: [PATCH 06/19] qtwebenginec: Use conda_prefix for system_zlib
+Subject: [PATCH 06/13] qtwebenginec: Use conda_prefix for system_zlib
 
 ---
  chromium/build/linux/unbundle/zlib.gn            | 2 ++
@@ -22,10 +22,10 @@ index 020fc7e935a..0ddb5533dab 100644
  
  source_set("zlib") {
 diff --git a/qtwebengine/src/3rdparty/chromium/third_party/pdfium/third_party/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/pdfium/third_party/BUILD.gn
-index abc06049baf..bbed00d7233 100644
+index 307453f10bf..0870d58c952 100644
 --- a/qtwebengine/src/3rdparty/chromium/third_party/pdfium/third_party/BUILD.gn
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/pdfium/third_party/BUILD.gn
-@@ -358,6 +358,8 @@ if (!build_with_chromium) {
+@@ -359,6 +359,8 @@ if (!build_with_chromium) {
  config("system_zlib_config") {
    libs = [ "z" ]
    defines = [ "USE_SYSTEM_ZLIB" ]
@@ -35,5 +35,5 @@ index abc06049baf..bbed00d7233 100644
  
  group("zlib") {
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 

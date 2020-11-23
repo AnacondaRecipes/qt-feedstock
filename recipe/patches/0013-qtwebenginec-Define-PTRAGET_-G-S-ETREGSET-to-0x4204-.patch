@@ -1,7 +1,7 @@
-From 71271fc3a70b0986664c15e73186f788c9e662d1 Mon Sep 17 00:00:00 2001
+From c5fdde0d5ed52614a569b03063c7cf4599f3e1cb Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Thu, 9 Jul 2020 23:16:50 +0200
-Subject: [PATCH 13/19] qtwebenginec: Define PTRAGET_{G,S}ETREGSET to 0x4204
+Subject: [PATCH 13/13] qtwebenginec: Define PTRAGET_{G,S}ETREGSET to 0x4204
  and 0x4205 if not defined
 
 ---
@@ -9,7 +9,7 @@ Subject: [PATCH 13/19] qtwebenginec: Define PTRAGET_{G,S}ETREGSET to 0x4204
  1 file changed, 8 insertions(+)
 
 diff --git a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
-index 92561dcfb4d..44704a565de 100644
+index 348ab6e8c5e..7f218f31144 100644
 --- a/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 +++ b/qtwebengine/src/3rdparty/chromium/sandbox/linux/seccomp-bpf-helpers/syscall_parameters_restrictions.cc
 @@ -130,6 +130,14 @@ using sandbox::bpf_dsl::Error;
@@ -28,5 +28,5 @@ index 92561dcfb4d..44704a565de 100644
  
  #if !defined(OS_NACL_NONSFI)
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 

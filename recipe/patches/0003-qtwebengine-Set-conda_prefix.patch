@@ -1,0 +1,32 @@
+From b41b2684fec94eba8a68aff0ce2939f45bde4df8 Mon Sep 17 00:00:00 2001
+From: Ray Donnelly <mingw.android@gmail.com>
+Date: Thu, 17 Sep 2020 14:50:57 +0200
+Subject: [PATCH 3/4] qtwebengine: Set conda_prefix
+
+---
+ src/buildtools/config/common.pri | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/qtwebengine/src/buildtools/config/common.pri b/qtwebengine/src/buildtools/config/common.pri
+index 97d39535..6ded1c57 100644
+--- a/qtwebengine/src/buildtools/config/common.pri
++++ b/qtwebengine/src/buildtools/config/common.pri
+@@ -3,7 +3,15 @@ include($$QTWEBENGINE_OUT_ROOT/src/buildtools/qtbuildtools-config.pri)
+ include($$QTWEBENGINE_OUT_ROOT/src/core/qtwebenginecore-config.pri)
+ QT_FOR_CONFIG += buildtools-private webenginecore webenginecore-private
+ 
++# This is horrible, sorry:
++CONDA_PREFIX=$$dirname(QMAKE_INCDIR_WEBENGINE-ZLIB)
++message(CONDA_PREFIX from QMAKE_INCDIR_WEBENGINE-ZLIB is $$CONDA_PREFIX)
++# This is not though:
++CONDA_PREFIX=$$(PREFIX)
++message(CONDA_PREFIX from $$(PREFIX) is $$CONDA_PREFIX)
++
+ gn_args += \
++    conda_prefix=\"$$CONDA_PREFIX\" \
+     use_qt=true \
+     closure_compile=false \
+     is_component_build=false \
+-- 
+2.24.3 (Apple Git-128)
+

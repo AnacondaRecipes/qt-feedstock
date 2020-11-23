@@ -1,7 +1,7 @@
-From 14dbaeb860bb83c8ff4c03937474d62b36b66223 Mon Sep 17 00:00:00 2001
+From 577af30f7c51a448a15bb3c2fc532cf70ce566d6 Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 12 Jul 2020 10:52:09 +0200
-Subject: [PATCH 11/19] qtwebenginec: Define HAVE_SENDMMSG to 0 when glibc <
+Subject: [PATCH 11/13] qtwebenginec: Define HAVE_SENDMMSG to 0 when glibc <
  2.14
 
 ---
@@ -25,5 +25,5 @@ index ce96046e720..9c77ca6bcb1 100644
  #define HAVE_SENDMMSG 0
  #endif
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 

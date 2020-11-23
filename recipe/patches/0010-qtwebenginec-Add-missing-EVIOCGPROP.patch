@@ -1,7 +1,7 @@
-From 7c9fdf43b850f07851084f164f0699330c305b1c Mon Sep 17 00:00:00 2001
+From 236c08645bc53b7be614415e2327138f0c56a52d Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Sun, 12 Jul 2020 10:50:27 +0200
-Subject: [PATCH 10/19] qtwebenginec: Add missing EVIOCGPROP
+Subject: [PATCH 10/13] qtwebenginec: Add missing EVIOCGPROP
 
 ---
  chromium/third_party/libevdev/src/src/libevdev.c    | 4 ++++
@@ -24,7 +24,7 @@ index e920a026443..f4e9bdb6258 100644
  #ifndef EVIOCSCLOCKID
  #define EVIOCSCLOCKID  _IOW('E', 0xa0, int)
 diff --git a/qtwebengine/src/3rdparty/chromium/ui/events/ozone/evdev/event_device_info.cc b/qtwebengine/src/3rdparty/chromium/ui/events/ozone/evdev/event_device_info.cc
-index d6c07343ce7..64be7adbf74 100644
+index 3d87bcdf349..7ed941bec09 100644
 --- a/qtwebengine/src/3rdparty/chromium/ui/events/ozone/evdev/event_device_info.cc
 +++ b/qtwebengine/src/3rdparty/chromium/ui/events/ozone/evdev/event_device_info.cc
 @@ -16,6 +16,10 @@
@@ -39,5 +39,5 @@ index d6c07343ce7..64be7adbf74 100644
  
  namespace {
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 

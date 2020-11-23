@@ -1,26 +1,25 @@
-From e80b5b3fac7f21ee04970312ce4754db86e8a263 Mon Sep 17 00:00:00 2001
+From be95847be091d5651925e1a765be4e75b61e4cee Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Mon, 10 Dec 2018 15:05:47 -0600
-Subject: [PATCH 03/19] qtwebenginec: use CONDA_PREFIX/include for
+Subject: [PATCH 03/13] qtwebenginec: use CONDA_PREFIX/include for
  system_libjpeg
 
 ---
- chromium/third_party/BUILD.gn | 2 ++
- 1 file changed, 2 insertions(+)
+ chromium/third_party/BUILD.gn | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/qtwebengine/src/3rdparty/chromium/third_party/BUILD.gn b/qtwebengine/src/3rdparty/chromium/third_party/BUILD.gn
-index 6fee0b3b33b..ccd029dd701 100644
+index f0a8651e4ea..9e21b2ae15e 100644
 --- a/qtwebengine/src/3rdparty/chromium/third_party/BUILD.gn
 +++ b/qtwebengine/src/3rdparty/chromium/third_party/BUILD.gn
-@@ -32,6 +32,8 @@ if (use_system_libjpeg) {
- }
+@@ -9,6 +9,7 @@ import("//third_party/libjpeg.gni")
+ assert(!is_ios, "This is not used on iOS, don't drag it in unintentionally")
  
  config("system_libjpeg_config") {
 +  include_dirs = [ getenv("CONDA_PREFIX")+"/include" ]
-+  libs = [ "jpeg" ]
+   libs = [ "jpeg" ]
    defines = [ "USE_SYSTEM_LIBJPEG" ]
  }
- 
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 

@@ -1,7 +1,7 @@
-From 2b6e9555d273e271ce36f0d005094b3fcea7d88f Mon Sep 17 00:00:00 2001
+From 03220017b3c4ab0308ac3bb1a9ff34bf8bb018ad Mon Sep 17 00:00:00 2001
 From: Ray Donnelly <mingw.android@gmail.com>
 Date: Tue, 23 Jun 2020 16:44:29 +0200
-Subject: [PATCH 02/19] qtwebenginec: find_sdk respect CONDA_BUILD_SYSROOT
+Subject: [PATCH 02/13] qtwebenginec: find_sdk respect CONDA_BUILD_SYSROOT
 
 ---
  chromium/build/mac/find_sdk.py | 21 +++++++++++++++++++--
@@ -46,5 +46,5 @@ index 38c28832250..2d6ea9c6606 100755
    print(main())
    sys.exit(0)
 -- 
-2.23.0
+2.24.3 (Apple Git-128)
 
