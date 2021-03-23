@@ -48,7 +48,8 @@ source:
       # - patches/0009-qtbase-Fix-harcoded-sysroot-paths.patch
       - patches/0010-qtbase-Add-DISABLE_WINRT_DEPRECATION-for-WinSDK-10.0.patch
       - patches/0011-qtbase-Fix-QMAKE_LIBDIR_X11-and-QMAKE_LIBDIR_OPENGL-.patch
-      - patches/0012-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch
+      - patches/0012-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch    # [x86_64]
+      - patches/0012-qtbase-Add-hardcoded-for-AARCH64.patch    # [linux and aarch64]
       # - patches/0011-qtbase-Add-debugging-to-debug-qtConfResolveLibs-and-.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtwinextras:"" then add apply/regen instructions)
@@ -59,7 +60,7 @@ source:
       # regenerate with `git format-patch -2 --src-prefix=a/qtwebengine/ --dst-prefix=b/qtwebengine/`
       - patches/0001-qtwebengine-run-gn-verbosely.patch
       - patches/0002-qtwebengine-Relax-glibc-restriction-from-2.16-to-2.1.patch
-      - patches/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch
+#      - patches/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch  # [win]
 
       # qtwebenginec (chromium submodule)
       # apply with `pushd qtwebengine/src/3rdparty/ && git am -3 -p4 ${RECIPE_DIR}/patches/*-qtwebenginec-*.patch ; popd`
@@ -176,7 +177,8 @@ requirements:
     - pkg-config                         # [linux]
     - make                               # [unix]
     # Probably only needed for WebEngine
-    - python 2.7*
+    #- python 2.7*
+    - python
     - ninja
     - ruby                               # [linux]
     - bison                              # [linux]
@@ -192,6 +194,7 @@ requirements:
     # Otherwise build and host might end up with two different versions
     # If they do, merge_build_host will fail.
     - readline                           # [linux]
+    - zlib                               # [linux]
   host:
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]

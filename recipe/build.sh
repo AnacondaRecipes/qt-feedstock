@@ -43,7 +43,7 @@ COMMON_CONFIG+=(-dbus)
 COMMON_CONFIG+=(-no-libudev)
 
 declare -a LINUX_CONFIG=()
-LINUX_CONFIG+=(-platform linux-g++-64)
+LINUX_CONFIG+=(-platform linux-g++)
 LINUX_CONFIG+=(-sql-sqlite)
 LINUX_CONFIG+=(-sql-mysql)
 LINUX_CONFIG+=(-sql-psql)
@@ -151,16 +151,16 @@ else
   else
     LIBS_NATURE_ARGS+=(-optimize-size)
   fi
-  if [[ ! ${CC} =~ .*clang.* ]]; then
-    LIBS_NATURE_ARGS+=(-reduce-relocations)
-  fi
+#  if [[ ! ${CC} =~ .*clang.* ]]; then
+#    LIBS_NATURE_ARGS+=(-reduce-relocations)
+#  fi
   LIBS_NATURE_ARGS+=(-optimized-tools)
 fi
 
-sed -i'.' "s#\@BUILD_PREFIX@#${BUILD_PREFIX}#g" qtbase/mkspecs/linux-g++-64/qmake.conf || true
-sed -i'.' "s#\@PREFIX@#${PREFIX}#g" qtbase/mkspecs/linux-g++-64/qmake.conf || true
-grep ${BUILD_PREFIX} qtbase/mkspecs/linux-g++-64/qmake.conf || exit 1
-grep ${PREFIX} qtbase/mkspecs/linux-g++-64/qmake.conf || exit 1
+sed -i'.' "s#\@BUILD_PREFIX@#${BUILD_PREFIX}#g" qtbase/mkspecs/linux-g++/qmake.conf || true
+sed -i'.' "s#\@PREFIX@#${PREFIX}#g" qtbase/mkspecs/linux-g++/qmake.conf || true
+#grep ${BUILD_PREFIX} qtbase/mkspecs/linux-g++/qmake.conf || exit 1
+#grep ${PREFIX} qtbase/mkspecs/linux-g++/qmake.conf || exit 1
 
 MAKE_JOBS=$CPU_COUNT
 
@@ -201,6 +201,8 @@ if [[ -d qtwebkit ]]; then
     exit 1
   fi
 fi
+
+echo "CHECKPOINT1"
 
 # Problems: https://bugreports.qt.io/browse/QTBUG-61158
 #           (same thing happens for libyuv, it does not pickup the -I$PREFIX/include)
