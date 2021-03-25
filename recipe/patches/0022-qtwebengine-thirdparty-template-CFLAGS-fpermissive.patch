@@ -1,0 +1,25 @@
+From a3d125d3dbe404b4ba298766b1e490c05be21544 Mon Sep 17 00:00:00 2001
+From: Paul Yim <paul.j.yim@gmail.com>
+Date: Wed, 24 Mar 2021 16:07:21 -0400
+Subject: [PATCH] Add -fpermissive to CFLAGS to treat third-party errors as
+ warnings
+
+---
+ qtwebengine/src/3rdparty/gn/build/gen.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/qtwebengine/src/3rdparty/gn/build/gen.py b/qtwebengine/src/3rdparty/gn/build/gen.py
+index b09d32ce84..aa716fe438 100755
+--- a/qtwebengine/src/3rdparty/gn/build/gen.py
++++ b/qtwebengine/src/3rdparty/gn/build/gen.py
+@@ -314,6 +314,7 @@ def WriteGNNinja(path, platform, host, options):
+     if options.debug:
+       cflags.extend(['-O0', '-g'])
+     else:
++      cflags.append('-fpermissive')
+       cflags.append('-DNDEBUG')
+       cflags.append('-O3')
+       if options.no_strip:
+-- 
+2.24.3 (Apple Git-128)
+

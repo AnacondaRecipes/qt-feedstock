@@ -113,6 +113,10 @@ do
     unset $x
 done
 
+# TEST
+export CFLAGS="${CFLAGS} -fpermissive"
+export CXXFLAGS="${CXXFLAGS} -fpermissive"
+
 if which ccache; then
   CCACHE=-ccache
 else

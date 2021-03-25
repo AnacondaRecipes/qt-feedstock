@@ -79,11 +79,12 @@ source:
       - patches/0012-qtwebenginec-Define-HAVE_SENDMMSG-to-0-when-glibc-2..patch
       - patches/0013-qtwebenginec-__NR_renameat2-requires-glibc-2.28.patch
       - patches/0014-qtwebenginec-Define-PTRAGET_-G-S-ETREGSET-to-0x4204-.patch
-      - patches/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
+#      - patches/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
       - patches/0016-qtwebenginec-Attempt-to-get-conda_prefix-include-int.patch
       - patches/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
       - patches/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
       - patches/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch
+      - patches/0023-qtwebengine-chromium-cflags-fpermissive.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtscript:"" then add apply/regen instructions)
       - patches/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
@@ -195,6 +196,11 @@ requirements:
     # If they do, merge_build_host will fail.
     - readline                           # [linux]
     - zlib                               # [linux]
+    - m4                                 # [linux]
+    - autoconf                           # [linux]
+    - automake                           # [linux]
+    - libtool                            # [linux]
+
   host:
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]

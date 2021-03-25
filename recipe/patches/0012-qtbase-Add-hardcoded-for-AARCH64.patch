@@ -11,11 +11,12 @@ diff --git a/qtbase/mkspecs/linux-g++/qmake.conf b/qtbase/mkspecs/linux-g++/qmak
 index 35bce8f064..a43ed7aa28 100644
 --- a/qtbase/mkspecs/linux-g++/qmake.conf
 +++ b/qtbase/mkspecs/linux-g++/qmake.conf
-@@ -6,6 +6,9 @@ MAKEFILE_GENERATOR      = UNIX
+@@ -6,6 +6,10 @@ MAKEFILE_GENERATOR      = UNIX
  CONFIG                 += incremental
  QMAKE_INCREMENTAL_STYLE = sublib
  
-+# It also may work in some cases to use -Wl,-rpath-link,@PREFIX@/lib but if adding that I think preferring sysroot is best:
++QMAKE_CFLAGS += -fpermissive
++QMAKE_CXXFLAGS += -fpermissive
 +QMAKE_LFLAGS            = -L@BUILD_PREFIX@/lib -Wl,-rpath-link,@PREFIX@/lib:@BUILD_PREFIX@/aarch64-conda-linux-gnu/sysroot/usr/lib64
 +
  include(../common/linux.conf)
