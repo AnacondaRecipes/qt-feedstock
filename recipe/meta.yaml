@@ -84,7 +84,8 @@ source:
       - patches/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
       - patches/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
       - patches/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch
-      - patches/0023-qtwebengine-chromium-cflags-fpermissive.patch
+      - patches/0024-qtwebengine-chromium-correct-int-types.patch
+      - patches/0025-qtwebengine-chromium-cflags-flax-vector-conversions.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtscript:"" then add apply/regen instructions)
       - patches/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
