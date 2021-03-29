@@ -292,6 +292,7 @@ test:
     - {{ cdt('libxfixes-devel') }}       # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
     - {{ cdt('at-spi-devel') }}          # [linux]
+    - make                               # [linux]
   files:
     - xcodebuild
     - xcrun
