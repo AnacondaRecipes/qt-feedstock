@@ -89,22 +89,38 @@ fi
 # consider removing system paths during the configure process as an alternative.
 export MAKE=$(which make)
 
+
 # Clean config for dirty builds
 # -----------------------------
+echo "#### Clean config for dirty builds ####"
 rm -f .qmake.stash .qmake.cache || true
 
 if [[ ${target_platform} =~ .*linux.* ]]; then
-  ln -s "${GXX}" g++ || true
-  ln -s "${GCC}" gcc || true
+
+  if [[ ! -f ./g++ ]]; then
+    ln -s "${GXX}" g++ || true
+  fi
+
+  if [[ ! -f ./gcc ]]; then
+    ln -s "${GCC}" gcc || true
+  fi
+
   ln -s "${AR}" ar || true
+
   ln -s "${NM}" nm || true
+
   # Needed for -ltcg, it we merge build and host again, change to ${PREFIX}
-  ln -s "${GCC_AR}" gcc-ar || true
+  if [[ ! -f ./gcc-ar ]]; then
+    ln -s "${GCC_AR}" gcc-ar || true
+  fi
+
   chmod +x g++ gcc ar nm gcc-ar
 fi
 
+
 # Compile
 # -------
+echo "#### Compile ####"
 chmod +x configure
 
 # Let Qt set its own flags and vars
@@ -206,7 +222,7 @@ if [[ -d qtwebkit ]]; then
   fi
 fi
 
-echo "CHECKPOINT1"
+echo "#### Make: Configure & Install ####"
 
 # Problems: https://bugreports.qt.io/browse/QTBUG-61158
 #           (same thing happens for libyuv, it does not pickup the -I$PREFIX/include)
@@ -226,8 +242,15 @@ echo "CHECKPOINT1"
 if [[ ${target_platform} =~ .*linux.* ]]; then
 
   if [[ -n ${CCACHE} ]]; then
-    ln -s ${GXX} g++ || true
-    ln -s ${GCC} gcc || true
+
+    if [[ ! -f ./g++ ]]; then
+      ln -s "${GXX}" g++ || true
+    fi
+
+    if [[ ! -f ./gcc ]]; then
+      ln -s "${GCC}" gcc || true
+    fi
+
     # Needed for -ltcg
     ln -s ${BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
     chmod +x g++ gcc gcc-ar
@@ -393,40 +416,6 @@ if [[ ${target_platform} =~ .*linux.* ]]; then
     # fi
     CPATH=$PREFIX/include LD_LIBRARY_PATH=$PREFIX/lib make -j${MAKE_JOBS} || exit 1
     echo "done" > .status.make
-
-    # We may as well check all DSOs here. We may as well do that in CB's post.py too.
-    DSO_FILES=()
-    # find . -type f -name "libQt5WebEngine*so.*" >tmpfile
-    find . -type f \( -name "*.o" -or -name "*.so.*" \) >tmpfile
-    while IFS=  read -r; do
-      DSO_FILES+=("$REPLY")
-    done <tmpfile
-    rm -f tmpfile
-    ANY_BAD=no
-    for DSO_FILE in "${DSO_FILES[@]}"; do
-      BAD_GLIBCS=()
-      # echo "INFO :: libQt5WebEngine.so found at ${libQt5WebEngine_FILE}"
-      if [[ ${DSO_FILE} =~ .*.o ]]; then
-        NM_DYN=
-      else
-        NM_DYN=-D
-      fi
-      ${NM} ${NM_DYN} --with-symbol-versions "${DSO_FILE}" | \
-        sed -E 's|(.*)(GLIBC_2.2.*)|\2|gp;d' | \
-        sort | uniq | grep -E -v 'GLIBC_2.2.5'>tmpfile || true
-      if [[ -f tmpfile ]]; then
-        while IFS=  read -r; do
-          BAD_GLIBCS+=("$REPLY")
-          ANY_BAD=yes
-          echo "ERROR ::${DSO_FILE} links to ${REPLY}"
-        done <tmpfile
-        rm -f tmpfile
-      fi
-    done
-    if [[ ${ANY_BAD} == yes ]]; then
-      echo "ERROR :: DSOs are linking to a too-modern glibc. Something was compiled with the wrong compiler."
-      #exit 1
-    fi
   fi
   # if [[ ! -f .status.make-install ]]; then
   make install
