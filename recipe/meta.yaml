@@ -48,7 +48,8 @@ source:
       # - patches/0009-qtbase-Fix-harcoded-sysroot-paths.patch
       - patches/0010-qtbase-Add-DISABLE_WINRT_DEPRECATION-for-WinSDK-10.0.patch
       - patches/0011-qtbase-Fix-QMAKE_LIBDIR_X11-and-QMAKE_LIBDIR_OPENGL-.patch
-      - patches/0012-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch
+      - patches/0012-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch    # [x86_64]
+      - patches/0012-qtbase-Add-hardcoded-for-AARCH64.patch    # [linux and aarch64]
       # - patches/0011-qtbase-Add-debugging-to-debug-qtConfResolveLibs-and-.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtwinextras:"" then add apply/regen instructions)
@@ -59,7 +60,7 @@ source:
       # regenerate with `git format-patch -2 --src-prefix=a/qtwebengine/ --dst-prefix=b/qtwebengine/`
       - patches/0001-qtwebengine-run-gn-verbosely.patch
       - patches/0002-qtwebengine-Relax-glibc-restriction-from-2.16-to-2.1.patch
-      - patches/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch
+      - patches/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch  # [win]
 
       # qtwebenginec (chromium submodule)
       # apply with `pushd qtwebengine/src/3rdparty/ && git am -3 -p4 ${RECIPE_DIR}/patches/*-qtwebenginec-*.patch ; popd`
@@ -78,11 +79,13 @@ source:
       - patches/0012-qtwebenginec-Define-HAVE_SENDMMSG-to-0-when-glibc-2..patch
       - patches/0013-qtwebenginec-__NR_renameat2-requires-glibc-2.28.patch
       - patches/0014-qtwebenginec-Define-PTRAGET_-G-S-ETREGSET-to-0x4204-.patch
-      - patches/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
+      # - patches/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
       - patches/0016-qtwebenginec-Attempt-to-get-conda_prefix-include-int.patch
       - patches/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
       - patches/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
       - patches/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch
+      - patches/0020-qtwebengine-chromium-correct-int-types.patch
+      - patches/0021-qtwebengine-chromium-cflags-flax-vector-conversions.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtscript:"" then add apply/regen instructions)
       - patches/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
@@ -176,7 +179,7 @@ requirements:
     - pkg-config                         # [linux]
     - make                               # [unix]
     # Probably only needed for WebEngine
-    - python 2.7*
+    - python
     - ninja
     - ruby                               # [linux]
     - bison                              # [linux]
@@ -192,6 +195,12 @@ requirements:
     # Otherwise build and host might end up with two different versions
     # If they do, merge_build_host will fail.
     - readline                           # [linux]
+    - zlib                               # [linux]
+    - m4                                 # [linux]
+    - autoconf                           # [linux]
+    - automake                           # [linux]
+    - libtool                            # [linux]
+
   host:
     # For pkg-config gl, fontconfig + freetype
     - pthread-stubs                      # [linux]
@@ -282,6 +291,7 @@ test:
     - {{ cdt('libxfixes-devel') }}       # [linux]
     - {{ cdt('libxxf86vm') }}            # [linux]
     - {{ cdt('at-spi-devel') }}          # [linux]
+    - make                               # [linux]
   files:
     - xcodebuild
     - xcrun

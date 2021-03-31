@@ -1,0 +1,35 @@
+From 53fa8d17dae3cb19e212adc15eee4ada545a724a Mon Sep 17 00:00:00 2001
+From: Paul Yim <paul.j.yim@gmail.com>
+Date: Wed, 24 Mar 2021 21:32:16 -0400
+Subject: [PATCH] Add -fpermissive to cflags to treat chromium errors as
+ warnings
+
+---
+ .../src/3rdparty/chromium/build/config/compiler/BUILD.gn      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn b/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn
+index fdfcf65f5a..9fb4732d92 100644
+--- a/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn
++++ b/qtwebengine/src/3rdparty/chromium/build/config/compiler/BUILD.gn
+@@ -401,7 +401,7 @@ config("compiler") {
+   # ---------------------------------
+   if (is_linux || is_android || is_fuchsia) {
+     asmflags += [ "-fPIC" ]
+-    cflags += [ "-fPIC" ]
++    cflags += [ "-flax-vector-conversions", "-fPIC" ]
+     ldflags += [ "-fPIC" ]
+ 
+     if (!is_clang) {
+@@ -488,7 +488,7 @@ config("compiler") {
+   }
+ 
+   if (is_linux) {
+-    cflags += [ "-pthread" ]
++    cflags += [ "-flax-vector-conversions", "-pthread" ]
+     # Do not use the -pthread ldflag here since it becomes a no-op
+     # when using -nodefaultlibs, which would cause an unused argument
+     # error.  "-lpthread" is added in //build/config:default_libs.
+-- 
+2.24.3 (Apple Git-128)
+

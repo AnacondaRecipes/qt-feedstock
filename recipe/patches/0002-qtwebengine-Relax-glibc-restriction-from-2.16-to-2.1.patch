@@ -8,10 +8,10 @@ Subject: [PATCH 2/4] qtwebengine: Relax glibc restriction from > 2.16 to >
  src/buildtools/configure.json | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/qtwebengine/src/src/buildtools/configure.json b/qtwebengine/src/src/buildtools/configure.json
+diff --git a/qtwebengine/src/buildtools/configure.json b/qtwebengine/src/buildtools/configure.json
 index 1ca6214a..328eae8c 100644
---- a/qtwebengine/src/src/buildtools/configure.json
-+++ b/qtwebengine/src/src/buildtools/configure.json
+--- a/qtwebengine/src/buildtools/configure.json
++++ b/qtwebengine/src/buildtools/configure.json
 @@ -264,13 +264,13 @@
              "type": "detectGn"
          },

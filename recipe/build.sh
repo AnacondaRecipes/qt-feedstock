@@ -43,7 +43,7 @@ COMMON_CONFIG+=(-dbus)
 COMMON_CONFIG+=(-no-libudev)
 
 declare -a LINUX_CONFIG=()
-LINUX_CONFIG+=(-platform linux-g++-64)
+LINUX_CONFIG+=(-platform linux-g++)
 LINUX_CONFIG+=(-sql-sqlite)
 LINUX_CONFIG+=(-sql-mysql)
 LINUX_CONFIG+=(-sql-psql)
@@ -89,22 +89,38 @@ fi
 # consider removing system paths during the configure process as an alternative.
 export MAKE=$(which make)
 
+
 # Clean config for dirty builds
 # -----------------------------
+echo "#### Clean config for dirty builds ####"
 rm -f .qmake.stash .qmake.cache || true
 
 if [[ ${target_platform} =~ .*linux.* ]]; then
-  ln -s "${GXX}" g++ || true
-  ln -s "${GCC}" gcc || true
+
+  if [[ ! -f ./g++ ]]; then
+    ln -s "${GXX}" g++ || true
+  fi
+
+  if [[ ! -f ./gcc ]]; then
+    ln -s "${GCC}" gcc || true
+  fi
+
   ln -s "${AR}" ar || true
+
   ln -s "${NM}" nm || true
+
   # Needed for -ltcg, it we merge build and host again, change to ${PREFIX}
-  ln -s "${GCC_AR}" gcc-ar || true
+  if [[ ! -f ./gcc-ar ]]; then
+    ln -s "${GCC_AR}" gcc-ar || true
+  fi
+
   chmod +x g++ gcc ar nm gcc-ar
 fi
 
+
 # Compile
 # -------
+echo "#### Compile ####"
 chmod +x configure
 
 # Let Qt set its own flags and vars
@@ -112,6 +128,10 @@ for x in OSX_ARCH CFLAGS CXXFLAGS LDFLAGS
 do
     unset $x
 done
+
+# TEST
+export CFLAGS="${CFLAGS} -fpermissive"
+export CXXFLAGS="${CXXFLAGS} -fpermissive"
 
 if which ccache; then
   CCACHE=-ccache
@@ -151,16 +171,16 @@ else
   else
     LIBS_NATURE_ARGS+=(-optimize-size)
   fi
-  if [[ ! ${CC} =~ .*clang.* ]]; then
-    LIBS_NATURE_ARGS+=(-reduce-relocations)
-  fi
+#  if [[ ! ${CC} =~ .*clang.* ]]; then
+#    LIBS_NATURE_ARGS+=(-reduce-relocations)
+#  fi
   LIBS_NATURE_ARGS+=(-optimized-tools)
 fi
 
-sed -i'.' "s#\@BUILD_PREFIX@#${BUILD_PREFIX}#g" qtbase/mkspecs/linux-g++-64/qmake.conf || true
-sed -i'.' "s#\@PREFIX@#${PREFIX}#g" qtbase/mkspecs/linux-g++-64/qmake.conf || true
-grep ${BUILD_PREFIX} qtbase/mkspecs/linux-g++-64/qmake.conf || exit 1
-grep ${PREFIX} qtbase/mkspecs/linux-g++-64/qmake.conf || exit 1
+sed -i'.' "s#\@BUILD_PREFIX@#${BUILD_PREFIX}#g" qtbase/mkspecs/linux-g++/qmake.conf || true
+sed -i'.' "s#\@PREFIX@#${PREFIX}#g" qtbase/mkspecs/linux-g++/qmake.conf || true
+#grep ${BUILD_PREFIX} qtbase/mkspecs/linux-g++/qmake.conf || exit 1
+#grep ${PREFIX} qtbase/mkspecs/linux-g++/qmake.conf || exit 1
 
 MAKE_JOBS=$CPU_COUNT
 
@@ -202,6 +222,8 @@ if [[ -d qtwebkit ]]; then
   fi
 fi
 
+echo "#### Make: Configure & Install ####"
+
 # Problems: https://bugreports.qt.io/browse/QTBUG-61158
 #           (same thing happens for libyuv, it does not pickup the -I$PREFIX/include)
 # Something to do with BUILD.gn files and/or ninja
@@ -220,8 +242,15 @@ fi
 if [[ ${target_platform} =~ .*linux.* ]]; then
 
   if [[ -n ${CCACHE} ]]; then
-    ln -s ${GXX} g++ || true
-    ln -s ${GCC} gcc || true
+
+    if [[ ! -f ./g++ ]]; then
+      ln -s "${GXX}" g++ || true
+    fi
+
+    if [[ ! -f ./gcc ]]; then
+      ln -s "${GCC}" gcc || true
+    fi
+
     # Needed for -ltcg
     ln -s ${BUILD_PREFIX}/bin/${HOST}-gcc-ar gcc-ar || true
     chmod +x g++ gcc gcc-ar
@@ -387,40 +416,6 @@ if [[ ${target_platform} =~ .*linux.* ]]; then
     # fi
     CPATH=$PREFIX/include LD_LIBRARY_PATH=$PREFIX/lib make -j${MAKE_JOBS} || exit 1
     echo "done" > .status.make
-
-    # We may as well check all DSOs here. We may as well do that in CB's post.py too.
-    DSO_FILES=()
-    # find . -type f -name "libQt5WebEngine*so.*" >tmpfile
-    find . -type f \( -name "*.o" -or -name "*.so.*" \) >tmpfile
-    while IFS=  read -r; do
-      DSO_FILES+=("$REPLY")
-    done <tmpfile
-    rm -f tmpfile
-    ANY_BAD=no
-    for DSO_FILE in "${DSO_FILES[@]}"; do
-      BAD_GLIBCS=()
-      # echo "INFO :: libQt5WebEngine.so found at ${libQt5WebEngine_FILE}"
-      if [[ ${DSO_FILE} =~ .*.o ]]; then
-        NM_DYN=
-      else
-        NM_DYN=-D
-      fi
-      ${NM} ${NM_DYN} --with-symbol-versions "${DSO_FILE}" | \
-        sed -E 's|(.*)(GLIBC_2.2.*)|\2|gp;d' | \
-        sort | uniq | grep -E -v 'GLIBC_2.2.5'>tmpfile || true
-      if [[ -f tmpfile ]]; then
-        while IFS=  read -r; do
-          BAD_GLIBCS+=("$REPLY")
-          ANY_BAD=yes
-          echo "ERROR ::${DSO_FILE} links to ${REPLY}"
-        done <tmpfile
-        rm -f tmpfile
-      fi
-    done
-    if [[ ${ANY_BAD} == yes ]]; then
-      echo "ERROR :: DSOs are linking to a too-modern glibc. Something was compiled with the wrong compiler."
-      exit 1
-    fi
   fi
   # if [[ ! -f .status.make-install ]]; then
   make install
