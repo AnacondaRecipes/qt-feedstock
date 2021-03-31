@@ -60,7 +60,7 @@ source:
       # regenerate with `git format-patch -2 --src-prefix=a/qtwebengine/ --dst-prefix=b/qtwebengine/`
       - patches/0001-qtwebengine-run-gn-verbosely.patch
       - patches/0002-qtwebengine-Relax-glibc-restriction-from-2.16-to-2.1.patch
-#      - patches/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch  # [win]
+      - patches/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch  # [win]
 
       # qtwebenginec (chromium submodule)
       # apply with `pushd qtwebengine/src/3rdparty/ && git am -3 -p4 ${RECIPE_DIR}/patches/*-qtwebenginec-*.patch ; popd`
@@ -79,13 +79,13 @@ source:
       - patches/0012-qtwebenginec-Define-HAVE_SENDMMSG-to-0-when-glibc-2..patch
       - patches/0013-qtwebenginec-__NR_renameat2-requires-glibc-2.28.patch
       - patches/0014-qtwebenginec-Define-PTRAGET_-G-S-ETREGSET-to-0x4204-.patch
-#      - patches/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
+      # - patches/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
       - patches/0016-qtwebenginec-Attempt-to-get-conda_prefix-include-int.patch
       - patches/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
       - patches/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
       - patches/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch
-      - patches/0024-qtwebengine-chromium-correct-int-types.patch
-      - patches/0025-qtwebengine-chromium-cflags-flax-vector-conversions.patch
+      - patches/0020-qtwebengine-chromium-correct-int-types.patch
+      - patches/0021-qtwebengine-chromium-cflags-flax-vector-conversions.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtscript:"" then add apply/regen instructions)
       - patches/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
@@ -179,7 +179,6 @@ requirements:
     - pkg-config                         # [linux]
     - make                               # [unix]
     # Probably only needed for WebEngine
-    #- python 2.7*
     - python
     - ninja
     - ruby                               # [linux]
