@@ -99,6 +99,10 @@ source:
       - patches/0004-qtwebkit-CentOS5-Fix-fucomip-compat-with-gas-2.17.50.patch                                           # [qtwebkit == 'true']
       - patches/0006-qtwebkit-WTF--StringImpl--copyChars-segfaults-when-built-with-GCC-7.patch                            # [qtwebkit == 'true']
 
+  - url: https://download.qt.io/archive/qt/5.15/5.15.0/submodules/qtx11extras-everywhere-src-5.15.0.tar.xz
+    sha256: c72b6c188284facddcf82835af048240e721dc8d6d9e8a7bd71d76fd876881a1
+    folder: qtx11extras
+
   - url: http://download.qt.io/development_releases/prebuilt/llvmpipe/windows/opengl32sw-32-mesa_12_0_rc2.7z      # [win32]
     sha256: 656015ab03a6686854b920a0a0bf77b4e46525ee8d5396bf04a49ef80a53427d                                      # [win32]
     folder: opengl32sw                                                                                            # [win32]
@@ -108,11 +112,14 @@ source:
     folder: opengl32sw                                                                                            # [win64]
 
 build:
-  number: 0
+  number: 1
   skip: True  # [win and vc != 14]
   detect_binary_files_with_prefix: true
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
+  ignore_run_exports:
+    - libxml2
+    - openssl
   missing_dso_whitelist:  # [osx]
     - /usr/lib/libbsm.0.dylib  # [osx]
     - /usr/lib/libcups.2.dylib  # [osx]
@@ -182,7 +189,7 @@ requirements:
     - python
     - ninja
     - ruby                               # [linux]
-    - bison                              # [linux]
+    - bison 3.6.4                        # [linux]
     - flex                               # [linux]
     - gperf                              # [linux]
     - m2-gperf                           # [win]
@@ -239,6 +246,7 @@ requirements:
     - postgresql                         # [not win]
     - zlib
     - libxcb                             # [linux]
+    - krb5                               # [linux]
     # We cannot install OpenSSL into the prefix when building qtwebengine
     # on linux as BoringSSL and OpenSSL then conflict with each other.
     - openssl                            # [win]
@@ -251,6 +259,7 @@ requirements:
   run:
     - openssl                            # [not osx]
     - libxcb                             # [linux]
+    - krb5                               # [linux]
     {% if minimal_build == 'no' %}
     - {{ pin_compatible("nss") }}        # [unix]
     - {{ pin_compatible("nspr") }}       # [unix]

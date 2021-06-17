@@ -513,6 +513,16 @@ fi
 #   make install
 # popd
 
+# Qt X11 Extras
+# ---------
+echo "Building qtx11extras..."
+pushd qtx11extras
+  ${PREFIX}/bin/qmake qtx11extras.pro PREFIX=${PREFIX}
+  make
+  make install
+popd
+echo "...done building qt11extras"
+
 if [[ ${target_platform} == osx-64 ]]; then
   rm -f "${PREFIX}"/bin/libtool || true
   rm -f "${PREFIX}"/bin/strip || true
