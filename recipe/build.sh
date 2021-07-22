@@ -55,7 +55,6 @@ if [[ $(uname) == "Linux" ]]; then
              -nomake examples \
              -nomake tests \
              -gstreamer 1.0 \
-             -skip qtwebengine \
              -confirm-license \
              -system-libjpeg \
              -system-libpng \
@@ -113,7 +112,6 @@ if [[ $(uname) == "Darwin" ]]; then
              -opensource \
              -nomake examples \
              -nomake tests \
-             -skip qtwebengine \
              -confirm-license \
              -system-libjpeg \
              -system-libpng \
@@ -124,6 +122,11 @@ if [[ $(uname) == "Darwin" ]]; then
              # -sdk macosx10.14
 
 fi
+
+
+# 7/22/2021: PJY TEST
+MAKE_JOBS=$CPU_COUNT
+CPATH=$PREFIX/include LD_LIBRARY_PATH=$PREFIX/lib make -j${MAKE_JOBS} || exit 1
 
 # exit 1
 make -j$NPROC

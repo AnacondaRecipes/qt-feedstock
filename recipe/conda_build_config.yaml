@@ -1,4 +1,6 @@
-cdt_name: cos7             # [linux]
+cdt_name: 
+  - cos7             # [linux and not aarch64]
+  - amzn2            # [linux and aarch64]
 MACOSX_DEPLOYMENT_TARGET:  # [osx]
   - '10.14'                # [osx]
 MACOSX_SDK_VERSION:        # [osx and x86_64]
