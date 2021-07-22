@@ -129,7 +129,7 @@ MAKE_JOBS=$CPU_COUNT
 CPATH=$PREFIX/include LD_LIBRARY_PATH=$PREFIX/lib make -j${MAKE_JOBS} || exit 1
 
 # exit 1
-make -j$NPROC
+#make -j$NPROC
 make install
 
 
