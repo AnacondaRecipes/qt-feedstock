@@ -79,8 +79,6 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ cdt('alsa-lib-devel') }}            # [linux]
     - {{ cdt('cups-devel') }}                # [linux]
-#    - {{ cdt('expat-devel') }}               # [linux]
-    - expat                                  # [linux]
     - {{ cdt('gtk2-devel') }}                # [linux]
     - {{ cdt('gtkmm24-devel') }}             # [linux]
     - {{ cdt('libdrm-devel') }}              # [linux]
@@ -88,9 +86,6 @@ requirements:
     - {{ cdt('libselinux') }}                # [linux]
     - {{ cdt('libx11-devel') }}              # [linux]
     - {{ cdt('libxau-devel') }}              # [linux]
-#    - {{ cdt('libxcb-devel') }}              # [linux]
-#    - {{ cdt('libxcb') }}                    # [linux]
-    - libxcb                                 # [linux]
     - {{ cdt('libxcomposite-devel') }}       # [linux]
     - {{ cdt('libxcursor-devel') }}          # [linux]
     - {{ cdt('libxdamage-devel') }}          # [linux]
@@ -122,8 +117,10 @@ requirements:
     - binutils                               # [linux and aarch64]
     - bison                                  # [linux]
     - cmake
+    - expat                                  # [linux]
     - flex                                   # [linux]
     - gperf                                  # [linux]
+    - libxcb                                 # [linux]
     - llvm                                   # [osx]
     - make                                   # [unix]
     - ninja
