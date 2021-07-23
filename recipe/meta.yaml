@@ -1,4 +1,4 @@
-{% set name = "qt-main" %}
+{% set name = "qt" %}
 {% set version = "5.15.2" %}
 
 package:
@@ -71,116 +71,110 @@ source:
     md5: f960efa8dc1e99df088d32bc1bc2157c  # [win]
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - {{ cdt('mesa-libgl-devel') }}  # [linux]
-    - {{ cdt('mesa-dri-drivers') }}  # [linux]
-    - {{ cdt('libselinux') }}  # [linux]
-    - {{ cdt('libxdamage') }}  # [linux]
-    - {{ cdt('libxxf86vm') }}  # [linux]
-    - {{ cdt('libxext') }}     # [linux]
-    - {{ cdt('alsa-lib-devel') }}    # [linux]
-    - {{ cdt('cups-devel') }}    # [linux]
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - {{ cdt('libxext-devel') }}         # [linux]
-    - {{ cdt('libxrender-devel') }}      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-libegl-devel') }}     # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxau-devel') }}          # [linux]
-    - {{ cdt('alsa-lib-devel') }}        # [linux]
-    - {{ cdt('gtk2-devel') }}            # [linux]
-    - {{ cdt('gtkmm24-devel') }}         # [linux]
-    - {{ cdt('libdrm-devel') }}          # [linux]
-    - {{ cdt('libxcomposite-devel') }}   # [linux]
-    - {{ cdt('libxcursor-devel') }}      # [linux]
-    - {{ cdt('libxi-devel') }}           # [linux]
-    - {{ cdt('libxrandr-devel') }}       # [linux]
-    - {{ cdt('pciutils-devel') }}        # [linux]
-    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
-    - {{ cdt('libxtst-devel') }}         # [linux]
-    - {{ cdt('libselinux-devel') }}      # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxdamage-devel') }}      # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxfixes-devel') }}       # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
-    - {{ cdt('libxxf86vm-devel') }}      # [linux]
-    - {{ cdt('cups-devel') }}            # [linux]
-    - {{ cdt('libxcb') }}                # [linux]
-    - {{ cdt('expat-devel') }}           # [linux]
-    - {{ cdt('libxcb-devel') }}          # [linux]
-    - {{ cdt('libxkbcommon-devel') }}    # [linux]
-    - {{ cdt('xcb-util-devel') }}        # [linux]
-    - {{ cdt('xcb-util-image-devel') }}  # [linux]
-    - {{ cdt('xcb-util-keysyms-devel') }}  # [linux]
-    - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
-    - {{ cdt('xcb-util-wm-devel') }}  # [linux]
-    # - {{ cdt('pcre') }}                  # [linux and cdt_name != 'cos6']
-    # - {{ cdt('libglvnd-glx') }}          # [linux and cdt_name != 'cos6']
-    - pkg-config                         # [unix]
-    - make                               # [unix]
+    - {{ cdt('alsa-lib-devel') }}            # [linux]
+    - {{ cdt('cups-devel') }}                # [linux]
+#    - {{ cdt('expat-devel') }}               # [linux]
+    - expat                                  # [linux]
+    - {{ cdt('gtk2-devel') }}                # [linux]
+    - {{ cdt('gtkmm24-devel') }}             # [linux]
+    - {{ cdt('libdrm-devel') }}              # [linux]
+    - {{ cdt('libselinux-devel') }}          # [linux]
+    - {{ cdt('libselinux') }}                # [linux]
+    - {{ cdt('libx11-devel') }}              # [linux]
+    - {{ cdt('libxau-devel') }}              # [linux]
+#    - {{ cdt('libxcb-devel') }}              # [linux]
+#    - {{ cdt('libxcb') }}                    # [linux]
+    - libxcb                                 # [linux]
+    - {{ cdt('libxcomposite-devel') }}       # [linux]
+    - {{ cdt('libxcursor-devel') }}          # [linux]
+    - {{ cdt('libxdamage-devel') }}          # [linux]
+    - {{ cdt('libxdamage') }}                # [linux]
+    - {{ cdt('libxext-devel') }}             # [linux]
+    - {{ cdt('libxext') }}                   # [linux]
+    - {{ cdt('libxfixes-devel') }}           # [linux]
+    - {{ cdt('libxfixes') }}                 # [linux]
+    - {{ cdt('libxi-devel') }}               # [linux]
+    - {{ cdt('libxkbcommon-devel') }}        # [linux]
+    - {{ cdt('libxrandr-devel') }}           # [linux]
+    - {{ cdt('libxrender-devel') }}          # [linux]
+    - {{ cdt('libxscrnsaver-devel') }}       # [linux]
+    - {{ cdt('libxtst-devel') }}             # [linux]
+    - {{ cdt('libxxf86vm-devel') }}          # [linux]
+    - {{ cdt('libxxf86vm') }}                # [linux]
+    - {{ cdt('mesa-dri-drivers') }}          # [linux]
+    - {{ cdt('mesa-libegl-devel') }}         # [linux]
+    - {{ cdt('mesa-libgl-devel') }}          # [linux]
+    - {{ cdt('pciutils-devel') }}            # [linux]
+    - {{ cdt('xcb-util-devel') }}            # [linux]
+    - {{ cdt('xcb-util-image-devel') }}      # [linux]
+    - {{ cdt('xcb-util-keysyms-devel') }}    # [linux]
+    - {{ cdt('xcb-util-renderutil-devel') }} # [linux]
+    - {{ cdt('xcb-util-wm-devel') }}         # [linux]
+    - {{ cdt('xorg-x11-proto-devel') }}      # [linux]
+    # - {{ cdt('pcre') }}                      # [linux and cdt_name != 'cos6']
+    # - {{ cdt('libglvnd-glx') }}              # [linux and cdt_name != 'cos6']
+    - binutils                               # [linux and aarch64]
+    - bison                                  # [linux]
     - cmake
+    - flex                                   # [linux]
+    - gperf                                  # [linux]
+    - llvm                                   # [osx]
+    - make                                   # [unix]
     - ninja
-    - ruby >=2.5                         # [linux]
-    - bison                              # [linux]
-    - flex                               # [linux]
-    - gperf                              # [linux]
     - perl 5.*
-    - readline                           # [linux]
-    - llvm                               # [osx]
-    - binutils                           # [linux and aarch64]
+    - pkg-config                             # [unix]
+    - readline                               # [linux]
+    - ruby >=2.5                             # [linux]
   host:
+    - dbus                                   # [linux]
+    - expat                                  # [linux]
+    - fontconfig                             # [linux]
+    - freetype                               # [linux]
+    - glib                                   # [linux]
+    - gst-plugins-base                       # [not arm64]
+    - gstreamer                              # [not arm64]
     - gtk3
-    # - libpng
-    - libjpeg-turbo
-    - pulseaudio                         # [linux and not aarch64]
-    # - gstreamer                          # [not arm64]
-    - pthread-stubs                      # [linux]
-    - dbus                               # [linux]
-    - fontconfig                         # [linux]
-    - freetype                           # [linux]
-    - gst-plugins-base                   # [not arm64]
-    - gstreamer                          # [not arm64]
-    - glib                            # [linux]
-    - libxml2                            # [linux]
-    - libxslt                            # [linux]
-    - libxkbcommon                       # [linux]
-    - expat                              # [linux]
-    - libevent                           # [linux]
-    - libwebp                            # [linux]
     - icu
     - jpeg
-    - libpng
+    - libevent                               # [linux]
     - libiconv
-    - nspr                               # [unix]
-    - nss                                # [unix]
-    - sqlite
-    - mysql-devel                        # [not win]
-    - postgresql                         # [not win]
-    - zlib
-    - libxcb                             # [linux]
-    - openssl                            # [win]
-  run:
-    - gtk3
-    - libpng
     - libjpeg-turbo
-    - jpeg
-    - pulseaudio                         # [linux and not aarch64]
-    - gstreamer                          # [not arm64]
-    - libtiff
-    - zstd
+    - libpng
+    - libwebp                                # [linux]
+    - libxcb                                 # [linux]
+    - libxkbcommon                           # [linux]
+    - libxml2                                # [linux]
+    - libxslt                                # [linux]
+    - mysql-devel                            # [not win]
+    - nspr                                   # [unix]
+    - nss                                    # [unix]
+    - openssl                                # [win]
+    - postgresql                             # [not win]
+    - pthread-stubs                          # [linux]
+    - pulseaudio                             # [linux and not aarch64]
+    - sqlite
     - zlib
-    - icu
+  run:
     - freetype
-    - sqlite                             # [not win]
-    - libxslt                            # [linux]
-    - libwebp                            # [linux]
+    - gstreamer                              # [not arm64]
+    - gtk3
+    - icu
+    - jpeg
+    - libjpeg-turbo
+    - libpng
+    - libtiff
+    - libwebp                                # [linux]
+    - libxslt                                # [linux]
+    - pulseaudio                             # [linux and not aarch64]
+    - sqlite                                 # [not win]
+    - zlib
+    - zstd
 
 test:
   requires:

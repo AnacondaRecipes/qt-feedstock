@@ -123,15 +123,11 @@ if [[ $(uname) == "Darwin" ]]; then
 
 fi
 
+# 7/23/2021 PJY: Specifying the CPATH and LD_LIBRARY_PATH seem to be important for
+# finding additional headers and libs (e.g. event.h).
+CPATH=$PREFIX/include LD_LIBRARY_PATH=$PREFIX/lib make -j${CPU_COUNT} || exit 1
 
-# 7/22/2021: PJY TEST
-MAKE_JOBS=$CPU_COUNT
-CPATH=$PREFIX/include LD_LIBRARY_PATH=$PREFIX/lib make -j${MAKE_JOBS} || exit 1
-
-# exit 1
-#make -j$NPROC
 make install
-
 
 # Remove XCB headers
 rm -rf $PREFIX/include/xcb
