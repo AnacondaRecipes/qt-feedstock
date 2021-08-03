@@ -38,7 +38,7 @@ if [[ $(uname) == "Linux" ]]; then
    export PATH=${PWD}:${PATH}
 
    # Copy XCB headers to PREFIX
-   cp -r /usr/include/xcb $PREFIX/include
+   #cp -r /usr/include/xcb $PREFIX/include
    NPROC=$(nproc)
 
   ../configure -prefix ${PREFIX} \
@@ -112,7 +112,7 @@ if [[ $(uname) == "Darwin" ]]; then
              -opensource \
              -nomake examples \
              -nomake tests \
-             -confirm-license \
+	     -confirm-license \
              -system-libjpeg \
              -system-libpng \
              -system-zlib \

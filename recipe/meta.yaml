@@ -60,8 +60,8 @@ source:
       - patches_AR/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
       - patches_AR/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
       - patches_AR/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch            # [win]
-      #- patches_AR/0020-qtwebengine-chromium-correct-int-types.patch
-      #- patches_AR/0021-qtwebengine-chromium-cflags-flax-vector-conversions.patch
+      - patches_AR/0020-qtwebengine-chromium-correct-int-types.patch               # [linux and aarch64]
+      - patches_AR/0021-qtwebengine-chromium-cflags-flax-vector-conversions.patch  # [linux and aarch64]
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtscript:"" then add apply/regen instructions)
       - patches_AR/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
@@ -71,7 +71,7 @@ source:
     md5: f960efa8dc1e99df088d32bc1bc2157c  # [win]
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -141,7 +141,6 @@ requirements:
     - jpeg
     - libevent                               # [linux]
     - libiconv
-    - libjpeg-turbo
     - libpng
     - libwebp                                # [linux]
     - libxcb                                 # [linux]
@@ -163,7 +162,6 @@ requirements:
     - gtk3
     - icu
     - jpeg
-    - libjpeg-turbo
     - libpng
     - libtiff
     - libwebp                                # [linux]
