@@ -71,7 +71,7 @@ source:
     md5: f960efa8dc1e99df088d32bc1bc2157c  # [win]
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -147,7 +147,7 @@ requirements:
     - libxkbcommon                           # [linux]
     - libxml2                                # [linux]
     - libxslt                                # [linux]
-    - mysql-devel                            # [not win]
+    - mysql                                  # [not win]
     - nspr                                   # [unix]
     - nss                                    # [unix]
     - openssl                                # [win]
