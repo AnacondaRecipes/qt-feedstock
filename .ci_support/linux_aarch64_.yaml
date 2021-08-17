@@ -1,57 +1,63 @@
+BUILD:
+- aarch64-conda_cos7-linux-gnu
 c_compiler:
 - gcc
 c_compiler_version:
-- '7'
+- '9'
+cdt_arch:
+- aarch64
+cdt_name:
+- cos7
 channel_sources:
-- conda-forge,defaults
+- conda-forge
 channel_targets:
 - conda-forge main
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '7'
+- '9'
 dbus:
 - '1'
 docker_image:
-- condaforge/linux-anvil-comp7
+- quay.io/condaforge/linux-anvil-aarch64
 expat:
-- '2.2'
+- '2'
 fontconfig:
 - '2.13'
 freetype:
-- 2.9.1
-glib:
-- '2.58'
+- '2'
 gst_plugins_base:
-- 1.14.4
+- '1.18'
 gstreamer:
-- 1.14.4
+- '1.18'
 icu:
-- '64.2'
-jpeg:
-- '9'
+- '68'
+libevent:
+- 2.1.10
+libiconv:
+- '1.16'
+libjpeg_turbo:
+- '2'
 libpng:
 - '1.6'
 libxml2:
 - '2.9'
 nspr:
-- '4.20'
+- '4'
 nss:
-- '3.39'
-openssl:
-- 1.1.1a
+- '3'
 pin_run_as_build:
   dbus:
     max_pin: x
-  expat:
-    max_pin: x.x
   fontconfig:
     max_pin: x
   freetype:
     max_pin: x
-  icu:
-    max_pin: x
-  jpeg:
+  libevent:
+    max_pin: x.x.x
+  libiconv:
+    max_pin: x.x
+  libjpeg_turbo:
     max_pin: x
   libpng:
     max_pin: x.x
@@ -61,8 +67,6 @@ pin_run_as_build:
     max_pin: x
   nss:
     max_pin: x
-  openssl:
-    max_pin: x.x.x
   readline:
     max_pin: x
   sqlite:
@@ -70,8 +74,13 @@ pin_run_as_build:
   zlib:
     max_pin: x.x
 readline:
-- '8.0'
+- '8'
 sqlite:
 - '3'
+target_platform:
+- linux-aarch64
+zip_keys:
+- - c_compiler_version
+  - cxx_compiler_version
 zlib:
 - '1.2'

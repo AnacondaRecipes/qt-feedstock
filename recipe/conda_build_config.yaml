@@ -1,28 +1,7 @@
-CONDA_BUILD_SYSROOT:
-  - /opt/MacOSX10.14.sdk
-macos_min_version:
-  - 10.14
-macos_machine:
-  - x86_64-apple-darwin13.4.0
-MACOSX_DEPLOYMENT_TARGET:
-  - 10.14
-replacements:
-  all_replacements:
-    - tag: 'pkg-config build metadata'
-      glob_patterns:
-        - '*.pc'
-      regex_re: '(?:-L|-I)?\"?([^;\s]+\/sysroot\/)'
-      replacement_re: '$(CONDA_BUILD_SYSROOT_S)'
-      regex_rg: '([^;\s"]+/sysroot/)'
-    - tag: 'CMake build metadata'
-      glob_patterns:
-        - '*.cmake'
-      regex_re: '([^;\s"]+/sysroot)'
-      replacement_re: '$ENV{CONDA_BUILD_SYSROOT}'
-    - tag: 'qmake build metadata'
-      glob_patterns:
-        - '*.pri'
-        - '*.prl'
-      regex_re: '(?:-L|-I)?\"?([^;\s]+\/sysroot)'
-      replacement_re: '$(CONDA_BUILD_SYSROOT)'
-      regex_rg: '([^;\s"]+/sysroot)'
+cdt_name: 
+  - cos7             # [linux and not aarch64]
+  - amzn2            # [linux and aarch64]
+MACOSX_DEPLOYMENT_TARGET:  # [osx]
+  - '10.14'                # [osx]
+MACOSX_SDK_VERSION:        # [osx and x86_64]
+  - '10.14'                # [osx and x86_64]
