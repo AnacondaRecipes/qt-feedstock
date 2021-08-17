@@ -140,7 +140,7 @@ requirements:
     - icu
     - jpeg
     - libevent                               # [linux]
-    - libiconv
+    - libiconv                               # [not aarch64]
     - libpng
     - libwebp                                # [linux]
     - libxcb                                 # [linux]
@@ -154,7 +154,7 @@ requirements:
     - postgresql                             # [not win]
     - pthread-stubs                          # [linux]
     - pulseaudio                             # [linux and not aarch64]
-    - sqlite
+    - sqlite                                 # [not aarch64]
     - zlib
   run:
     - freetype
@@ -167,7 +167,7 @@ requirements:
     - libwebp                                # [linux]
     - libxslt                                # [linux]
     - pulseaudio                             # [linux and not aarch64]
-    - sqlite                                 # [not win]
+    - sqlite                                 # [not (win or aarch64)]
     - zlib
     - zstd
 
