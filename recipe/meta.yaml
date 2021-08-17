@@ -71,7 +71,7 @@ source:
     md5: f960efa8dc1e99df088d32bc1bc2157c  # [win]
 
 build:
-  number: 2
+  number: 3
 
 requirements:
   build:
@@ -172,8 +172,6 @@ requirements:
     - zstd
 
 test:
-  script_env:
-    - MINIMAL_BUILD={{ minimal_build }}
   requires:
     - {{ compiler('cxx') }}
     - make                               # [linux]
@@ -207,14 +205,12 @@ test:
     - {{ cdt('pcre') }}                  # [linux]
     - {{ cdt('libglvnd-glx') }}          # [linux]
   files:
-    - xcodebuild
-    - xcrun
+    - test/hello.pro
+    - test/main-qtwebengine.cpp
     - test/main.cpp
     - test/main.qml
     - test/qml.qrc
     - test/qrc_qml.cpp
-{% if minimal_build == 'no' %}
-    - test/hello.pro
     - test/qtwebengine.pro
 
 about:
@@ -231,4 +227,4 @@ about:
 extra:
   recipe-maintainers:
     - andfoy
-    - ccordoba12
+    - ccordoba11
