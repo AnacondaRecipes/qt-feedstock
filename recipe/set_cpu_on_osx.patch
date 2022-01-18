@@ -1,0 +1,15 @@
+Index: work/qtwebengine/src/buildtools/config/mac_osx.pri
+===================================================================
+--- work.orig/qtwebengine/src/buildtools/config/mac_osx.pri
++++ work/qtwebengine/src/buildtools/config/mac_osx.pri
+@@ -24,8 +24,10 @@ QMAKE_CLANG_PATH = "$${QMAKE_CLANG_DIR}/
+ message("Using clang++ from $${QMAKE_CLANG_PATH}")
+ system("$${QMAKE_CLANG_PATH} --version")
+ 
++GN_HOST_CPU = $$gnArch($$QT_ARCH)
+ 
+ gn_args += \
++    host_cpu=\"$$GN_HOST_CPU\" \
+     is_clang=true \
+     use_sysroot=false \
+     use_system_xcode=true \

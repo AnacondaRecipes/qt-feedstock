@@ -1,0 +1,24 @@
+Index: work/qtwebengine/src/3rdparty/chromium/sandbox/mac/sandbox_logging.cc
+===================================================================
+--- work.orig/qtwebengine/src/3rdparty/chromium/sandbox/mac/sandbox_logging.cc
++++ work/qtwebengine/src/3rdparty/chromium/sandbox/mac/sandbox_logging.cc
+@@ -15,12 +15,19 @@
+ #include <limits>
+ #include <string>
+ 
++#ifdef __arm64__
++#define ABORT()                                                                \
++  {                                                                            \
++    __builtin_unreachable();                                                   \
++  }
++#else
+ #define ABORT()                                                                \
+   {                                                                            \
+     asm volatile(                                                              \
+         "int3; ud2; push %0;" ::"i"(static_cast<unsigned char>(__COUNTER__))); \
+     __builtin_unreachable();                                                   \
+   }
++#endif
+ 
+ extern "C" {
+ void abort_report_np(const char*, ...);

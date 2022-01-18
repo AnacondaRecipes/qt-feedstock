@@ -1,0 +1,22 @@
+Index: qt-everywhere-src-5.15.2/qtwebengine/src/3rdparty/chromium/v8/src/base/build_config.h
+===================================================================
+--- qt-everywhere-src-5.15.2.orig/qtwebengine/src/3rdparty/chromium/v8/src/base/build_config.h
++++ qt-everywhere-src-5.15.2/qtwebengine/src/3rdparty/chromium/v8/src/base/build_config.h
+@@ -21,7 +21,7 @@
+ #elif defined(_M_IX86) || defined(__i386__)
+ #define V8_HOST_ARCH_IA32 1
+ #define V8_HOST_ARCH_32_BIT 1
+-#elif defined(__AARCH64EL__) || defined(_M_ARM64)
++#elif defined(__AARCH64EL__) || defined(_M_ARM64) || defined(__arm64__)
+ #define V8_HOST_ARCH_ARM64 1
+ #define V8_HOST_ARCH_64_BIT 1
+ #elif defined(__ARMEL__)
+@@ -82,7 +82,7 @@
+ #define V8_TARGET_ARCH_X64 1
+ #elif defined(_M_IX86) || defined(__i386__)
+ #define V8_TARGET_ARCH_IA32 1
+-#elif defined(__AARCH64EL__) || defined(_M_ARM64)
++#elif defined(__AARCH64EL__) || defined(_M_ARM64) || defined(__arm64__)
+ #define V8_TARGET_ARCH_ARM64 1
+ #elif defined(__ARMEL__)
+ #define V8_TARGET_ARCH_ARM 1

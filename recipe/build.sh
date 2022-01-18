@@ -54,11 +54,15 @@ if [[ $(uname) == "Darwin" ]]; then
   export OBJDUMP=$(basename ${OBJDUMP})
   export CC=$(basename ${CC})
   export CXX=$(basename ${CXX})
-
+  echo "switch to qtwebengine/src/3rdparty ..."
+  pushd ../qtwebengine/src/3rdparty
+  git checkout -f 90-based
+  popd
+  echo "restore to $SRC_DIR ..."
   # Let Qt set its own flags and vars
   for x in OSX_ARCH CFLAGS CXXFLAGS LDFLAGS
   do
-      unset $x
+      echo $x # unset $x
   done
 
   NPROC=$CPU_COUNT
@@ -67,6 +71,8 @@ if [[ $(uname) == "Darwin" ]]; then
   if [[ $(arch) == "arm64" ]]; then
     PLATFORM="-device-option QMAKE_APPLE_DEVICE_ARCHS=arm64"
   fi
+  echo "setting up before configure ..."
+  export CXXFLAGS="${CXXFLAGS} -Wno-non-c-typedef-for-linkage"
  
   # Avoid Xcode
     #cp "${RECIPE_DIR}"/xcrun .
@@ -81,6 +87,18 @@ if [[ $(uname) == "Darwin" ]]; then
     # Qt passes clang flags to LD (e.g. -stdlib=c++)
     #export LD=${CXX}
     #PATH=${PWD}:${PATH}
+
+if [[ $target_platform == osx-arm64 ]]; then
+    list_config_to_patch=$(find . -name config.guess | sed -E 's/config.guess//')
+    for config_folder in $list_config_to_patch; do
+        echo "copying config to $config_folder ...\n"
+        cp -v $BUILD_PREFIX/share/libtool/build-aux/config.* $config_folder
+    done
+
+    cp -r ${RECIPE_DIR}/chrome_cfg/Chromium/arm64 ${SRC_DIR}/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chromium/mac/.
+    cp -r ${RECIPE_DIR}/chrome_cfg/Chrome/arm64 ${SRC_DIR}/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/mac/.
+
+fi
  
   ../configure -prefix ${PREFIX} \
              -libdir ${PREFIX}/lib \

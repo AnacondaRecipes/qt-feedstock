@@ -1,0 +1,15 @@
+Index: work/qtwebengine/src/3rdparty/chromium/build/toolchain/mac/filter_libtool.py
+===================================================================
+--- work.orig/qtwebengine/src/3rdparty/chromium/build/toolchain/mac/filter_libtool.py
++++ work/qtwebengine/src/3rdparty/chromium/build/toolchain/mac/filter_libtool.py
+@@ -24,8 +24,9 @@ BLACKLIST_PATTERNS = map(re.compile, [
+ 
+ def IsBlacklistedLine(line):
+   """Returns whether the line should be filtered out."""
++  qline = line.decode('utf-8') 
+   for pattern in BLACKLIST_PATTERNS:
+-    if pattern.match(line):
++    if pattern.match(qline):
+       return True
+   return False
+ 

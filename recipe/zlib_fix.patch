@@ -1,0 +1,30 @@
+Index: qtwebengine/src/3rdparty/chromium/third_party/zlib/BUILD.gn
+===================================================================
+--- zlib.orig/qtwebengine/src/3rdparty/chromium/third_party/zlib/BUILD.gn
++++ zlib/qtwebengine/src/3rdparty/chromium/third_party/zlib/BUILD.gn
+@@ -97,7 +97,7 @@ if (use_arm_neon_optimizations) {
+       } else if (is_win) {
+         defines += [ "ARMV8_OS_WINDOWS" ]
+       } else {
+-        assert(false, "Unsupported ARM OS")
++        # assert(false, "Unsupported ARM OS")
+       }
+     }
+   }
+Index: work/qtwebengine/src/3rdparty/chromium/third_party/zlib/cpu_features.c
+===================================================================
+--- work.orig/qtwebengine/src/3rdparty/chromium/third_party/zlib/cpu_features.c
++++ work/qtwebengine/src/3rdparty/chromium/third_party/zlib/cpu_features.c
+@@ -145,4 +145,9 @@ static void _cpu_check_features(void)
+ }
+ #endif
+ #endif
+-#endif
+\ No newline at end of file
++#else
++/* provide dummy function ... */
++void ZLIB_INTERNAL cpu_check_features(void)
++{
++}
++#endif
+

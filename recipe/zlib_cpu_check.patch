@@ -1,0 +1,35 @@
+Index: work/qtwebengine/src/3rdparty/chromium/third_party/zlib/adler32.c
+===================================================================
+--- work.orig/qtwebengine/src/3rdparty/chromium/third_party/zlib/adler32.c
++++ work/qtwebengine/src/3rdparty/chromium/third_party/zlib/adler32.c
+@@ -105,8 +105,6 @@ uLong ZEXPORT adler32_z(adler, buf, len)
+      * features for those later, more interesting adler32() calls.
+      */
+     if (buf == Z_NULL) {
+-        if (!len) /* Assume user is calling adler32(0, NULL, 0); */
+-            cpu_check_features();
+         return 1L;
+     }
+ #else
+Index: work/qtwebengine/src/3rdparty/chromium/third_party/zlib/crc32.c
+===================================================================
+--- work.orig/qtwebengine/src/3rdparty/chromium/third_party/zlib/crc32.c
++++ work/qtwebengine/src/3rdparty/chromium/third_party/zlib/crc32.c
+@@ -222,8 +222,6 @@ unsigned long ZEXPORT crc32_z(crc, buf, 
+      * routine can be freely used, check CPU features here.
+      */
+     if (buf == Z_NULL) {
+-        if (!len) /* Assume user is calling crc32(0, NULL, 0); */
+-            cpu_check_features();
+         return 0UL;
+     }
+ 
+@@ -285,8 +283,6 @@ unsigned long ZEXPORT crc32(crc, buf, le
+      * TODO: try to move this to crc32_z if we don't loose performance on ARM.
+      */
+     if (buf == Z_NULL) {
+-        if (!len) /* Assume user is calling crc32(0, NULL, 0); */
+-            cpu_check_features();
+         return 0UL;
+     }
+ 

@@ -6,72 +6,87 @@ package:
   version: {{ version }}
 
 source:
-  - url: http://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/single/qt-everywhere-src-{{ version }}.tar.xz
-    sha256: 3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240
+  - git_url: https://invent.kde.org/qt/qt/qt5
+    git_tag: kde/5.15
     patches:
+      - fix_assimp.patch
+      - zlib_fix.patch
+      - chromium.patch
+      - additional_chromium.patch
+      - set_cpu_on_osx.patch 
+      - armfix_webeng.patch
+      - zlib_cpu_check.patch
+      - sandbox.patch
+      - chrome_ffmpeg.patch
+      - fix_libtool.patch
+      - add_qt_version.patch
+
+  ## - url: http://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/single/qt-everywhere-src-{{ version }}.tar.xz
+  ##  sha256: 3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240
+  ##  patches:
       # qtbase
-      - patches_AR/0001-qtbase-osx-xctest-check.patch
-      - patches_AR/0002-qtbase-osx-allow-any-xcrun-in-PATH.patch
-      - patches_AR/0003-qtbase-use-better-clang-optimize-size.patch
-      - patches_AR/0004-qtbase-never-enable-new-dtags.patch
-      - patches_AR/0005-qtbase-link-xcb-shm.patch
-      - patches_AR/0006-qtbase-Do-not-set-PKG_CONFIG_SYSROOT_DIR-when-sysroo.patch
-      - patches_AR/0007-qtbase-Disable-kTLSProtocol13-for-macOS-10.12.patch
-      - patches_AR/0008-qtbase-Define-kIOSurfaceSuccess-if-it-is-not-defined.patch
+      #- patches_AR/0001-qtbase-osx-xctest-check.patch
+      #- patches_AR/0002-qtbase-osx-allow-any-xcrun-in-PATH.patch
+      #- patches_AR/0003-qtbase-use-better-clang-optimize-size.patch
+      #- patches_AR/0004-qtbase-never-enable-new-dtags.patch
+      #- patches_AR/0005-qtbase-link-xcb-shm.patch
+      #- patches_AR/0006-qtbase-Do-not-set-PKG_CONFIG_SYSROOT_DIR-when-sysroo.patch
+      #- patches_AR/0007-qtbase-Disable-kTLSProtocol13-for-macOS-10.12.patch
+      #- patches_AR/0008-qtbase-Define-kIOSurfaceSuccess-if-it-is-not-defined.patch
       # I do not think this is the correct approach. Something needs fixing, but
       # I think it is not just limited to GL which is all this patch handles.
       # Pretty sure we need to rebuild all CDTs, rdonnelly channel has these.
       # - patches_AR/0009-qtbase-Fix-harcoded-sysroot-paths.patch
-      - patches_AR/0010-qtbase-Add-DISABLE_WINRT_DEPRECATION-for-WinSDK-10.0.patch    # [win]
+      #- patches_AR/0010-qtbase-Add-DISABLE_WINRT_DEPRECATION-for-WinSDK-10.0.patch    # [win]
       #- patches_AR/0011-qtbase-Fix-QMAKE_LIBDIR_X11-and-QMAKE_LIBDIR_OPENGL-.patch
-      - patches_AR/0012-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch    # [x86_64]
+      ##- patches_AR/0012-qtbase-Add-hardcoded-for-now-to-centos6-64-bit-AMD64.patch    # [x86_64]
       #- patches_AR/0012-qtbase-Add-hardcoded-for-AARCH64.patch    # [linux and aarch64]
       # - patches_AR/0011-qtbase-Add-debugging-to-debug-qtConfResolveLibs-and-.patch
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtwinextras:"" then add apply/regen instructions)
-      - patches_AR/0001-shobjidl-Fix-compile-guard-around-SHARDAPPIDINFOLINK.patch
+      ##- patches_AR/0001-shobjidl-Fix-compile-guard-around-SHARDAPPIDINFOLINK.patch
 
       # qtwebengine (Qt part)
       # apply with `pushd qtwebengine && git am -3 -p2 ${RECIPE_DIR}/patches_AR/*-qtwebengine-*.patch ; popd`
       # regenerate with `git format-patch -2 --src-prefix=a/qtwebengine/ --dst-prefix=b/qtwebengine/`
       #- patches_AR/0001-qtwebengine-run-gn-verbosely.patch
       #- patches_AR/0002-qtwebengine-Relax-glibc-restriction-from-2.16-to-2.1.patch
-      - patches_AR/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch  # [win]
+      ##- patches_AR/0003-qtwebengine-Allow-Windows-SDK-10.0.17763.patch  # [win]
 
       # qtwebenginec (chromium submodule)
       # apply with `pushd qtwebengine/src/3rdparty/ && git am -3 -p4 ${RECIPE_DIR}/patches_AR/*-qtwebenginec-*.patch ; popd`
       # regenerate with `git format-patch --src-prefix=a/qtwebengine/src/3rdparty/ --dst-prefix=b/qtwebengine/src/3rdparty/ -18`
-      - patches_AR/0001-qtwebenginec-Fix-compilation-on-Windows-VSC.patch           # [win]
-      - patches_AR/0002-qtwebenginec-Fix-VS2017-builds.patch                        # [win]
-      - patches_AR/0003-qtwebenginec-find_sdk-respect-CONDA_BUILD_SYSROOT.patch
-      - patches_AR/0004-qtwebenginec-use-CONDA_PREFIX-include-for-system_lib.patch
-      - patches_AR/0005-qtwebenginec-Add-conda_prefix-to-gn.patch
+      ##- patches_AR/0001-qtwebenginec-Fix-compilation-on-Windows-VSC.patch           # [win]
+      ##- patches_AR/0002-qtwebenginec-Fix-VS2017-builds.patch                        # [win]
+      ##- patches_AR/0003-qtwebenginec-find_sdk-respect-CONDA_BUILD_SYSROOT.patch
+      ##- patches_AR/0004-qtwebenginec-use-CONDA_PREFIX-include-for-system_lib.patch
+      ##- patches_AR/0005-qtwebenginec-Add-conda_prefix-to-gn.patch
       #- patches_AR/0006-qtwebenginec-Use-conda_prefix-for-chromium-gpu.patch
-      - patches_AR/0007-qtwebenginec-Use-conda_prefix-for-system_zlib.patch
-      - patches_AR/0008-qtwebenginec-Use-conda_prefix-for-ui_gl.patch
-      - patches_AR/0009-qtwebenginec-macOS-10.11-support-Define-NSEventTypeS.patch
-      - patches_AR/0010-qtwebenginec-link-gn-to-librt.patch
+      ##- patches_AR/0007-qtwebenginec-Use-conda_prefix-for-system_zlib.patch
+      ##- patches_AR/0008-qtwebenginec-Use-conda_prefix-for-ui_gl.patch
+      ##- patches_AR/0009-qtwebenginec-macOS-10.11-support-Define-NSEventTypeS.patch
+      ##- patches_AR/0010-qtwebenginec-link-gn-to-librt.patch
       #- patches_AR/0011-qtwebenginec-Add-missing-EVIOCGPROP.patch
-      - patches_AR/0012-qtwebenginec-Define-HAVE_SENDMMSG-to-0-when-glibc-2..patch
-      - patches_AR/0013-qtwebenginec-__NR_renameat2-requires-glibc-2.28.patch
-      - patches_AR/0014-qtwebenginec-Define-PTRAGET_-G-S-ETREGSET-to-0x4204-.patch
+      ##- patches_AR/0012-qtwebenginec-Define-HAVE_SENDMMSG-to-0-when-glibc-2..patch
+      ##- patches_AR/0013-qtwebenginec-__NR_renameat2-requires-glibc-2.28.patch
+      ##- patches_AR/0014-qtwebenginec-Define-PTRAGET_-G-S-ETREGSET-to-0x4204-.patch
       # - patches_AR/0015-qtwebenginec-Some-glibc-kernel-define-hacks.patch
-      - patches_AR/0016-qtwebenginec-Attempt-to-get-conda_prefix-include-int.patch
-      - patches_AR/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
-      - patches_AR/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
-      - patches_AR/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch            # [win]
-      - patches_AR/0020-qtwebengine-chromium-correct-int-types.patch               # [linux and aarch64]
-      - patches_AR/0021-qtwebengine-chromium-cflags-flax-vector-conversions.patch  # [linux and aarch64]
+      ##- patches_AR/0016-qtwebenginec-Attempt-to-get-conda_prefix-include-int.patch
+      ##- patches_AR/0017-qtwebenginec-include-m-p-i-b-native_struct.mojom.h-i.patch
+      ##- patches_AR/0018-qtwebenginec-Define-V4L2_CID_AUTO_EXPOSURE_BIAS-if-n.patch
+      ##- patches_AR/0019-qtwebenginec-Allow-Windows-SDK-10.0.17763.patch            # [win]
+      ##- patches_AR/0020-qtwebengine-chromium-correct-int-types.patch               # [linux and aarch64]
+      ##- patches_AR/0021-qtwebengine-chromium-cflags-flax-vector-conversions.patch  # [linux and aarch64]
 
       # qtwinextras (TODO :: Fix the commit msg to begin with "qtscript:"" then add apply/regen instructions)
-      - patches_AR/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
+      ##- patches_AR/0001-qtscript-mark-cti_vm_throw-as-REFERENCED_FROM_ASM.patch
 
   - url: https://download.qt.io/official_releases/jom/jom.zip  # [win]
     folder: jom  # [win]
     md5: f960efa8dc1e99df088d32bc1bc2157c  # [win]
 
 build:
-  number: 3
+  number: 10
 
 requirements:
   build:
@@ -128,6 +143,12 @@ requirements:
     - pkg-config                             # [unix]
     - readline                               # [linux]
     - ruby >=2.5                             # [linux]
+    - assimp  # [osx]
+    - jasper  # [osx]
+    - libmng  # [osx]
+    - ffmpeg  # [osx]
+    - dav1d   # [osx]
+    - libtool  # [osx]
   host:
     - dbus                                   # [linux]
     - expat                                  # [linux]
@@ -156,6 +177,11 @@ requirements:
     - pulseaudio                             # [linux and not aarch64]
     - sqlite                                 # [not aarch64]
     - zlib
+    - assimp  # [osx]
+    - jasper  # [osx]
+    - libmng  # [osx]
+    - ffmpeg  # [osx]
+    - dav1d    # [osx]
   run:
     - freetype
     - gstreamer                              # [not arm64]
@@ -170,7 +196,11 @@ requirements:
     - sqlite                                 # [not (win or aarch64)]
     - zlib
     - zstd
-
+    - assimp  # [osx]
+    - jasper  # [osx]
+    - libmng  # [osx]
+    - ffmpeg  # [osx]
+    - dav1d   # [osx]
 test:
   requires:
     - {{ compiler('cxx') }}
