@@ -57,11 +57,11 @@ requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - sysroot_linux-64 2.17              # [linux]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext') }}               # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]
+    - {{ cdt('libxinerama-devel') }}         # [linux]
     - {{ cdt('libxrender-devel') }}      # [linux]
     - {{ cdt('mesa-libgl-devel') }}      # [linux]
     - {{ cdt('mesa-libegl') }}           # [linux]
@@ -92,20 +92,22 @@ requirements:
     - {{ cdt('libxcb') }}                # [linux]
     - {{ cdt('libxcb-devel') }}          # [linux]
     - {{ cdt('expat-devel') }}           # [linux]
-    - {{ cdt('pcre') }}                  # [linux]
-    - {{ cdt('libglvnd-glx') }}          # [linux]
-    - {{ cdt('libglvnd-egl') }}          # [linux]
-    - {{ cdt('libxkbcommon-devel') }}    # [linux]
     - {{ cdt('xcb-util-devel') }}        # [linux]
+    - {{ cdt('xcb-util') }}        # [linux]
     - {{ cdt('xcb-util-image-devel') }}  # [linux]
+    - {{ cdt('xcb-util-image') }}  # [linux]
     - {{ cdt('xcb-util-keysyms-devel') }}     # [linux]
+    - {{ cdt('xcb-util-keysyms') }}     # [linux]
     - {{ cdt('xcb-util-renderutil-devel') }}  # [linux]
+    - {{ cdt('xcb-util-renderutil') }}  # [linux]
     - {{ cdt('xcb-util-wm-devel') }}          # [linux]
+    - {{ cdt('xcb-util-wm') }}          # [linux]
 
     # For fontconfig + freetype
     - pkg-config                         # [unix]
     - make                               # [unix]
     - ninja
+    - patch
     - ruby >=2.5                         # [linux]
     - bison                              # [linux]
     - flex                               # [linux]
@@ -138,9 +140,7 @@ requirements:
     - glib
     - gst-plugins-base
     - gstreamer
-    - pulseaudio                         # [linux]
     - libxml2                            # [linux]
-    - libxkbcommon                       # [linux]
     - expat                              # [linux]
     - libevent                           # [linux]
     - icu
@@ -151,11 +151,11 @@ requirements:
     - nspr                               # [unix]
     - nss                                # [unix]
     - sqlite
-    - mysql-devel                        # [not win]
+    - mysql
     - postgresql                         # [not win]
     - zlib
-    - libxcb                             # [linux]
     - openssl
+    - pcre
     # For QDoc
     # http://doc.qt.io/Qt-5/qdoc-guide-clang.html
     # Only libclang is needed, but needs the full package for detection.
@@ -164,7 +164,6 @@ requirements:
     - libclang
     - libcups                            # [linux]
     - zstd
-    - alsa-lib                           # [linux]
     - krb5
   run:
     - {{ pin_compatible("nss") }}        # [unix]
@@ -205,8 +204,7 @@ test:
     - {{ cdt('libxxf86vm') }}            # [linux]
     - {{ cdt('libxcb') }}                # [linux]
     - {{ cdt('expat-devel') }}           # [linux]
-    - {{ cdt('pcre') }}                  # [linux]
-    - {{ cdt('libglvnd-glx') }}          # [linux]
+    - pcre                               # [linux]
     - make                               # [unix]
   files:
     - test/hello.pro
