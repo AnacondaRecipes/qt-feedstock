@@ -207,12 +207,10 @@ test:
     - make                               # [unix]
   files:
     - test/hello.pro
-    - test/main-qtwebengine.cpp
     - test/main.cpp
     - test/main.qml
     - test/qml.qrc
     - test/qrc_qml.cpp
-    - test/qtwebengine.pro
     - xcodebuild
     - xcrun
   commands:
