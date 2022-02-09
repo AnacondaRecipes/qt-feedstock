@@ -47,7 +47,7 @@ if [[ $(uname) == "Linux" ]]; then
     export LD=${GXX}
     export CC=${GCC}
     export CXX=${GXX}
-    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/lib64/pkgconfig/"
+    export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:${CONDA_BUILD_SYSROOT}/usr/lib/pkgconfig:${CONDA_BUILD_SYSROOT}/usr/lib64/pkgconfig:${CONDA_BUILD_SYSROOT}/usr/share/pkgconfig:${BUILD_PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/lib64/pkgconfig"
     chmod +x g++ gcc gcc-ar
     export PATH=${PWD}:${PATH}
 
@@ -90,9 +90,13 @@ if [[ $(uname) == "Linux" ]]; then
                 -datadir ${PREFIX} \
                 -I ${PREFIX}/include \
                 -L ${PREFIX}/lib \
+                -I ${BUILD_PREFIX}/${HOST}/sysroot/usr/include \
                 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 \
                 -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib \
-                QMAKE_LFLAGS+="-Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib" \
+                -L ${BUILD_PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib \
+                -L ${BUILD_PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib64 \
+                -I ${BUILD_PREFIX}/x86_64-conda_cos6-linux-gnu/sysroot/usr/include \
+                 QMAKE_LFLAGS+="-Wl,-rpath,$PREFIX/lib -Wl,-rpath-link,$PREFIX/lib -L$PREFIX/lib" \
                 -release \
                 -opensource \
                 -confirm-license \
@@ -242,14 +246,14 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
     cp "${RECIPE_DIR}"/xcodebuild "${PREFIX}"/bin/xc-avoidance/
 fi
 
-# Qt Charts
-# ---------
-popd
-pushd qtcharts
-${PREFIX}/bin/qmake qtcharts.pro PREFIX=${PREFIX}
-make -j${MAKE_JOBS} || exit 1
-make install || exit 1
-popd
+## Qt Charts
+## ---------
+#popd
+#pushd qtcharts
+#${PREFIX}/bin/qmake qtcharts.pro PREFIX=${PREFIX}
+#make -j${MAKE_JOBS} || exit 1
+#make install || exit 1
+#popd
 
 # Post build setup
 # ----------------
