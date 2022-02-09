@@ -4,14 +4,9 @@ set -exou
 # -------
 chmod +x configure
 
-# Clean config for dirty builds
-# -----------------------------
-if [[ -d qt-build ]]; then
-  rm -rf qt-build
-fi
-
-mkdir qt-build
-pushd qt-build
+# Be careful if using --dirty with conda build
+mkdir  -p ../qt-build
+pushd ../qt-build
 
 echo PREFIX=${PREFIX}
 echo BUILD_PREFIX=${BUILD_PREFIX}
@@ -33,12 +28,6 @@ export STRIP=$(basename ${STRIP})
 export OBJDUMP=$(basename ${OBJDUMP})
 export CC=$(basename ${CC})
 export CXX=$(basename ${CXX})
-
-# Let Qt set its own flags and vars
-for x in OSX_ARCH CFLAGS CXXFLAGS LDFLAGS
-do
-    unset $x
-done
 
 # You can use this to cut down on the number of modules built. Of course the Qt package will not be of
 # much use, but it is useful if you are iterating on e.g. figuring out compiler flags to reduce the
@@ -93,7 +82,7 @@ if [[ $(uname) == "Linux" ]]; then
     # Had been trying with:
     #   -sysroot ${BUILD_PREFIX}/${HOST}/sysroot
     # .. but it probably requires changing -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 to -L /usr/lib64
-    ../configure -prefix ${PREFIX} \
+    ../work/configure -prefix ${PREFIX} \
                 -libdir ${PREFIX}/lib \
                 -bindir ${PREFIX}/bin \
                 -headerdir ${PREFIX}/include/qt \
@@ -197,7 +186,7 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
       lipo -create $BUILD_PREFIX/lib/libclang.dylib $PREFIX/lib/libclang.dylib -output $PREFIX/lib/libclang.dylib
     fi
 
-    ../configure -prefix ${PREFIX} \
+    ../work/configure -prefix ${PREFIX} \
                 -libdir ${PREFIX}/lib \
                 -bindir ${PREFIX}/bin \
                 -headerdir ${PREFIX}/include/qt \
