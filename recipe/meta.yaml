@@ -10,15 +10,15 @@ source:
     git_tag: kde/5.15
     patches:
       - fix_assimp.patch
-      - zlib_fix.patch
+        #      - zlib_fix.patch
       - chromium.patch
       - additional_chromium.patch
       - set_cpu_on_osx.patch 
       - armfix_webeng.patch
       - zlib_cpu_check.patch
-      - sandbox.patch
-      - chrome_ffmpeg.patch
-      - fix_libtool.patch
+        #  - sandbox.patch
+        #- chrome_ffmpeg.patch
+        #- fix_libtool.patch
       - add_qt_version.patch
 
   ## - url: http://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/single/qt-everywhere-src-{{ version }}.tar.xz
@@ -145,9 +145,7 @@ requirements:
     - ruby >=2.5                             # [linux]
     - assimp  # [osx]
     - jasper  # [osx]
-    - libmng  # [osx]
     - ffmpeg  # [osx]
-    - dav1d   # [osx]
     - libtool  # [osx]
   host:
     - dbus                                   # [linux]
@@ -179,9 +177,7 @@ requirements:
     - zlib
     - assimp  # [osx]
     - jasper  # [osx]
-    - libmng  # [osx]
     - ffmpeg  # [osx]
-    - dav1d    # [osx]
   run:
     - freetype
     - gstreamer                              # [not arm64]
@@ -198,9 +194,7 @@ requirements:
     - zstd
     - assimp  # [osx]
     - jasper  # [osx]
-    - libmng  # [osx]
     - ffmpeg  # [osx]
-    - dav1d   # [osx]
 test:
   requires:
     - {{ compiler('cxx') }}
