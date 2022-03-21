@@ -20,6 +20,7 @@ source:
         #- chrome_ffmpeg.patch
         #- fix_libtool.patch
       - add_qt_version.patch
+      - no_sdkify.patch
 
   ## - url: http://download.qt.io/official_releases/qt/{{ version.rpartition('.')[0] }}/{{ version }}/single/qt-everywhere-src-{{ version }}.tar.xz
   ##  sha256: 3a530d1b243b5dec00bc54937455471aaa3e56849d2593edb8ded07228202240
@@ -140,14 +141,15 @@ requirements:
     - make                                   # [unix]
     - ninja
     - perl 5.*
-    - pkg-config                             # [unix]
     - readline                               # [linux]
     - ruby >=2.5                             # [linux]
     - assimp  # [osx]
     - jasper  # [osx]
     - ffmpeg  # [osx]
     - libtool  # [osx]
+    - jpeg
   host:
+    - pkg-config                             # [unix]
     - dbus                                   # [linux]
     - expat                                  # [linux]
     - fontconfig                             # [linux]
@@ -157,7 +159,6 @@ requirements:
     - gstreamer                              # [not arm64]
     - gtk3
     - icu
-    - jpeg
     - libevent                               # [linux]
     - libiconv                               # [not aarch64]
     - libpng

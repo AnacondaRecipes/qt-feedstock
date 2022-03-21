@@ -1,8 +1,10 @@
 set -exou
+rm -rf qt-build
 mkdir -p qt-build
 pushd qt-build
 
 if [[ $(uname) == "Darwin" ]]; then
+  export PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
   export AR=$(basename ${AR})
   export RANLIB=$(basename ${RANLIB})
   export STRIP=$(basename ${STRIP})
@@ -54,6 +56,14 @@ if [[ $target_platform == osx-arm64 ]]; then
     cp -r ${RECIPE_DIR}/chrome_cfg/Chrome/arm64 ${SRC_DIR}/qtwebengine/src/3rdparty/chromium/third_party/ffmpeg/chromium/config/Chrome/mac/.
 
 fi
+
+#export QMAKE_MAC_SDK=${CONDA_BUILD_SYSROOT}
+export QMAKE_MACOSX_DEPLOYMENT_TARGET=11.1
+export QMAKE_PKG_CONFIG=${PREFIX}/lib/pkgconfig
+export PKG_CONFIG=${PREFIX}/lib/pkgconfig
+export PKG_CONFIG=${PREFIX}/lib/pkgconfig
+export PKG_CONFIG_LIBDIR=$(${PREFIX}/bin/pkg-config --pclibdir)
+
   ../configure -prefix ${PREFIX} \
              -libdir ${PREFIX}/lib \
              -bindir ${PREFIX}/bin \
