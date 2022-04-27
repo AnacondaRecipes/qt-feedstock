@@ -36,11 +36,11 @@ source:
     sha256: 2a0d2f92c60e0962ef5f6039d3793424c6f39e49ba27ac04a5b21ca4ae012e15                                      # [win64]
     folder: opengl32sw                                                                                            # [win64]
 
-  - git_url: https://code.qt.io/qt/qtwebengine.git
+  - git_url: https://code.qt.io/cgit/qt/qtwebengine.git
     git_rev: v{{ webengine_version }}-lts
     folder: qtwebengine
 
-  - git_url: https://code.qt.io/qt/qtwebengine-chromium.git
+  - git_url: https://code.qt.io/cgit/qt/qtwebengine-chromium.git
     git_rev: 87-based
     folder: qtwebengine-chromium
     patches:
