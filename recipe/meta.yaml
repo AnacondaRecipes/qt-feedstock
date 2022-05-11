@@ -162,9 +162,9 @@ outputs:
         - fontconfig                         # [linux]
         - freetype                           # [linux]
         - glib
-        - gst-plugins-base
-        - gstreamer
-        - pulseaudio                         # [linux]
+        - gst-plugins-base                   # [not win]
+        - gstreamer                          # [not win]
+        # - pulseaudio                         # [linux]
         - libxml2                            # [linux]
         - libxkbcommon                       # [linux]
         - expat                              # [linux]
@@ -190,7 +190,7 @@ outputs:
         - libclang
         - libcups                            # [linux]
         - zstd
-        - alsa-lib                           # [linux]
+        # - alsa-lib                           # [linux]
         - krb5
       run:
         - {{ pin_compatible("nss") }}        # [unix]
