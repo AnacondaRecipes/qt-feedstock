@@ -149,12 +149,12 @@ outputs:
         - readline                           # [linux]
         # libclang is required in order to enable simultaneous x86_64 and
         # arm64 support for QDoc
-        - libclang                           # [arm64]
+        # - libclang                           # [arm64]
         # Although these should be host-only dependencies, they are needed when
         # cross-compiling arm64 binaries on x86_64 since llvm-config (host/arm64)
         # cannot be executed on x86_64 to locate libclang successfully
-        - llvmdev                           # [arm64]
-        - clangdev                          # [arm64]
+        # - llvmdev                           # [arm64]
+        # - clangdev                          # [arm64]
       host:
         # For pkg-config gl, fontconfig + freetype
         - pthread-stubs                      # [linux]
@@ -196,7 +196,7 @@ outputs:
         - {{ pin_compatible("nss") }}        # [unix]
         - {{ pin_compatible("nspr") }}       # [unix]
         - libxcb                             # [linux]
-        - {{ pin_compatible("libclang") }}
+        # - {{ pin_compatible("libclang") }}
       run_constrained:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
         - qt {{ version }}
