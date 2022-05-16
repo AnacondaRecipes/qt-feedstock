@@ -79,6 +79,7 @@ outputs:
         - /usr/lib/libresolv.9.dylib  # [osx]
         - /usr/lib/libsandbox.1.dylib  # [osx]
         - '/System/Library/Frameworks/CoreLocation.framework/**'  # [osx]
+        - libclang.12.dylib  # [osx]
     requirements:
       build:
         - {{ compiler('c') }}
