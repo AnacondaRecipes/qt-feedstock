@@ -188,6 +188,7 @@ outputs:
         - llvmdev
         - clangdev
         - libclang
+        - libcxx
         - libcups                            # [linux]
         - zstd
         # - alsa-lib                           # [linux]
@@ -196,6 +197,8 @@ outputs:
         - {{ pin_compatible("nss") }}        # [unix]
         - {{ pin_compatible("nspr") }}       # [unix]
         - libxcb                             # [linux]
+        - libclang
+        - libcxx
         # - {{ pin_compatible("libclang") }}
       run_constrained:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
