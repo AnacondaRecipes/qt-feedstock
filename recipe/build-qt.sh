@@ -258,11 +258,11 @@ fi
 # Qt Charts
 # ---------
 popd
-# pushd qtcharts
-# ${PREFIX}/bin/qmake qtcharts.pro PREFIX=${PREFIX}
-# make -j${MAKE_JOBS} || exit 1
-# make install || exit 1
-# popd
+pushd qtcharts
+${PREFIX}/bin/qmake qtcharts.pro PREFIX=${PREFIX}
+make -j${MAKE_JOBS} || exit 1
+make install || exit 1
+popd
 
 # Post build setup
 # ----------------
