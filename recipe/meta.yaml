@@ -1,5 +1,6 @@
 {% set version = "5.15.2" %}
 {% set webengine_version = "5.15.4" %}
+{% set build_number = "4" %}
 
 package:
   name: qt
@@ -18,15 +19,16 @@ source:
 
       # The following patches are required to cross-compile Qt host tools (osx)
       # to work both on x86_64 and arm64
-      - patches/qt/0005-Add-arm64-support-for-host-tools.patch             # [arm64 and build_platform != target_platform]
-      - patches/qt/0006-Enable-arm64-x86_64-support-for-qttools.patch      # [arm64 and build_platform != target_platform]
-      - patches/qt/0007-Make-qml-host-tools-to-be-arm64-compatiible.patch  # [arm64 and build_platform != target_platform]
-      - patches/qt/0008-Make-repc-arm64-compatible.patch                   # [arm64 and build_platform != target_platform]
-      - patches/qt/0009-Enable-arm64-support-for-qgltf.patch               # [arm64 and build_platform != target_platform]
-      - patches/qt/0010-Enable-arm64-support-for-qtscxmlc.patch            # [arm64 and build_platform != target_platform]
+      # SB: I think we should remove these.
+      # - patches/qt/0005-Add-arm64-support-for-host-tools.patch             # [arm64 and build_platform != target_platform]
+      # - patches/qt/0006-Enable-arm64-x86_64-support-for-qttools.patch      # [arm64 and build_platform != target_platform]
+      # - patches/qt/0007-Make-qml-host-tools-to-be-arm64-compatiible.patch  # [arm64 and build_platform != target_platform]
+      # - patches/qt/0008-Make-repc-arm64-compatible.patch                   # [arm64 and build_platform != target_platform]
+      # - patches/qt/0009-Enable-arm64-support-for-qgltf.patch               # [arm64 and build_platform != target_platform]
+      # - patches/qt/0010-Enable-arm64-support-for-qtscxmlc.patch            # [arm64 and build_platform != target_platform]
 
       # The following patches are required to compile Qt using native arm64
-      # compilers
+      # compilers                                                                     Should we get rid of the cross compilation selector specifications? Just change to [arm64]
       - patches/qt/0008-Force-host-to-be-the-same-as-the-target.patch        # [arm64 and build_platform == target_platform]
       - patches/qt/0009-Ensure-no-cross-compilation-checks-are-done.patch    # [arm64 and build_platform == target_platform]
       - patches/qt/0010-Try-to-set-arm64-explicitly.patch                    # [arm64 and build_platform == target_platform]
@@ -56,9 +58,14 @@ source:
     sha256: 4a9dc893cc0a1695a16102a42ef47ef2e228652891f4afea67fadd452b63656b  # [win]
 
 build:
-  number: 0
+  number: {{ build_number }}
   detect_binary_files_with_prefix: true
   skip: true   # [ppcle64 or s390x]
+
+requirements:
+  build:
+    - patch  # [unix]
+    - git    # [unix]
 
 outputs:
   - name: qt-main
@@ -409,9 +416,9 @@ outputs:
         - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
 
 about:
-  home: http://qt.io
-  license: LGPL-3.0-only
-  license_file: LICENSE.LGPLv3
+  home: http://qt-project.org
+  license: LGPL-3.0
+  license_file: LICENSE.LGPL3
   summary: 'Qt is a cross-platform application and UI framework.'
   description: |
     Qt helps you create connected devices, UIs & applications that run
