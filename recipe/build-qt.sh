@@ -12,8 +12,8 @@ if [[ -d qt-build ]]; then
   rm -rf qt-build
 fi
 
-mkdir qt-build
-pushd qt-build
+mkdir build-qt-main
+pushd build-qt-main
 
 echo PREFIX=${PREFIX}
 echo BUILD_PREFIX=${BUILD_PREFIX}
@@ -240,14 +240,24 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
                 -no-openssl \
                 -optimize-size
 
-# For quicker turnaround when e.g. checking compilers optimizations
-#                -skip qtwebsockets -skip qtwebchannel -skip qtwebengine -skip qtsvg -skip qtsensors -skip qtcanvas3d -skip qtconnectivity -skip declarative -skip multimedia -skip qttools -skip qtlocation -skip qt3d
-# lto causes an increase in final tar.bz2 size of about 4% (tested with the above -skip options though, not the whole thing)
-#                -ltcg \
+    # For quicker turnaround when e.g. checking compilers
+    #   optimizations:
+    #
+    #   -skip qtwebsockets -skip qtwebchannel -skip qtwebengine -skip
+    #   qtsvg -skip qtsensors -skip qtcanvas3d -skip qtconnectivity
+    #   -skip declarative -skip multimedia -skip qttools -skip
+    #   qtlocation -skip qt3d -ltcg
+    #
+    #   lto causes an increase in final tar.bz2 size of about 4%
+    #   (tested with the above -skip options though, not the whole
+    #   thing) -ltcg \
 
     ####
     make -j${MAKE_JOBS} || exit 1
     make install -j${MAKE_JOBS}
+
+    # Ensure `moc` isn't SIGKILL'd by built in OS security.
+    sudo codesign -f -s - ${PREFIX}/bin/moc
 
     # Avoid Xcode (2)
     mkdir -p "${PREFIX}"/bin/xc-avoidance || true
