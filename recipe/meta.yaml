@@ -114,7 +114,7 @@ outputs:
         - {{ cdt('libxcb') }}                # [linux]
         - {{ cdt('libxcb-devel') }}          # [linux and not (aarch64 or x86_64)]
         - {{ cdt('expat-devel') }}           # [linux and not aarch64]
-        - {{ cdt('pcre') }}                  # [linux]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
         - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
         - {{ cdt('libglvnd-egl') }}          # [linux and not x86_64]
         - {{ cdt('libxkbcommon-devel') }}    # [linux and not (aarch64 or x86_64)]
@@ -335,7 +335,7 @@ outputs:
         - freetype                           # [linux]
         # - gst-plugins-base
         # - gstreamer
-        - libglib                            # [linux]
+        - libglib                            # [linux and not aarch64]
         - libxml2                            # [linux]
         - libxkbcommon                       # [linux]
         - expat                              # [linux]
@@ -386,7 +386,7 @@ outputs:
         - {{ cdt('libxxf86vm') }}            # [linux]
         - {{ cdt('libxcb') }}                # [linux]
         - {{ cdt('expat-devel') }}           # [linux and not aarch64]
-        - {{ cdt('pcre') }}                  # [linux]
+        - {{ cdt('pcre') }}                  # [linux and not x86_64]
         - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
         - make                               # [unix]
       script: run_webengine_test.sh          # [not win]
