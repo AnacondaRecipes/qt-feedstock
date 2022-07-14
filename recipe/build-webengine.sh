@@ -1,38 +1,62 @@
 set -exou
 
-if [[ $(arch) == "aarch64" || $(uname) == "Darwin" ]]; then
 pushd qtwebengine-chromium
 
-# Ensure that Chromium is built using the correct sysroot in Mac
-awk 'NR==77{$0="    rebase_path(\"'$CONDA_BUILD_SYSROOT'\", root_build_dir),"}1' chromium/build/config/mac/BUILD.gn > chromium/build/config/mac/BUILD.gn.tmp
-rm chromium/build/config/mac/BUILD.gn
-mv chromium/build/config/mac/BUILD.gn.tmp chromium/build/config/mac/BUILD.gn
-
-git config user.name 'Anonymous'
-git config user.email '<>'
-
-git add -A
-git commit -m "Patches"
+  if [[ $(uname) == "Darwin" ]]; then
+    # Ensure that Chromium is built using the correct sysroot in Mac
+    awk 'NR==77{$0="    rebase_path(\"'$CONDA_BUILD_SYSROOT'\", root_build_dir),"}1' chromium/build/config/mac/BUILD.gn > chromium/build/config/mac/BUILD.gn.tmp
+    rm chromium/build/config/mac/BUILD.gn
+    mv chromium/build/config/mac/BUILD.gn.tmp chromium/build/config/mac/BUILD.gn
+  fi
+  # we don't want to play with git ... too slow ...
 popd
-fi
 
 pushd qtwebengine
-
-git submodule init
-git submodule set-url src/3rdparty "$SRC_DIR"/qtwebengine-chromium
-git submodule set-branch --branch 87-based src/3rdparty
-git submodule update
-
 pushd src/3rdparty
-git checkout 87-based
-git pull
+  # copy the patched 3rdparty stuff ... and make sure we don't play with git
+  rm -rf *
+  cp -R ../../../qtwebengine-chromium/* .
 popd
+
+if [[ $target_platform == osx-arm64 ]]; then
+    # Make sure config.guess is up to date, if required
+    list_config_to_patch=$(find . -name config.guess | sed -E 's/config.guess//')
+    for config_folder in $list_config_to_patch; do
+        echo "copying config to $config_folder ...\n"
+        cp -v $BUILD_PREFIX/share/libtool/build-aux/config.* $config_folder
+    done
+    # create a matching 'strip' tool in prefix/bin
+    mkdir -p $PREFIX/bin
+    where=$(which "llvm-strip" 2>/dev/null || true)
+    if [ -n "${where}" ]; then
+        printf "#!/bin/bash\nexec '${where}' \"\${@}\"\n" >"${PREFIX}/bin/strip"
+        chmod 700 "${PREFIX}/bin/strip"
+    fi
+fi
+
+# required to populate include ...
+if [ ! -f "./include/QtWebEngineCore/qtwebenginecoreglobal.h" ]; then
+  echo "Creating headers ..."
+  ${PREFIX}/bin/syncqt.pl -version 5.15.9
+  echo "Testing existance of headers ..."
+  # abort if this doesn't get created by syncqt.pl
+  test -f "./include/QtWebEngineCore/qtwebenginecoreglobal.h"
+fi
 
 mkdir qtwebengine-build
 pushd qtwebengine-build
 
 USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
 echo USED_BUILD_PREFIX=${BUILD_PREFIX}
+
+# qtwebengine needs python 2, osx we can use system one ...
+# (lucky we are, as there is no python 2.7 for osx-arm64)
+if [[ $target_platform == osx-* ]]; then
+  echo "Using system python2 ... "
+else
+  conda create --yes -p "${SRC_DIR}/python2_hack" --quiet python=2
+  export PATH=${SRC_DIR}/python2_hack/bin:${PATH}
+fi
 
 if [[ $(uname) == "Linux" ]]; then
     ln -s ${GXX} g++ || true
@@ -74,6 +98,7 @@ if [[ $(uname) == "Darwin" ]]; then
 
     # Qt passes clang flags to LD (e.g. -stdlib=c++)
     export LD=${CXX}
+    export SED=${BUILD_PREFIX}/bin/sed
     export PATH=${PWD}:${PATH}
 
     # Use xcode-avoidance scripts
@@ -99,10 +124,11 @@ if [[ $(uname) == "Darwin" ]]; then
         QMAKE_CFLAGS+="-Wno-everything" \
         QMAKE_CXXFLAGS+="-Wno-everything" \
         $EXTRA_FLAGS \
-        QMAKE_LFLAGS+="-Wno-everything -Wl,-rpath,$PREFIX/lib -L$PREFIX/lib" \
+        QMAKE_LFLAGS+="-w -Wno-everything -Wl,-rpath,$PREFIX/lib -L$PREFIX/lib" \
         PKG_CONFIG_EXECUTABLE=$(which pkg-config) \
         ..
 
+    # -Xlinker -no_application_extension
     # find . -type f -exec sed -i '' -e 's/-Wl,-fatal_warnings//g' {} +
     # sed -i '' -e 's/-Werror//' $PREFIX/mkspecs/features/qt_module_headers.prf
 
@@ -112,6 +138,10 @@ fi
 
 # Post build setup
 # ----------------
+
+# Remove temporary files in $PREFIX/bin
+rm -f "${PREFIX}/bin/strip"
+
 # Remove static libraries that are not part of the Qt SDK.
 pushd "${PREFIX}"/lib > /dev/null
     find . -name "*.a" -and -not -name "libQt*" -exec rm -f {} \;

@@ -1,5 +1,5 @@
 {% set version = "5.15.2" %}
-{% set webengine_version = "5.15.4" %}
+{% set webengine_version = "5.15.9" %}
 
 package:
   name: qt
@@ -16,49 +16,45 @@ source:
       - patches/qt/0004-qtbase-never-enable-new-dtags.patch
       - patches/qt/0009-qtbase-fix-hardcoded-sysroot-path.patch
 
-      # The following patches are required to cross-compile Qt host tools (osx)
-      # to work both on x86_64 and arm64
-      - patches/qt/0005-Add-arm64-support-for-host-tools.patch             # [arm64 and build_platform != target_platform]
-      - patches/qt/0006-Enable-arm64-x86_64-support-for-qttools.patch      # [arm64 and build_platform != target_platform]
-      - patches/qt/0007-Make-qml-host-tools-to-be-arm64-compatiible.patch  # [arm64 and build_platform != target_platform]
-      - patches/qt/0008-Make-repc-arm64-compatible.patch                   # [arm64 and build_platform != target_platform]
-      - patches/qt/0009-Enable-arm64-support-for-qgltf.patch               # [arm64 and build_platform != target_platform]
-      - patches/qt/0010-Enable-arm64-support-for-qtscxmlc.patch            # [arm64 and build_platform != target_platform]
-
       # The following patches are required to compile Qt using native arm64
       # compilers
-      - patches/qt/0008-Force-host-to-be-the-same-as-the-target.patch        # [arm64 and build_platform == target_platform]
-      - patches/qt/0009-Ensure-no-cross-compilation-checks-are-done.patch    # [arm64 and build_platform == target_platform]
-      - patches/qt/0010-Try-to-set-arm64-explicitly.patch                    # [arm64 and build_platform == target_platform]
-      - patches/qt/0011-Prevent-stat64-definition.patch                      # [arm64 and build_platform == target_platform]
+      - patches/qt/0008-Force-host-to-be-the-same-as-the-target.patch        # [arm64]
+      - patches/qt/0009-Ensure-no-cross-compilation-checks-are-done.patch    # [arm64]
+      - patches/qt/0010-Try-to-set-arm64-explicitly.patch                    # [arm64]
+      - patches/qt/0011-Prevent-stat64-definition.patch                      # [arm64]
 
   - url: http://download.qt.io/development_releases/prebuilt/llvmpipe/windows/opengl32sw-64-mesa_12_0_rc2.7z      # [win64]
     sha256: 2a0d2f92c60e0962ef5f6039d3793424c6f39e49ba27ac04a5b21ca4ae012e15                                      # [win64]
     folder: opengl32sw                                                                                            # [win64]
 
   - git_url: https://code.qt.io/cgit/qt/qtwebengine.git
-    git_rev: v{{ webengine_version }}-lts
+    git_rev: {{ webengine_version }}
     folder: qtwebengine
+    patches:
+      - patches/webengine/qt_webengine-3.15.9.patch
 
   - git_url: https://code.qt.io/cgit/qt/qtwebengine-chromium.git
     git_rev: 87-based
     folder: qtwebengine-chromium
     patches:
       - patches/webengine/0001-aarch64-sys-state-structs.patch                             # [aarch64]
-      - patches/webengine/0002-macos-fatal-warnings.patch                                  # [osx]
-      - patches/webengine/0003-Set-host-and-target-cpus-in-gn-build.patch                  # [arm64]
-      - patches/webengine/0005-macos-use-CONDA_BUILD_SYSROOT.patch                         # [osx]
-      # - patches/webengine/0004-macos-arm64-float16-conv.patch                              # [arm64]
-      # - patches/webengine/0007-Compile-GN-to-support-both-x86_64-and-arm64-archs-wh.patch  # [arm64]
+      - patches/webengine/qt_3rdparty.patch
 
   - url: https://download.qt.io/development_releases/gnuwin32/gnuwin32.zip  # [win]
     folder: gnuwin32  # [win]
     sha256: 4a9dc893cc0a1695a16102a42ef47ef2e228652891f4afea67fadd452b63656b  # [win]
 
 build:
-  number: 0
+  number: 4
   detect_binary_files_with_prefix: true
   skip: true   # [ppcle64 or s390x]
+
+requirements:
+  build:
+    - git  # [unix]
+    - m2-git  # [win]
+    - patch  # [unix]
+    - m2-patch  # [win]
 
 outputs:
   - name: qt-main
@@ -317,7 +313,13 @@ outputs:
         - readline                           # [linux]
         - jom                                # [win]
         - nodejs >=16
+        - libtool
+        - sed
+        - gawk
+        - llvm-tools  # [osx]
+        - ldid  # [osx]
       host:
+        - llvm-tools  # [osx]
         # Chromium expects libjpeg-turbo as their main libjpeg reference and therefore
         # it will use an statically-linked version to it whilst
         # https://github.com/conda-forge/conda-forge.github.io/issues/673 is fixed.
