@@ -47,7 +47,7 @@ source:
 build:
   number: 4
   detect_binary_files_with_prefix: true
-  skip: true   # [ppcle64 or s390x]
+  skip: true   # [ppc64le or s390x]
 
 requirements:
   build:
