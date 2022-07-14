@@ -177,6 +177,7 @@ outputs:
         - nss                                # [unix]
         - sqlite
         # - mysql-devel                        # [not win]
+        - mysql                              # [linux]
         - postgresql                         # [not win]
         - zlib
         - libxcb                             # [linux]
