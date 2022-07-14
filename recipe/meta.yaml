@@ -335,7 +335,7 @@ outputs:
         - freetype                           # [linux]
         # - gst-plugins-base
         # - gstreamer
-        - libglib                            # [linux and not aarch64]
+        - libglib                            # [linux and not (aarch64 or x86_64)]
         - libxml2                            # [linux]
         - libxkbcommon                       # [linux]
         - expat                              # [linux]
