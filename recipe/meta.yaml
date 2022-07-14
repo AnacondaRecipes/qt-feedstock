@@ -14,6 +14,7 @@ source:
       - patches/qt/0002-qtbase-osx-allow-any-xcrun-in-PATH.patch
       - patches/qt/0003-qtbase-use-better-clang-optimize-size.patch
       - patches/qt/0004-qtbase-never-enable-new-dtags.patch
+      # 0005-qtbase-link-xcb-shm.patch
       - patches/qt/0009-qtbase-fix-hardcoded-sysroot-path.patch
 
       # The following patches are required to compile Qt using native arm64
@@ -22,6 +23,7 @@ source:
       - patches/qt/0009-Ensure-no-cross-compilation-checks-are-done.patch    # [arm64]
       - patches/qt/0010-Try-to-set-arm64-explicitly.patch                    # [arm64]
       - patches/qt/0011-Prevent-stat64-definition.patch                      # [arm64]
+      - patches/qt.patch
 
   - url: http://download.qt.io/development_releases/prebuilt/llvmpipe/windows/opengl32sw-64-mesa_12_0_rc2.7z      # [win64]
     sha256: 2a0d2f92c60e0962ef5f6039d3793424c6f39e49ba27ac04a5b21ca4ae012e15                                      # [win64]
@@ -87,6 +89,7 @@ outputs:
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - {{ cdt('mesa-libegl') }}           # [linux]
+        - {{ cdt('mesa-libgbm') }}           # [linux]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('libxau-devel') }}          # [linux]
@@ -205,6 +208,7 @@ outputs:
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('mesa-libgbm') }}           # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('libxau-devel') }}          # [linux]
         - {{ cdt('alsa-lib-devel') }}        # [linux]
@@ -278,6 +282,7 @@ outputs:
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('mesa-libgbm') }}           # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('libxau-devel') }}          # [linux]
         - {{ cdt('alsa-lib-devel') }}        # [linux]
@@ -336,6 +341,7 @@ outputs:
         # - gst-plugins-base
         # - gstreamer
         - libglib                            # [linux and not (aarch64 or x86_64)]
+        - glib                               # [linux and (aarch64 or x86_64)]
         - libxml2                            # [linux]
         - libxkbcommon                       # [linux]
         - expat                              # [linux]
@@ -365,6 +371,7 @@ outputs:
         - {{ cdt('libxrender-devel') }}      # [linux]
         - {{ cdt('mesa-libgl-devel') }}      # [linux]
         - {{ cdt('mesa-libegl-devel') }}     # [linux]
+        - {{ cdt('mesa-libgbm') }}           # [linux]
         - {{ cdt('mesa-dri-drivers') }}      # [linux]
         - {{ cdt('libxau-devel') }}          # [linux]
         - {{ cdt('alsa-lib-devel') }}        # [linux]
@@ -388,6 +395,7 @@ outputs:
         - {{ cdt('expat-devel') }}           # [linux and not aarch64]
         - {{ cdt('pcre') }}                  # [linux and not x86_64]
         - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
+        - {{ cdt('at-spi-devel') }}          # [linux]
         - make                               # [unix]
       script: run_webengine_test.sh          # [not win]
       script: run_webengine_test.bat         # [win]
