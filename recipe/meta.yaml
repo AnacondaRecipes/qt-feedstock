@@ -160,7 +160,7 @@ outputs:
         - glib
         - gst-plugins-base
         - gstreamer
-        - pulseaudio                         # [linux and not aarch64]
+        - pulseaudio                         # [linux and not (aarch64 or x86_64)]
         - libxml2                            # [linux]
         - libxkbcommon                       # [linux]
         - expat                              # [linux]
@@ -186,7 +186,7 @@ outputs:
         - libclang
         - libcups                            # [linux]
         - zstd
-        - alsa-lib                           # [linux and not aarch64]
+        - alsa-lib                           # [linux and not (aarch64 or x86_64)]
         - krb5
       run:
         - {{ pin_compatible("nss") }}        # [unix]
@@ -327,7 +327,7 @@ outputs:
         # and constants, and therefore trying to patch them would cause unexpected
         # errors or would be impossible.
         # - jpeg
-        - pulseaudio                         # [linux and not aarch64]
+        - pulseaudio                         # [linux and not (aarch64 or x86_64)]
         # - gstreamer
         - pthread-stubs                      # [linux]
         - dbus                               # [linux]
