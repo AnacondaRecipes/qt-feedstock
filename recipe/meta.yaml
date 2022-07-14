@@ -313,9 +313,9 @@ outputs:
         - readline                           # [linux]
         - jom                                # [win]
         - nodejs >=16
-        - libtool
-        - sed
-        - gawk
+        - libtool  # [unix]
+        - sed   # [unix]
+        - gawk  # [unix]
         - llvm-tools  # [osx]
         - ldid  # [osx]
       host:
