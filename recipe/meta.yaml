@@ -41,6 +41,7 @@ source:
     patches:
       - patches/webengine/0001-aarch64-sys-state-structs.patch                             # [aarch64]
       - patches/webengine/qt_3rdparty.patch
+      - patches/webengine/qtweb_chromium.patch
 
   - url: https://download.qt.io/development_releases/gnuwin32/gnuwin32.zip  # [win]
     folder: gnuwin32  # [win]
