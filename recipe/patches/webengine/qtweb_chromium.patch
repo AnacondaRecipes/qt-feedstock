@@ -2,7 +2,17 @@ Index: qtwebengine-chromium/chromium/third_party/breakpad/breakpad/src/client/li
 ===================================================================
 --- qtwebengine-chromium.orig/chromium/third_party/breakpad/breakpad/src/client/linux/dump_writer_common/thread_info.h
 +++ qtwebengine-chromium/chromium/third_party/breakpad/breakpad/src/client/linux/dump_writer_common/thread_info.h
-@@ -65,9 +65,9 @@ struct ThreadInfo {
+@@ -32,6 +32,9 @@
+ 
+ #include <sys/ucontext.h>
+ #include <sys/user.h>
++#if defined(__aarch64__)
++#include <asm/ptrace.h>
++#endif
+ 
+ #include "client/linux/dump_writer_common/raw_context_cpu.h"
+ #include "common/memory_allocator.h"
+@@ -65,9 +68,9 @@ struct ThreadInfo {
    struct user_regs regs;
    struct user_fpregs fpregs;
  #elif defined(__aarch64__)
