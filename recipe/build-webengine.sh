@@ -51,7 +51,7 @@ echo USED_BUILD_PREFIX=${BUILD_PREFIX}
 
 # qtwebengine needs python 2, osx we can use system one ...
 # (lucky we are, as there is no python 2.7 for osx-arm64)
-if [[ $target_platform == osx-* ]]; then
+if [[ $target_platform == osx-arm64 ]]; then
   echo "Using system python2 ... "
 elif [[ $target_platform == linux-aarch64 ]]; then
   echo "Attempt to use system python2 ..."
