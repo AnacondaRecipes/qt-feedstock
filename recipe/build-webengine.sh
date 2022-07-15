@@ -53,6 +53,8 @@ echo USED_BUILD_PREFIX=${BUILD_PREFIX}
 # (lucky we are, as there is no python 2.7 for osx-arm64)
 if [[ $target_platform == osx-* ]]; then
   echo "Using system python2 ... "
+elif [[ $target_platform == linux-aarch64 ]]; then
+  echo "Attempt to use system python2 ..."
 else
   conda create --yes -p "${SRC_DIR}/python2_hack" --quiet python=2
   export PATH=${SRC_DIR}/python2_hack/bin:${PATH}
