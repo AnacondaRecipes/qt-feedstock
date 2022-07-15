@@ -175,28 +175,6 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
       EXTRA_FLAGS=""
     fi
 
-    if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
-      # GLib pulls arm64 python as part of its distribution, which cannot be executed on x86_64 CIs
-      CONDA_SUBDIR="osx-64" conda create -y --prefix "${SRC_DIR}/osx_64_python" python zstd -c conda-forge
-      export PATH="${SRC_DIR}/osx_64_python/bin":$PATH
-
-      # The CROSS_COMPILE option can be used if the x86_64 compiler is used. However, since the arm64
-      # cross compiler can also produce x86_64 binaries, there is no need for it. This is commented out
-      # in order to reference how it could be used.
-      # PLATFORM="$PLATFORM -device-option CROSS_COMPILE=${HOST}-"
-
-      # llvm-config from host env is tried by configure
-      # Move the build prefix one to host prefix
-      rm $PREFIX/bin/llvm-config
-      cp $BUILD_PREFIX/bin/llvm-config $PREFIX/bin/llvm-config
-      rm $BUILD_PREFIX/bin/llvm-config
-
-      # We need to merge both libc++ and libclang in order to compile QDoc to have both x86_64 and arm64
-      # compatibility
-      lipo -create $BUILD_PREFIX/lib/libc++.dylib $PREFIX/lib/libc++.dylib -output $PREFIX/lib/libc++.dylib
-      lipo -create $BUILD_PREFIX/lib/libclang.dylib $PREFIX/lib/libclang.dylib -output $PREFIX/lib/libclang.dylib
-    fi
-
     ../configure -prefix ${PREFIX} \
                 -libdir ${PREFIX}/lib \
                 -bindir ${PREFIX}/bin \
