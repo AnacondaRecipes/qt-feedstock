@@ -396,7 +396,6 @@ outputs:
         - {{ cdt('expat-devel') }}           # [linux and not aarch64]
         - {{ cdt('pcre') }}                  # [linux and not x86_64]
         - {{ cdt('libglvnd-glx') }}          # [linux and not x86_64]
-        - {{ cdt('at-spi-devel') }}          # [linux]
         - make                               # [unix]
       script: run_webengine_test.sh          # [not win]
       script: run_webengine_test.bat         # [win]
