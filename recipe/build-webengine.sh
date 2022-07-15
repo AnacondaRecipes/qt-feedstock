@@ -18,7 +18,7 @@ pushd src/3rdparty
   cp -R ../../../qtwebengine-chromium/* .
 popd
 
-if [[ $target_platform == osx-arm64 ]]; then
+if [[ $target_platform == osx-* ]]; then
     # Make sure config.guess is up to date, if required
     list_config_to_patch=$(find . -name config.guess | sed -E 's/config.guess//')
     for config_folder in $list_config_to_patch; do
