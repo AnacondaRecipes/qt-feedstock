@@ -147,14 +147,7 @@ outputs:
         # Otherwise build and host might end up with two different versions
         # If they do, merge_build_host will fail.
         - readline                           # [linux]
-        # libclang is required in order to enable simultaneous x86_64 and
-        # arm64 support for QDoc
-        - libclang                           # [arm64]
-        # Although these should be host-only dependencies, they are needed when
-        # cross-compiling arm64 binaries on x86_64 since llvm-config (host/arm64)
-        # cannot be executed on x86_64 to locate libclang successfully
-        - llvmdev                           # [arm64]
-        - clangdev                          # [arm64]
+
       host:
         # For pkg-config gl, fontconfig + freetype
         - pthread-stubs                      # [linux]
@@ -326,6 +319,8 @@ outputs:
         - llvm-tools  # [osx]
         - ldid  # [osx]
       host:
+        - llvmdev     # [osx]
+        - clangdev    # [osx]
         - llvm-tools  # [osx]
         # Chromium expects libjpeg-turbo as their main libjpeg reference and therefore
         # it will use an statically-linked version to it whilst
