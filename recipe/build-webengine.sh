@@ -1,5 +1,7 @@
 set -exou
 
+export NINJAFLAGS=-j3
+
 pushd qtwebengine-chromium
 
   if [[ $(uname) == "Darwin" ]]; then

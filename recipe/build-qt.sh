@@ -1,5 +1,7 @@
 set -exou
 
+export NINJAFLAGS=-j3
+
 pushd qt
 
 # Compile
