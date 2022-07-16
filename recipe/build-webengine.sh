@@ -102,6 +102,7 @@ if [[ $(uname) == "Darwin" ]]; then
 
     # Qt passes clang flags to LD (e.g. -stdlib=c++)
     export LD=${CXX}
+    export AS=${CXX}
     export SED=${BUILD_PREFIX}/bin/sed
     export PATH=${PWD}:${PATH}
 

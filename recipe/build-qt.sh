@@ -36,6 +36,7 @@ export RANLIB=$(basename ${RANLIB})
 export STRIP=$(basename ${STRIP})
 export OBJDUMP=$(basename ${OBJDUMP})
 export CC=$(basename ${CC})
+export AS=$(basename ${AS})
 export CXX=$(basename ${CXX})
 
 # Let Qt set its own flags and vars
@@ -168,6 +169,7 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
     # chmod +x ${HOST}-clang libtool strip
     # Qt passes clang flags to LD (e.g. -stdlib=c++)
     export LD=${CXX}
+    export AS=${CXX}
     PATH=${PWD}:${PATH}
 
     PLATFORM="-sdk macosx${MACOSX_SDK_VERSION:-10.14}"
@@ -233,14 +235,7 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
     cp "${RECIPE_DIR}"/xcodebuild "${PREFIX}"/bin/xc-avoidance/
 fi
 
-# Qt Charts
-# ---------
 popd
-#pushd qtcharts
-#${PREFIX}/bin/qmake qtcharts.pro PREFIX=${PREFIX}
-#make -j${MAKE_JOBS} || (echo 'qtcharts fails to build ...' && exit 1)
-#make install || exit 1
-#popd
 
 # Post build setup
 # ----------------
@@ -276,10 +271,3 @@ for f in $(find * -iname "*LICENSE*" -or -iname "*COPYING*" -or -iname "*COPYRIG
   rm -rf "$LICENSE_DIR/qtwebengine/src/3rdparty/chromium/third_party/skia/tools/copyright"
 done
 
-if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" ]]; then
-  # For some reason conda-build tries to pick the prefix Python, which is
-  # for native arm64 and not for x86_64, cross-python seems to disable the
-  # mkspecs installation and it constrains the recipe, since python would be
-  # needed during runtime.
-  rm -rf $PREFIX/bin/python
-fi

@@ -19,8 +19,8 @@ source:
 
       # The following patches are required to compile Qt using native arm64
       # compilers
-      - patches/qt/0008-Force-host-to-be-the-same-as-the-target.patch        # [arm64]
-      - patches/qt/0009-Ensure-no-cross-compilation-checks-are-done.patch    # [arm64]
+      - patches/qt/0008-Force-host-to-be-the-same-as-the-target.patch        # [osx]
+      - patches/qt/0009-Ensure-no-cross-compilation-checks-are-done.patch    # [osx]
       - patches/qt/0010-Try-to-set-arm64-explicitly.patch                    # [arm64]
       - patches/qt/0011-Prevent-stat64-definition.patch                      # [arm64]
       - patches/qt.patch
