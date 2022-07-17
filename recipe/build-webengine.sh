@@ -34,6 +34,19 @@ if [[ $target_platform == osx-* ]]; then
         printf "#!/bin/bash\nexec '${where}' \"\${@}\"\n" >"${PREFIX}/bin/strip"
         chmod 700 "${PREFIX}/bin/strip"
     fi
+    if [ ! -f "${PREFIX_BUILD}/bin/clang++" ]; then
+    if [ -n "${CXX}" ]; then
+        printf "#!/bin/bash\nexec '${CXX}' \"\${@}\"\n" >"${PREFIX_BUILD}/bin/clang++"
+        chmod 700 "${PREFIX_BUILD}/bin/clang++"
+    fi
+    fi
+    if [ ! -f "${PREFIX_BUILD}/bin/clang" ]; then
+    if [ -n "${CC}" ]; then
+        printf "#!/bin/bash\nexec '${CC}' \"\${@}\"\n" >"${PREFIX_BUILD}/bin/clang"
+        chmod 700 "${PREFIX_BUILD}/bin/clang"
+    fi
+    fi
+
 fi
 
 # required to populate include ...
@@ -103,6 +116,9 @@ if [[ $(uname) == "Darwin" ]]; then
     # Qt passes clang flags to LD (e.g. -stdlib=c++)
     export LD=${CXX}
     export AS=${CXX}
+    export OBJC=${CC}
+    export OBJCXX=${CXX}
+
     export SED=${BUILD_PREFIX}/bin/sed
     export PATH=${PWD}:${PATH}
 

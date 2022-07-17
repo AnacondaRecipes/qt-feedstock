@@ -38,6 +38,8 @@ export OBJDUMP=$(basename ${OBJDUMP})
 export CC=$(basename ${CC})
 export AS=$(basename ${AS})
 export CXX=$(basename ${CXX})
+export OBJC=$(basename ${OBJC}
+export OBJCXX=$(basename ${OBJCXX}
 
 # Let Qt set its own flags and vars
 for x in OSX_ARCH CFLAGS CXXFLAGS LDFLAGS
