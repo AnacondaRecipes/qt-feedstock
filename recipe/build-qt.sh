@@ -1,6 +1,6 @@
 set -exou
 
-export NINJAFLAGS=-j3
+export NINJAFLAGS="-j3"
 
 pushd qt
 
@@ -23,7 +23,6 @@ USED_BUILD_PREFIX=${BUILD_PREFIX:-${PREFIX}}
 echo USED_BUILD_PREFIX=${BUILD_PREFIX}
 
 MAKE_JOBS=$CPU_COUNT
-export NINJAFLAGS="-j${MAKE_JOBS}"
 
 # For QDoc
 export LLVM_INSTALL_DIR=${PREFIX}
@@ -40,6 +39,9 @@ export AS=$(basename ${AS})
 export CXX=$(basename ${CXX})
 export OBJC=$(basename ${OBJC})
 export OBJCXX=$(basename ${OBJCXX})
+export CC_FOR_BUILD=$(basename ${CC_FOR_BUILD})
+export CXX_FOR_BUILD=$(basename ${CXX_FOR_BUILD})
+export OBJC_FOR_BUILD=$(basename ${OBJC_FOR_BUILD})
 
 # Let Qt set its own flags and vars
 for x in OSX_ARCH CFLAGS CXXFLAGS LDFLAGS

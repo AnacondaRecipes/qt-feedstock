@@ -318,6 +318,7 @@ outputs:
         - gawk  # [unix]
         - llvm-tools  # [osx]
         - ldid  # [osx]
+        - m2-git  # [win]
       host:
         - llvmdev     # [osx]
         - clangdev    # [osx]
