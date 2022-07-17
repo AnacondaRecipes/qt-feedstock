@@ -93,15 +93,6 @@ if [[ $(uname) == "Linux" ]]; then
         REDUCE_RELOCATIONS=-reduce-relocations
     fi
 
-    # ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 is because our compilers don't look in sysroot/usr/lib64
-    # CentOS7 has:
-    # LIBRARY_PATH=/usr/lib/gcc/x86_64-redhat-linux/4.8.5/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/:/lib/../lib64/:/usr/lib/../lib64/:/usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../:/lib/:/usr/lib/
-    # We have:
-    # LIBRARY_PATH=/opt/conda/conda-bld/qt_1549795295295/_build_env/bin/../lib/gcc/x86_64-conda_cos6-linux-gnu/7.3.0/:/opt/conda/conda-bld/qt_1549795295295/_build_env/bin/../lib/gcc/:/opt/conda/conda-bld/qt_1549795295295/_build_env/bin/../lib/gcc/x86_64-conda_cos6-linux-gnu/7.3.0/../../../../x86_64-conda_cos6-linux-gnu/lib/../lib/:/opt/conda/conda-bld/qt_1549795295295/_build_env/x86_64-conda_cos6-linux-gnu/sysroot/lib/../lib/:/opt/conda/conda-bld/qt_1549795295295/_build_env/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib/../lib/:/opt/conda/conda-bld/qt_1549795295295/_build_env/bin/../lib/gcc/x86_64-conda_cos6-linux-gnu/7.3.0/../../../../x86_64-conda_cos6-linux-gnu/lib/:/opt/conda/conda-bld/qt_1549795295295/_build_env/x86_64-conda_cos6-linux-gnu/sysroot/lib/:/opt/conda/conda-bld/qt_1549795295295/_build_env/x86_64-conda_cos6-linux-gnu/sysroot/usr/lib/
-    # .. this is probably my fault.
-    # Had been trying with:
-    #   -sysroot ${BUILD_PREFIX}/${HOST}/sysroot
-    # .. but it probably requires changing -L ${BUILD_PREFIX}/${HOST}/sysroot/usr/lib64 to -L /usr/lib64
     ../configure -prefix ${PREFIX} \
                 -libdir ${PREFIX}/lib \
                 -bindir ${PREFIX}/bin \
@@ -181,6 +172,33 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
     if [[ "${target_platform}" == "osx-arm64" ]]; then
       PLATFORM="-device-option QMAKE_APPLE_DEVICE_ARCHS=arm64 -sdk macosx${MACOSX_SDK_VERSION:-11.0}"
       EXTRA_FLAGS=""
+    fi
+
+if [[ $target_platform == osx-* ]]; then
+    # Make sure config.guess is up to date, if required
+    list_config_to_patch=$(find . -name config.guess | sed -E 's/config.guess//')
+    for config_folder in $list_config_to_patch; do
+        echo "copying config to $config_folder ...\n"
+        cp -v $BUILD_PREFIX/share/libtool/build-aux/config.* $config_folder
+    done
+    # create a matching 'strip' tool in prefix/bin
+    mkdir -p $PREFIX/bin
+    where=$(which "llvm-strip" 2>/dev/null || true)
+    if [ -n "${where}" ]; then
+        printf "#!/bin/bash\nexec '${where}' \"\${@}\"\n" >"${PREFIX}/bin/strip"
+        chmod 700 "${PREFIX}/bin/strip"
+    fi
+    if [ ! -f "${BUILD_PREFIX}/bin/clang++" ]; then
+    if [ -n "${CXX}" ]; then
+        printf "#!/bin/bash\nexec '${CXX}' \"\${@}\"\n" >"${BUILD_PREFIX}/bin/clang++"
+        chmod 700 "${BUILD_PREFIX}/bin/clang++"
+    fi
+    fi
+    if [ ! -f "${BUILD_PREFIX}/bin/clang" ]; then
+    if [ -n "${CXX}" ]; then
+        printf "#!/bin/bash\nexec '${CXX}' \"\${@}\"\n" >"${BUILD_PREFIX}/bin/clang"
+        chmod 700 "${BUILD_PREFIX}/bin/clang"
+    fi
     fi
 
     ../configure -prefix ${PREFIX} \
@@ -265,6 +283,8 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
     done
   popd
 fi
+
+rm -rf "${PREFIX}/bin/strip"
 
 LICENSE_DIR="$PREFIX/share/qt/3rd_party_licenses"
 for f in $(find * -iname "*LICENSE*" -or -iname "*COPYING*" -or -iname "*COPYRIGHT*" -or -iname "NOTICE"); do

@@ -32,16 +32,16 @@ source:
   - git_url: https://code.qt.io/cgit/qt/qtwebengine.git
     git_rev: {{ webengine_version }}
     folder: qtwebengine
-    patches:
-      - patches/webengine/qt_webengine-3.15.9.patch
+    patches:  # [not win]
+      - patches/webengine/qt_webengine-3.15.9.patch  # [not win]
 
   - git_url: https://code.qt.io/cgit/qt/qtwebengine-chromium.git
     git_rev: 87-based
     folder: qtwebengine-chromium
     patches:
       - patches/webengine/0001-aarch64-sys-state-structs.patch                             # [aarch64]
-      - patches/webengine/qt_3rdparty.patch
-      - patches/webengine/qtweb_chromium.patch
+      - patches/webengine/qt_3rdparty.patch     # [not win]
+      - patches/webengine/qtweb_chromium.patch  # [not win]
 
   - url: https://download.qt.io/development_releases/gnuwin32/gnuwin32.zip  # [win]
     folder: gnuwin32  # [win]
