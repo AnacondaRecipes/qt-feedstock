@@ -16,8 +16,8 @@ index d3ba9b14..a075c255 100644
          return(false)
      }
 +<<<<<<< HEAD
-     !qtwebengine_isMinWinSDKVersion(10, 18362): {
-         qtwebengine_platformError("requires a Windows SDK version 10.0.18362 or newer.")
+     !qtwebengine_isMinWinSDKVersion(10, 19041): {
+         qtwebengine_platformError("requires a Windows SDK version 10.0.19041 or newer.")
 +=======
 +    !qtwebengine_isMinWinSDKVersion(10, 17763): {
 +        qtwebengine_platformError("Qt WebEngine on Windows requires a Windows SDK version 10.0.17763 or newer.")
