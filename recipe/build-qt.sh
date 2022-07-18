@@ -10,11 +10,9 @@ chmod +x configure
 
 # Clean config for dirty builds
 # -----------------------------
-if [[ -d qt-build ]]; then
-  rm -rf qt-build
-fi
+rm -rf qt-build
 
-mkdir qt-build
+mkdir -p qt-build
 pushd qt-build
 
 echo PREFIX=${PREFIX}
@@ -194,8 +192,8 @@ if [[ ${HOST} =~ .*darwin.* ]]; then
     fi
     fi
     if [ ! -f "${BUILD_PREFIX}/bin/clang" ]; then
-    if [ -n "${CXX}" ]; then
-        printf "#!/bin/bash\nexec '${CXX}' \"\${@}\"\n" >"${BUILD_PREFIX}/bin/clang"
+    if [ -n "${CC}" ]; then
+        printf "#!/bin/bash\nexec '${CC}' \"\${@}\"\n" >"${BUILD_PREFIX}/bin/clang"
         chmod 700 "${BUILD_PREFIX}/bin/clang"
     fi
     fi
