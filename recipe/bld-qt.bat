@@ -1,6 +1,8 @@
 @echo on
 pushd qt
 
+set NINJAFLAGS="-j3"
+
 setlocal EnableExtensions EnableDelayedExpansion
 set SHORT_VERSION=%PKG_VERSION:~0,-2%
 

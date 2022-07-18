@@ -1,7 +1,6 @@
 setlocal enableextensions enabledelayedexpansion
-pushd qtwebengine
 
-git config --system core.longpaths true
+set NINJAFLAGS="-j3"
 
 set LIBRARY_PATHS=-I %LIBRARY_INC%
 
@@ -16,13 +15,15 @@ endlocal
 cmd /c "conda create -y -q --prefix "%SRC_DIR%\win_python" python=2.7 -c pkgs/main"
 set PATH=%SRC_DIR%\win_python;%PATH%
 
-set PATH=%cd%\jom;%PATH%
-CALL :NORMALIZEPATH "..\gnuwin32"
-set GNUWIN32_PATH=%RETVAL%
-SET PATH=%GNUWIN32_PATH%\gnuwin32\bin;%GNUWIN32_PATH%\bin;%PATH%
+pushd qtwebengine
 
-mkdir b
-pushd b
+set PATH=%cd%\jom;%PATH%
+:: CALL :NORMALIZEPATH "..\gnuwin32"
+set GNUWIN32_PATH=%SRC_DIR%\gnuwin32
+SET PATH=%SRC_DIR%\gnuwin32\gnuwin32\bin;%SRC_DIR%\gnuwin32\bin;%PATH%
+
+mkdir b2
+pushd b2
 
 where jom
 
