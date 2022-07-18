@@ -46,7 +46,8 @@ if [[ $target_platform == osx-* ]]; then
         chmod 700 "${BUILD_PREFIX}/bin/clang"
     fi
     fi
-
+    export CONFIG_SHELL="/bin/bash"
+    export SHELL="/bin/bash" 
 fi
 
 # required to populate include ...
