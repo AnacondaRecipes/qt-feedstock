@@ -1,5 +1,7 @@
 echo off
 
+mkdir %SYSTEMDRIVE%\tmp
+
 git config --system core.longpaths true
 
 echo "Fetching qtwebengine -b %webengine_version% ..."
