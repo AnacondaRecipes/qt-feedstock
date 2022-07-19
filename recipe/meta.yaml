@@ -34,7 +34,8 @@ source:
     folder: qtwebengine
     patches:
       - patches/webengine/qt_webengine-3.15.9.patch  # [not win]
-      - 0003-win.patch  # [win]
+      # - 0003-win.patch  # [win]
+      # - 0004-win8.patch  # [win]
 
   - git_url: https://code.qt.io/cgit/qt/qtwebengine-chromium.git  # [not win]
     git_rev: 87-based  # [not win]
@@ -59,6 +60,7 @@ requirements:
     - m2-git  # [win]
     - patch  # [unix]
     - m2-patch  # [win]
+    - dos2unix  # [win]
 
 outputs:
   - name: qt-main
