@@ -57,10 +57,11 @@ build:
 requirements:
   build:
     - git  # [unix]
-    - git  # [win]
+    - m2-git  # [win]
     - patch  # [unix]
     - m2-patch  # [win]
     - dos2unix  # [win]
+    - posix     # [win]
 
 outputs:
   - name: qt-main
