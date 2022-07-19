@@ -10,3 +10,5 @@ c_compiler:  # [win]
   - vs2019   # [win]
 cxx_compiler:  # [win]
   - vs2019   # [win]
+webengine_version:
+  - '5.15.9'
