@@ -1,6 +1,6 @@
-echo off
+echo on
 
-mkdir %SYSTEMDRIVE%\tmp
+:: mkdir %SYSTEMDRIVE%\tmp
 
 git config --system core.longpaths true
 
