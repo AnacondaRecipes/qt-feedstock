@@ -57,7 +57,7 @@ build:
 requirements:
   build:
     - git  # [unix]
-    - m2-git  # [win]
+    - git  # [win]
     - patch  # [unix]
     - m2-patch  # [win]
     - dos2unix  # [win]
@@ -321,7 +321,7 @@ outputs:
         - gawk  # [unix]
         - llvm-tools  # [osx]
         - ldid  # [osx]
-        - m2-git  # [win]
+        - git  # [win]
       host:
         - llvmdev     # [osx]
         - clangdev    # [osx]
