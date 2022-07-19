@@ -29,13 +29,14 @@ source:
     sha256: 2a0d2f92c60e0962ef5f6039d3793424c6f39e49ba27ac04a5b21ca4ae012e15                                      # [win64]
     folder: opengl32sw                                                                                            # [win64]
 
-  - git_url: https://code.qt.io/cgit/qt/qtwebengine.git   # [not win]
-    git_rev: {{ webengine_version }}  # [not win]
-    folder: qtwebengine  # [not win]
-    patches:  # [not win]
+  - url: https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-{{ webengine_version }}.tar.xz
+  # - git_url: https://code.qt.io/cgit/qt/qtwebengine.git
+  #  git_rev: {{ webengine_version }}  # [not win]
+    folder: qtwebengine
+    patches:
       - patches/webengine/qt_webengine-3.15.9.patch  # [not win]
-      # - 0003-win.patch  # [wi]
-      # - 0004-win8.patch  # [wi]
+      - 0003-win.patch  # [win]
+      - 0004-win8.patch  # [win]
 
   - git_url: https://code.qt.io/cgit/qt/qtwebengine-chromium.git  # [not win]
     git_rev: 87-based  # [not win]
@@ -60,8 +61,6 @@ requirements:
     - m2-git  # [win]
     - patch  # [unix]
     - m2-patch  # [win]
-    - dos2unix  # [win]
-    - posix     # [win]
 
 outputs:
   - name: qt-main
@@ -322,7 +321,6 @@ outputs:
         - gawk  # [unix]
         - llvm-tools  # [osx]
         - ldid  # [osx]
-        - git  # [win]
       host:
         - llvmdev     # [osx]
         - clangdev    # [osx]
