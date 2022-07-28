@@ -14,8 +14,8 @@ build:
     run:
       - qt-main >=5.15,<6
       - qt-webengine >=5.15,<6
-    run_constrained:  # [osx]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx]
+    run_constrained:  # [osx and x86_64]
+        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
 
 about:
   home: http://qt.io
