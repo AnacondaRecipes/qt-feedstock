@@ -13,8 +13,8 @@ build:
 
 requirements:
   run:
-    - qt-main      >=5.15
-    - qt-webengine >=5.15
+    - qt-main 5.15
+    - qt-webengine 5.15
 
 test:
   commands:
