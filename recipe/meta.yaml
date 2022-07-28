@@ -10,10 +10,18 @@ build:
   skip: True  # [ppc64le or s390x]
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
+
 requirements:
   run:
-    - qt-main      {{ version }}.*
-    - qt-webengine {{ webengine_version }}.*
+    - qt-main      5.15.*
+    - qt-webengine 5.15.*
+
+test:
+  commands:
+    - if not exist %LIBRARY_BIN%\\Qt5WebEngine.dll exit 1                  # [win]
+    - test -f $PREFIX/lib/libQt5WebEngine${SHLIB_EXT}                      # [unix]
+    - test -f $PREFIX/plugins/sqldrivers/libqsqlite${SHLIB_EXT}            # [unix]
+    - if not exist %LIBRARY_PREFIX%\plugins\sqldrivers\qsqlite.dll exit 1  # [win]
 
 about:
   home: http://qt.io
@@ -26,19 +34,13 @@ about:
   doc_url: http://doc.qt.io/
   dev_url: https://github.com/qt
 
-test:
-  commands:
-    - if not exist %LIBRARY_BIN%\\Qt5WebEngine.dll exit 1                  # [win]
-    - test -f $PREFIX/lib/libQt5WebEngine${SHLIB_EXT}                      # [unix]
-    - test -f $PREFIX/plugins/sqldrivers/libqsqlite${SHLIB_EXT}            # [unix]
-    - if not exist %LIBRARY_PREFIX%\plugins\sqldrivers\qsqlite.dll exit 1  # [win]
-
 extra:
   recipe-maintainers:
     - andfoy
     - ccordoba12
     - duncanmmacleod
     - gillins
+    - katietz
     - mingwandroid
     - msarahan
     - ocefpaf
