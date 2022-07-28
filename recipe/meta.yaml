@@ -6,16 +6,14 @@ package:
   version: {{ version }}
 
 build:
-  number: 4
+  number: 5
   skip: True  # [ppc64le or s390x]
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
-  requirements:
-    run:
-      - qt-main >=5.15,<6
-      - qt-webengine >=5.15,<6
-    run_constrained:  # [osx and x86_64]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+requirements:
+  run:
+    - qt-main      {{ version }}.*
+    - qt-webengine {{ webengine_version }}.*
 
 about:
   home: http://qt.io
@@ -27,6 +25,13 @@ about:
     anywhere on any device, on any operating system at any time.
   doc_url: http://doc.qt.io/
   dev_url: https://github.com/qt
+
+test:
+  commands:
+    - if not exist %LIBRARY_BIN%\\Qt5WebEngine.dll exit 1                  # [win]
+    - test -f $PREFIX/lib/libQt5WebEngine${SHLIB_EXT}                      # [unix]
+    - test -f $PREFIX/plugins/sqldrivers/libqsqlite${SHLIB_EXT}            # [unix]
+    - if not exist %LIBRARY_PREFIX%\plugins\sqldrivers\qsqlite.dll exit 1  # [win]
 
 extra:
   recipe-maintainers:
