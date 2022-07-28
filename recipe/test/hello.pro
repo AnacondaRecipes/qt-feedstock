@@ -1,9 +1,0 @@
-QT       += core
-# QT       += charts
-# QT       += 3dcore
-QT       += widgets
-TARGET = hello
-CONFIG   += console
-CONFIG   -= app_bundle
-TEMPLATE = app
-SOURCES += main.cpp
