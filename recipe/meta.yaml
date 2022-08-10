@@ -6,7 +6,7 @@ package:
   version: {{ version }}
 
 build:
-  number: 4
+  number: 0
   skip: True  # [ppc64le or s390x]
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
