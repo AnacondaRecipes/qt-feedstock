@@ -1,4 +1,4 @@
-{% set version = "5.15.2" %}
+{% set version = "5.15.7" %}
 {% set webengine_version = "5.15.9" %}
 
 package:
@@ -10,12 +10,11 @@ build:
   skip: True  # [ppc64le or s390x]
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
-  requirements:
-    run:
-      - qt-main >=5.15,<6
-      - qt-webengine >=5.15,<6
-    run_constrained:  # [osx and x86_64]
-        - __osx >={{ MACOSX_DEPLOYMENT_TARGET|default("10.14") }}  # [osx and x86_64]
+
+requirements:
+  run:
+    - qt-main >=5.15,<6
+    - qt-webengine >=5.15,<6
 
 about:
   home: http://qt.io
