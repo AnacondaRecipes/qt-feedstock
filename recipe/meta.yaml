@@ -1,5 +1,7 @@
-{% set version = "5.15.9" %}
-{% set webengine_version = "5.15.9" %}
+{% set version = "6.7.2" %}
+{% set webengine_version = "6.7.2" %}
+
+{% set next_major_version = version.split(".")[0] | int + 1 %}
 
 package:
   name: qt
@@ -7,27 +9,31 @@ package:
 
 build:
   number: 0
-  skip: True  # [ppc64le or s390x]
+  skip: True  # [s390x]
+  skip: True  # [osx and x86_64]
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
 
 requirements:
   run:
-    - qt-main >=5.15,<6
-    - qt-webengine >=5.15,<6
+    - qt-main >={{ version }},<{{ next_major_version }}
+    - qtwebengine >={{ webengine_version }},<{{ next_major_version }}
 
 about:
-  home: http://qt.io
+  home: https://www.qt.io
   license: LGPL-3.0-only
   license_file: LICENSE.LGPLv3
+  license_family: LGPL
   summary: 'Qt is a cross-platform application and UI framework.'
   description: |
     Qt helps you create connected devices, UIs & applications that run
     anywhere on any device, on any operating system at any time.
-  doc_url: http://doc.qt.io/
+  doc_url: https://doc.qt.io/
   dev_url: https://github.com/qt
 
 extra:
+  skip-lints:
+    - missing_tests
   recipe-maintainers:
     - andfoy
     - ccordoba12
