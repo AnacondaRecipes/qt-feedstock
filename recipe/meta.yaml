@@ -1,5 +1,5 @@
-{% set version = "6.7.3" %}
-{% set webengine_version = "6.7.3" %}
+{% set version = "6.9.1" %}
+{% set webengine_version = "6.9.1" %}
 
 {% set next_major_version = version.split(".")[0] | int + 1 %}
 
@@ -9,8 +9,6 @@ package:
 
 build:
   number: 0
-  skip: True  # [s390x]
-  skip: True  # [osx and x86_64]
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
 
