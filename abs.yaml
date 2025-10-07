@@ -1,8 +1,0 @@
-# the conda-build parameters to use for disabling --skip-existing
-build_parameters:
-  - ""
-
-pkg_build_image_tag: main-rockylinux-8
-
-build_env_vars:
-  ANACONDA_ROCKET_GLIBC: '2.28'

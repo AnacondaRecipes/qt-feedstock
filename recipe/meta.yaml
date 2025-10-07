@@ -1,7 +1,4 @@
-{% set version = "6.9.1" %}
-{% set webengine_version = "6.9.1" %}
-
-{% set next_major_version = version.split(".")[0] | int + 1 %}
+{% set version = "6.9.2" %}
 
 package:
   name: qt
@@ -9,13 +6,33 @@ package:
 
 build:
   number: 0
+  # https://doc.qt.io/qt-6/qt-releases.html#binary-compatibility
   run_exports:
     - {{ pin_subpackage('qt', max_pin='x.x') }}
 
 requirements:
-  run:
-    - qt-main >={{ version }},<{{ next_major_version }}
-    - qtwebengine >={{ webengine_version }},<{{ next_major_version }}
+  host:
+    - qt-main {{ version }}
+    - qtwebengine {{ version }}
+
+{% set qt_libs = [
+  # QtWebEngine
+  "Pdf",
+  "PdfQuick",
+  "PdfWidgets",
+  "WebEngineCore",
+  "WebEngineQuick",
+  "WebEngineQuickDelegatesQml",
+  "WebEngineWidgets"
+] %}
+
+test:
+  requires:
+    - pkg-config
+  commands:
+{% for lib_name in qt_libs %}
+    - pkg-config --exists --print-errors "Qt6{{ lib_name }} >= {{ version }} Qt6{{ lib_name }} < {{ version[0] }}.{{ version.split(".")[1] | int + 1 }}"  # [unix]
+{% endfor %}
 
 about:
   home: https://www.qt.io
@@ -30,8 +47,6 @@ about:
   dev_url: https://github.com/qt
 
 extra:
-  skip-lints:
-    - missing_tests
   recipe-maintainers:
     - andfoy
     - ccordoba12
