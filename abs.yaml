@@ -10,4 +10,5 @@ channels:
   - https://staging.continuum.io/pbp/fs/qtimageformats-feedstock/pr10/486f927
   - https://staging.continuum.io/pbp/fs/qttranslations-feedstock/pr9/e3aaf42
   - https://staging.continuum.io/pbp/fs/qtwayland-feedstock/pr6/8cdad4e
-  - https://anaconda.org/channels/andrewosipov
+  - https://staging.continuum.io/pbp/fs/qt-main-feedstock/pr18/fd4ff8a
+  - andrewosipov
