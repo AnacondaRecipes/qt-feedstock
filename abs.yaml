@@ -1,0 +1,13 @@
+channels:
+  - https://staging.continuum.io/pbp/fs/qtbase-feedstock/pr22/f9b7216
+  - https://staging.continuum.io/pbp/fs/qtshadertools-feedstock/pr9/e64e5f3
+  - https://staging.continuum.io/pbp/fs/qtsvg-feedstock/pr9/fb94a22
+  - https://staging.continuum.io/pbp/fs/qtdeclarative-feedstock/pr9/6d0b18c
+  - https://staging.continuum.io/pbp/fs/qtwebsockets-feedstock/pr9/1fa36c1
+  - https://staging.continuum.io/pbp/fs/qtwebchannel-feedstock/pr9/069c481
+  - https://staging.continuum.io/pbp/fs/qttools-feedstock/pr9/dd11dd1
+  - https://staging.continuum.io/pbp/fs/qt5compat-feedstock/pr9/a054113
+  - https://staging.continuum.io/pbp/fs/qtimageformats-feedstock/pr10/486f927
+  - https://staging.continuum.io/pbp/fs/qttranslations-feedstock/pr9/e3aaf42
+  - https://staging.continuum.io/pbp/fs/qtwayland-feedstock/pr6/8cdad4e
+  - https://anaconda.org/channels/andrewosipov
