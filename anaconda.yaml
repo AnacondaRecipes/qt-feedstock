@@ -1,0 +1,5 @@
+anaconda_config_version: 1
+upstream_sources:
+  - webpage:
+      url: https://doc.qt.io/qt-6/qt-releases.html
+      regex: <td>Qt\s+(\d+\.\d+\.\d+)</td>
